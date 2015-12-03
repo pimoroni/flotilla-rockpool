@@ -92,7 +92,48 @@ rockpool.inputs = {
     },
 }
 
+if (window.DeviceMotionEvent) {
+    rockpool.tilt = {x:0,y:0,z:0};
+
+    function deviceMotionHandler(eventData) {
+      acceleration = eventData.accelerationIncludingGravity;
+      rockpool.tilt.x = (Math.min(Math.max(acceleration.x,-9.8),9.8) + 9.8) / 19.6;
+      rockpool.tilt.y = (Math.min(Math.max(acceleration.y,-9.8),9.8) + 9.8) / 19.6;
+      rockpool.tilt.z = (Math.min(Math.max(acceleration.z,-9.8),9.8) + 9.8) / 19.6;    
+    }
+
+    window.addEventListener('devicemotion', deviceMotionHandler, false);
+
+    rockpool.inputs.tilt = function() {
+        this.name = "Tilt"
+        this.icon = "css/images/icons/icon-sine.png"
+        this.bgColor = rockpool.palette.blue
+        this.category = rockpool.category.generators
+
+        this.options = [
+            {category: 'Tilt', name: 'X', icon: "css/images/icons/icon-sine.png"},
+            {category: 'Tilt', name: 'Y', icon: "css/images/icons/icon-sine.png"},
+            {category: 'Tilt', name: 'Z', icon: "css/images/icons/icon-sine.png"},
+        ]
+
+        this.get = function(options){
+            switch(options.name){
+                case 'X':
+                    return rockpool.tilt.x;
+                case 'Y':
+                    return rockpool.tilt.y;
+                case 'Z':
+                    return rockpool.tilt.z;
+            }
+        }
+    }
+
+        rockpool.updatePalettes();
+        rockpool.generatePalette('input');
+}
+
 rockpool.enable_keyboard = function(){
+
     $(window).on('keydown',function(){
         if( typeof(rockpool.inputs.keyboard) === 'function' ) return false;
 
