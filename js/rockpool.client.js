@@ -262,10 +262,12 @@ rockpool.connect = function(host, port){
 
     rockpool.prompt(prompt,false);
 
-    rockpool.addToConnectionHistory(host);
     rockpool.socket = new WebSocket("ws://" + host + ':' + port + "/");
     rockpool.socket.onopen = function() { 
         console.log('Successfully connected to ' + host); rockpool.socket.send('ready'); 
+
+        rockpool.addToConnectionHistory(host);
+
         rockpool.enable_keyboard();
         if(typeof(rockpool.on_connect) === "function"){
             rockpool.on_connect();
