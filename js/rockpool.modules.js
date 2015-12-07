@@ -215,7 +215,7 @@ rockpool.module_handlers['weather'] = {
         'temperature': function(){
             this.name = "Temperature"
             this.module_type = 'blue'
-            this.icon = "css/images/icons/icon-weather.png"
+            this.icon = "css/images/icons/icon-default.png"
             this.bgColor = rockpool.palette.blue
             this.data = {temperature:0}
             this.get = function(){
@@ -233,7 +233,7 @@ rockpool.module_handlers['weather'] = {
         'pressure': function(){
             this.name = "Pressure"
             this.module_type = 'blue'
-            this.icon = "css/images/icons/icon-weather.png"
+            this.icon = "css/images/icons/icon-default.png"
             this.bgColor = rockpool.palette.blue
             this.data = {pressure:0}
             this.get = function(){
