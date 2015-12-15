@@ -152,7 +152,7 @@ rockpool.widget =  function( type, rule, key ) {
     }
 
     this.setLabel = function( label ){
-        var channel = typeof(this.handler.channel) !== 'undefined' ? ' (' + this.handler.channel + ')' : '';
+        var channel = typeof(this.handler.channel) !== 'undefined' ? ' (' + rockpool.channelToNumber(this.handler.channel) + ')' : '';
         this.dom.find('.name').html( rockpool.languify(label) + channel )
     }
 
@@ -167,7 +167,7 @@ rockpool.widget =  function( type, rule, key ) {
 
     this.setIcon = function( icon ){
         this.img.attr('src', icon ? icon : 'css/images/icon-empty.png');
-        this.dom.find('.icon').append(((this.type != 'converter' && !isNaN(this.handler.channel)) ? ' <span class="channel">' + this.handler.channel + '</span>' : ''))
+        this.dom.find('.icon').append(((this.type != 'converter' && !isNaN(this.handler.channel)) ? ' <span class="channel">' + rockpool.channelToNumber(this.handler.channel) + '</span>' : ''))
     }
 
     this.hide = function(){

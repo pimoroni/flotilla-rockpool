@@ -294,7 +294,7 @@ rockpool.generatePalette = function(type){
         if(!categories[channel]){ categories[channel] = {} }
 
         if(!categories[channel][category]){
-            var channel_label = channel > -1 ? '<span>' + item.channel + '</span>' : ''
+            var channel_label = channel > -1 ? '<span>' + rockpool.channelToNumber(item.channel) + '</span>' : ''
             categories[channel][category] = $('<div><h2>' + channel_label + rockpool.languify(category) + '</h2><ul></ul></div>').addClass(item.type).addClass(category.toLowerCase()).appendTo(list)
         }
 

@@ -60,6 +60,19 @@ rockpool.useAnimationFrame = false;
 
 window.requestAnimationFrame(function(){rockpool.useAnimationFrame = true})
 
+rockpool.channelToNumber = function(channel){
+    return [
+        '8',
+        '7',
+        '6',
+        '5',
+        '4',
+        '3',
+        '2',
+        '1'
+    ][channel];
+}
+
 rockpool.getGUID = function(){
     rockpool.guid++;
     return rockpool.guid;
