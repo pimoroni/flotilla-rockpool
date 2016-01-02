@@ -31,18 +31,17 @@ rockpool.helpers = {
 }
 
 rockpool.converters = {
+    /*
+        No value conversion
+    */   
     noop: function () {
         this.name = "Empty"
         this.category = rockpool.category.empty
         this.convert = function (value) { return value }        
     },
-
-    invert: function () {
-        this.name = "Invert"
-        this.category = rockpool.category.converters
-        this.icon = "css/images/icons/icon-invert.png"
-        this.convert = function (value) { return 1 - value }        
-    },
+    /*
+        Converters
+    */
     halve: function () {
         this.name = "Halve"
         this.category = rockpool.category.converters
@@ -54,6 +53,12 @@ rockpool.converters = {
         this.category = rockpool.category.converters
         this.icon = "css/images/icons/icon-double.png"
         this.convert = function (value) { return value * 2.0 }        
+    },
+    invert: function () {
+        this.name = "Invert"
+        this.category = rockpool.category.converters
+        this.icon = "css/images/icons/icon-invert.png"
+        this.convert = function (value) { return 1 - value }        
     },
     smooth: function () {
         this.name = "Smooth"
@@ -90,12 +95,13 @@ rockpool.converters = {
                 //}
 
             }
-                this.last_value = value
-
+            this.last_value = value
             return this.latch ? 1 : 0
         }
     },
-
+    /*
+        Deciders
+    */
     lessThan: function () {
         this.name = "Less Than"
         this.category = rockpool.category.deciders
@@ -112,6 +118,28 @@ rockpool.converters = {
         this.convert = function (value, idx) { return ( value > this.childValue ) ? 1 : 0 }
         this.set     = function (value, idx) { this.childValue = value }
     },
+    /*
+        Returns the minimum of the two input values
+    */
+    min: function () {
+        this.name = "Min"
+        this.category = rockpool.category.deciders
+        this.icon = "css/images/icons/icon-min.png"
+        this.childValue = 0
+        this.convert = function (value) { return (this.childValue < value) ? this.childValue : value }
+        this.set     = function (value) { this.childValue = value }
+    },
+    /*
+        Returns the maximum of the two input values
+    */
+    max: function () {
+        this.name = "Max"
+        this.category = rockpool.category.deciders
+        this.icon = "css/images/icons/icon-max.png"
+        this.childValue = 0
+        this.convert = function (value) { return (this.childValue > value) ? this.childValue : value }
+        this.set     = function (value) { this.childValue = value }
+    },
     mix: function () {
         this.name = "Mix"
         this.category = rockpool.category.deciders
@@ -121,7 +149,7 @@ rockpool.converters = {
         this.set     = function (value, idx) { this.childValue = value }
     },
     /*
-        Returns the difference between to inputs
+        Returns the difference between two inputs
     */
     diff: function () {
         this.name = "Difference"
@@ -169,28 +197,6 @@ rockpool.converters = {
         this.icon = "css/images/icons/icon-add.png"
         this.childValue = 0
         this.convert = function (value) { return (this.childValue + value > 1) ? 1 : this.childValue + value}
-        this.set     = function (value) { this.childValue = value }
-    },
-    /*
-        Returns the minimum of the two input values
-    */
-    min: function () {
-        this.name = "Min"
-        this.category = rockpool.category.deciders
-        this.icon = "css/images/icons/icon-min.png"
-        this.childValue = 0
-        this.convert = function (value) { return (this.childValue < value) ? this.childValue : value }
-        this.set     = function (value) { this.childValue = value }
-    },
-    /*
-        Returns the maximum of the two input values
-    */
-    max: function () {
-        this.name = "Max"
-        this.category = rockpool.category.deciders
-        this.icon = "css/images/icons/icon-max.png"
-        this.childValue = 0
-        this.convert = function (value) { return (this.childValue > value) ? this.childValue : value }
         this.set     = function (value) { this.childValue = value }
     }
 }
