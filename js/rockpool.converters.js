@@ -36,6 +36,7 @@ rockpool.converters = {
         this.category = rockpool.category.empty
         this.convert = function (value) { return value }        
     },
+
     invert: function () {
         this.name = "Invert"
         this.category = rockpool.category.converters
@@ -54,6 +55,47 @@ rockpool.converters = {
         this.icon = "css/images/icons/icon-double.png"
         this.convert = function (value) { return value * 2.0 }        
     },
+    smooth: function () {
+        this.name = "Smooth"
+        this.category = rockpool.category.converters
+        this.icon = "css/images/icons/icon-smooth.png"
+        this.values = []
+        this.values.average = rockpool.helpers.avg;
+        this.convert = function (value){
+
+            this.values.push( value )
+
+            if( this.values.length > 10 ){
+                this.values.shift()
+            }
+
+            return this.values.average()
+
+        }
+    },
+    toggle: function () {
+        this.name = "Toggle"
+        //this.bgColor = rockpool.palette.purple
+        this.category = rockpool.category.converters
+        this.icon = "css/images/icons/icon-toggle.png"
+
+        this.last_value = 0
+        this.latch = false
+
+        this.convert = function ( value ) {
+            //if( value != this.last_value ){
+            if( value > 0.5 && this.last_value <= 0.5 ){
+                //if( value == 1 ){
+                    this.latch = !this.latch
+                //}
+
+            }
+                this.last_value = value
+
+            return this.latch ? 1 : 0
+        }
+    },
+
     lessThan: function () {
         this.name = "Less Than"
         this.category = rockpool.category.deciders
@@ -77,24 +119,6 @@ rockpool.converters = {
         this.childValue = 0
         this.convert = function (value, idx) { return (value + this.childValue)/2 }
         this.set     = function (value, idx) { this.childValue = value }
-    },
-    smooth: function () {
-        this.name = "Smooth"
-        this.category = rockpool.category.converters
-        this.icon = "css/images/icons/icon-smooth.png"
-        this.values = []
-        this.values.average = rockpool.helpers.avg;
-        this.convert = function (value){
-
-            this.values.push( value )
-
-            if( this.values.length > 10 ){
-                this.values.shift()
-            }
-
-            return this.values.average()
-
-        }
     },
     /*
         Returns the difference between to inputs
@@ -133,28 +157,6 @@ rockpool.converters = {
                 this.latched_value = this.input_value
             }
             this.last_value = value
-        }
-    },
-    toggle: function () {
-        this.name = "Toggle"
-        //this.bgColor = rockpool.palette.purple
-        this.category = rockpool.category.converters
-        this.icon = "css/images/icons/icon-toggle.png"
-
-        this.last_value = 0
-        this.latch = false
-
-        this.convert = function ( value ) {
-            //if( value != this.last_value ){
-            if( value > 0.5 && this.last_value <= 0.5 ){
-                //if( value == 1 ){
-                    this.latch = !this.latch
-                //}
-
-            }
-                this.last_value = value
-
-            return this.latch ? 1 : 0
         }
     },
     /*
