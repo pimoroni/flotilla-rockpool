@@ -15,6 +15,7 @@ rockpool.helpers = {
         }else{
             return sum/j;
         }
+
     },
     objAvg: function(){
         var sum = 0;
@@ -30,98 +31,22 @@ rockpool.helpers = {
 }
 
 rockpool.converters = {
-
-    /*
-        No value conversion
-    */
-
     noop: function () {
         this.name = "Empty"
         this.category = rockpool.category.empty
         this.convert = function (value) { return value }        
     },
-
-    /*
-        Converters
-    */
-
-    halve: function () {
-        /*
-            Halves value read from Input
-        */
-        this.name = "Halve"
-        this.category = rockpool.category.converters
-        this.icon = "css/images/icons/icon-halve.png"
-        this.convert = function (value) { return value / 2.0 }        
-    },
-
-    double: function () {
-        /*
-            Doubles value read from Input
-        */
-        this.name = "Double"
-        this.category = rockpool.category.converters
-        this.icon = "css/images/icons/icon-double.png"
-        this.convert = function (value) { return value * 2.0 }        
-    },
-    
     invert: function () {
-        /*
-            Subtracts value read from Input from ceiling
-        */
         this.name = "Invert"
         this.category = rockpool.category.converters
         this.icon = "css/images/icons/icon-invert.png"
         this.convert = function (value) { return 1 - value }        
     },
-    smooth: function () {
-        /*
-            Averages sample of values read from Input
-        */
-        this.name = "Smooth"
+    halve: function () {
+        this.name = "Halve"
         this.category = rockpool.category.converters
-        this.icon = "css/images/icons/icon-smooth.png"
-        this.values = []
-        this.values.average = rockpool.helpers.avg;
-        this.convert = function (value){
-            this.values.push( value )
-            if( this.values.length > 10 ){
-                this.values.shift()
-            }
-            return this.values.average()
-        }
-    },
-    toggle: function () {
-        /*
-            Toggles computed value from 1 to 0 or vice versa
-        */
-        this.name = "Toggle"
-        //this.bgColor = rockpool.palette.purple
-        this.category = rockpool.category.converters
-        this.icon = "css/images/icons/icon-toggle.png"
-        this.last_value = 0
-        this.latch = false
-        this.convert = function ( value ) {
-            //if( value != this.last_value ){
-            if( value > 0.5 && this.last_value <= 0.5 ){
-                //if( value == 1 ){
-                    this.latch = !this.latch
-                //}
-            }
-            this.last_value = value
-            return this.latch ? 1 : 0
-        }
-    },
-    /*
-        Deciders
-    */
-    lessThan: function () {
-        this.name = "Less Than"
-        this.category = rockpool.category.deciders
-        this.icon = "css/images/icons/icon-lt.png"
-        this.childValue = 0
-        this.convert = function (value) { return ( value < this.childValue ) ? 1 : 0 }
-        this.set     = function (value) { this.childValue = value }
+        this.icon = "css/images/icons/icon-halve.png"
+        this.convert = function (value) { return value / 2.0 }        
     },
     greaterThan: function () {
         this.name = "Greater Than"
@@ -139,10 +64,36 @@ rockpool.converters = {
         this.convert = function (value, idx) { return (value + this.childValue)/2 }
         this.set     = function (value, idx) { this.childValue = value }
     },
+    lessThan: function () {
+        this.name = "Less Than"
+        this.category = rockpool.category.deciders
+        this.icon = "css/images/icons/icon-lt.png"
+        this.childValue = 0
+        this.convert = function (value) { return ( value < this.childValue ) ? 1 : 0 }
+        this.set     = function (value) { this.childValue = value }
+    },
+    smooth: function () {
+        this.name = "Smooth"
+        this.category = rockpool.category.converters
+        this.icon = "css/images/icons/icon-smooth.png"
+        this.values = []
+        this.values.average = rockpool.helpers.avg;
+        this.convert = function (value){
+
+            this.values.push( value )
+
+            if( this.values.length > 10 ){
+                this.values.shift()
+            }
+
+            return this.values.average()
+
+        }
+    },
+    /*
+        Returns the difference between to inputs
+    */
     diff: function () {
-        /*
-            Returns the difference between two inputs
-        */
         this.name = "Difference"
         this.category = rockpool.category.deciders
         this.icon = "css/images/icons/icon-diff.png"
@@ -150,30 +101,13 @@ rockpool.converters = {
         this.convert = function (value) { return (this.childValue < value) ? value - this.childValue : this.childValue - value }
         this.set     = function (value) { this.childValue = value }
     },
-    min: function () {
-        /*
-            Returns the minimum of the two input values
-        */
-        this.name = "Min"
-        this.category = rockpool.category.deciders
-        this.icon = "css/images/icons/icon-min.png"
-        this.childValue = 0
-        this.convert = function (value) { return (this.childValue < value) ? this.childValue : value }
-        this.set     = function (value) { this.childValue = value }
-    },
-    max: function () {
-        /*
-            Returns the maximum of the two input values
-        */
-        this.name = "Max"
-        this.category = rockpool.category.deciders
-        this.icon = "css/images/icons/icon-max.png"
-        this.childValue = 0
-        this.convert = function (value) { return (this.childValue > value) ? this.childValue : value }
-        this.set     = function (value) { this.childValue = value }
-    }
-    
-latch: function() {
+/*
+    Value   1 0 0 1
+    Clock   1 1 0 0
+            1 1 - -
+
+*/
+    latch: function() {
         this.name = "Latch"
         this.category = rockpool.category.deciders
         this.icon = "css/images/icons/icon-latch.png"
@@ -195,6 +129,28 @@ latch: function() {
             this.last_value = value
         }
     },
+    toggle: function () {
+        this.name = "Toggle"
+        //this.bgColor = rockpool.palette.purple
+        this.category = rockpool.category.converters
+        this.icon = "css/images/icons/icon-toggle.png"
+
+        this.last_value = 0
+        this.latch = false
+
+        this.convert = function ( value ) {
+            //if( value != this.last_value ){
+            if( value > 0.5 && this.last_value <= 0.5 ){
+                //if( value == 1 ){
+                    this.latch = !this.latch
+                //}
+
+            }
+                this.last_value = value
+
+            return this.latch ? 1 : 0
+        }
+    },
     /*
         Experimental
         Use case: ?
@@ -207,4 +163,26 @@ latch: function() {
         this.convert = function (value) { return (this.childValue + value > 1) ? 1 : this.childValue + value}
         this.set     = function (value) { this.childValue = value }
     },
+    /*
+        Returns the minimum of the two input values
+    */
+    min: function () {
+        this.name = "Min"
+        this.category = rockpool.category.deciders
+        this.icon = "css/images/icons/icon-min.png"
+        this.childValue = 0
+        this.convert = function (value) { return (this.childValue < value) ? this.childValue : value }
+        this.set     = function (value) { this.childValue = value }
+    },
+    /*
+        Returns the maximum of the two input values
+    */
+    max: function () {
+        this.name = "Max"
+        this.category = rockpool.category.deciders
+        this.icon = "css/images/icons/icon-max.png"
+        this.childValue = 0
+        this.convert = function (value) { return (this.childValue > value) ? this.childValue : value }
+        this.set     = function (value) { this.childValue = value }
+    }
 }
