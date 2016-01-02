@@ -48,6 +48,20 @@ rockpool.converters = {
         this.icon = "css/images/icons/icon-halve.png"
         this.convert = function (value) { return value / 2.0 }        
     },
+    double: function () {
+        this.name = "Double"
+        this.category = rockpool.category.converters
+        this.icon = "css/images/icons/icon-double.png"
+        this.convert = function (value) { return value * 2.0 }        
+    },
+    lessThan: function () {
+        this.name = "Less Than"
+        this.category = rockpool.category.deciders
+        this.icon = "css/images/icons/icon-lt.png"
+        this.childValue = 0
+        this.convert = function (value) { return ( value < this.childValue ) ? 1 : 0 }
+        this.set     = function (value) { this.childValue = value }
+    },
     greaterThan: function () {
         this.name = "Greater Than"
         this.category = rockpool.category.deciders
@@ -63,14 +77,6 @@ rockpool.converters = {
         this.childValue = 0
         this.convert = function (value, idx) { return (value + this.childValue)/2 }
         this.set     = function (value, idx) { this.childValue = value }
-    },
-    lessThan: function () {
-        this.name = "Less Than"
-        this.category = rockpool.category.deciders
-        this.icon = "css/images/icons/icon-lt.png"
-        this.childValue = 0
-        this.convert = function (value) { return ( value < this.childValue ) ? 1 : 0 }
-        this.set     = function (value) { this.childValue = value }
     },
     smooth: function () {
         this.name = "Smooth"
