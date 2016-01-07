@@ -52,7 +52,13 @@ rockpool.converters = {
         this.name = "Double"
         this.category = rockpool.category.converters
         this.icon = "css/images/icons/icon-double.png"
-        this.convert = function (value) { return value * 2.0 }        
+        this.convert = function (value) {
+            if( value <= 0.5 ){
+                return value * 2.0
+            }else{
+                return 1.0
+            }
+        }
     },
     invert: function () {
         this.name = "Invert"
