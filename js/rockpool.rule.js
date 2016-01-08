@@ -173,10 +173,18 @@ rockpool.rule = function (parent, widget_index) {
         {
             output.options = null
         }
-        output.update()
+        output.update(true)
         this.render();
 
         this.runEventHandler('on_set_output_handler');
+    }
+
+    this.updateDom = function(){
+        if(this.input) this.input.dom_update_needed = true;
+        this.converters.forEach(function(converter, idx){
+            converter.dom_update_needed = true;
+        })
+        if(this.output) this.output.dom_update_needed = true;
     }
 
     this.getInput = function() {return this.input}

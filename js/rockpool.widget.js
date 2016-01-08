@@ -7,6 +7,7 @@ rockpool.widget =  function( type, rule, key ) {
         switch(this.type){
             case 'converter':
                 this.handler = (typeof(rockpool.converters[key]) === 'function') ? new rockpool.converters[key] : rockpool.converters[key];
+                rule.updateDom();
                 break;
             case 'input':
                 this.handler = (typeof(rockpool.inputs[key]) === 'function') ? new rockpool.inputs[key] : rockpool.inputs[key];
@@ -15,6 +16,7 @@ rockpool.widget =  function( type, rule, key ) {
                 this.handler = (typeof(rockpool.outputs[key]) === 'function') ? new rockpool.outputs[key] : rockpool.outputs[key];
                 break;
         }
+        this.dom_update_needed = true;
     }
 
     this.killChild = function(){
@@ -33,6 +35,9 @@ rockpool.widget =  function( type, rule, key ) {
 
     this.setOptions = function(index) {
         this.option_index = index;
+        if(this.options != this.handler.options[index]){
+            this.dom_update_needed = true;
+        }
         this.options = this.handler.options[index];
     }
 
@@ -43,104 +48,114 @@ rockpool.widget =  function( type, rule, key ) {
         rockpool.modal(tip);
     }
 
-    this.update = function(){
-        this.setLabel(   this.getOption('name') )
-        this.setSubType( this.getOption('type') )
-        this.setBgColor( this.getOption('bgColor') )
-        this.setIcon(    this.getOption('icon') )
+    this.update = function(force){
+        if(this.dom_update_needed || force == true){
+            this.dom_update_needed = false;
 
-        if(this.child){
-            this.child.updateLabels();
-        }
+            this.setLabel(   this.getOption('name') )
+            this.setSubType( this.getOption('type') )
+            this.setBgColor( this.getOption('bgColor') )
+            this.setIcon(    this.getOption('icon') )
 
-        var row_height = this.dom.height();
-        var group_offset = this.dom.parents('.rulegroup').offset().top + 32;
-
-        this.dom.css({
-                top: 0
-        })
-
-        var current_top = this.dom.offset().top - group_offset;
-
-        var offset_top = 0;
-        var pipe = this.dom.find('.pipe').length ? this.dom.find('.pipe') : $('<div><span>').addClass('pipe').appendTo(this.dom);
-        pipe.hide();
-
-        // There's something behind us!
-        if( this.dom.prev('.block').length ){
-            
-            var parent_offset = this.dom.prev('.block').offset().top - group_offset;
-            offset_top = parent_offset - current_top;
-
-            if( this.isComparator() ){
-
-                var child_index = this.child.widget_index-1;
-                var child_offset;
-
-                if( child_index > -1 ){
-                    child_offset = this.child.converters[child_index].dom.offset().top - group_offset;
-                }
-                else
-                {
-                    child_offset = this.child.input.dom.offset().top - group_offset;
-                }
-
-
-                offset_top += ((child_offset - parent_offset) / 2);
-
-                pipe.css({
-                    height: child_offset-parent_offset+row_height,
-                    top: -(child_offset-parent_offset)/2
-                }).show();
+            if(this.isComparator()){
+                rule.updateDom();
             }
 
-        }
+            if(this.child){
+                //this.child.updateDom();
+                this.child.updateLabels();
+            }
 
-        this.dom.css({
-            top: offset_top
-        }) 
+            var row_height = this.dom.height();
+            var group_offset = this.dom.parents('.rulegroup').offset().top + 32;
 
-        if( this.isOutput() ){
-            this.dom.next('.block').css({
-                top:offset_top
+            this.dom.css({
+                    top: 0
             })
-        }
 
-        this.icon.removeClass(function(index, css){
-            return (css.match (/(^|\s)sprite-\S+/g) || []).join(' ');
-        })
+            var current_top = this.dom.offset().top - group_offset;
+
+            var offset_top = 0;
+            var pipe = this.dom.find('.pipe').length ? this.dom.find('.pipe') : $('<div><span>').addClass('pipe').appendTo(this.dom);
+            pipe.hide();
+
+            // There's something behind us!
+            if( this.dom.prev('.block').length ){
+                
+                var parent_offset = this.dom.prev('.block').offset().top - group_offset;
+                offset_top = parent_offset - current_top;
+
+                if( this.isComparator() ){
+
+                    var child_index = this.child.widget_index-1;
+                    var child_offset;
+
+                    if( child_index > -1 ){
+                        child_offset = this.child.converters[child_index].dom.offset().top - group_offset;
+                    }
+                    else
+                    {
+                        child_offset = this.child.input.dom.offset().top - group_offset;
+                    }
 
 
-        this.dom.removeClass('converter decider');
+                    offset_top += ((child_offset - parent_offset) / 2);
 
-        if ( this.handler.name == "Empty" ){
-            this.dom.addClassdecider
-            this.icon.addClass('sprite-block-add');
-        }
-        else if( this.isComparator() ){
-            this.dom.addClass('decider');
-            this.icon.addClass('sprite-block-decider');
-        }
-        else if( this.isConverter() ){
-            this.dom.addClass('converter');
-            this.icon.addClass('sprite-block-converter');
-        }
-        else
-        {
-            this.icon.addClass('sprite-block-' + this.type);
-        }
+                    pipe.css({
+                        height: child_offset-parent_offset+row_height,
+                        top: -(child_offset-parent_offset)/2
+                    }).show();
+                }
 
-        if(this.getOption('category')){
-            this.dom.addClass(this.getOption('category').toLowerCase())
-        }
-        if( this.isOutput() && this.handler.name == 'Inspect' ){
-            this.dom.find('.icon').append('<span class="state"></span>')
-        }
+            }
 
-        if(this.handler.type == 'module' && !this.handler.active){
-            this.dom.addClass('disconnected')
-        }
+            this.dom.css({
+                top: offset_top
+            }) 
 
+            if( this.isOutput() ){
+                this.dom.next('.block').css({
+                    top:offset_top
+                })
+            }
+
+            /*this.icon.removeClass(function(index, css){
+                return (css.match (/(^|\s)sprite-\S+/g) || []).join(' ');
+            })*/
+            this.icon.attr('class','sprite');
+
+
+            //this.dom.removeClass('converter decider');
+            this.dom.attr('class','pure-u-1-6 center block');
+
+            this.dom.addClass(type + ' ' + (this.subtype?this.subtype:''));
+            this.dom.addClass(this.getOption('name').toLowerCase().replace(' ','-'));
+
+            if ( this.handler.name == "Empty" ){
+                //this.dom.addClassdecider
+                this.icon.addClass('sprite-block-add');
+            }
+            else if( this.isComparator() ){
+                this.dom.addClass('decider');
+                this.icon.addClass('sprite-block-decider');
+            }
+            else if( this.isConverter() ){
+                this.dom.addClass('converter');
+                this.icon.addClass('sprite-block-converter');
+            }
+            else
+            {
+                this.icon.addClass('sprite-block-' + this.type);
+            }
+
+            if(this.getOption('category')){
+                this.dom.addClass(this.getOption('category').toLowerCase())
+            }
+
+            if(this.handler.type == 'module' && !this.handler.active){
+                this.dom.addClass('disconnected')
+            }
+        }
         this.updateCanvas();
     }
 
@@ -150,7 +165,8 @@ rockpool.widget =  function( type, rule, key ) {
     }
 
     this.setSubType = function( subtype ){
-        this.dom.addClass(type + ' ' + (subtype?subtype:''));
+        this.subtype = subtype;
+        //this.dom.addClass(type + ' ' + (subtype?subtype:''));
     }
 
     this.setBgColor = function( bgColor ){
@@ -317,6 +333,7 @@ rockpool.widget =  function( type, rule, key ) {
     this.option_index = -1;
 
     this.type        = type;
+    this.subtype     = null;
     this.handler_key = null;
     this.handler     = null;
     this.setHandler(key);
@@ -333,6 +350,8 @@ rockpool.widget =  function( type, rule, key ) {
     this.dotRadius      = 4; // Was 5
 
     this.previous_canvas = null;
+
+    this.dom_update_needed = true;
 
     this.dom       = $('<div class="pure-u-1-6 center block">');
     this.icon      = $('<i class="sprite sprite-block-input">').appendTo(this.dom);
