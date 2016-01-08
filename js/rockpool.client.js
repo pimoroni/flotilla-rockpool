@@ -290,12 +290,12 @@ rockpool.sendHostUpdate = function(host, channel, code, data){
     var packet = ['s', channel, data.join(',')].join(' ');
     packet = 'h:' + host + ' d:' + packet;
     if( rockpool.isConnected() ){
-        console.log('Sending packet:', packet)
+        if(rockpool.debug_enabled) console.log('Sending packet:', packet)
         rockpool.socket.send(packet);
     }
     else
     {  
-        console.log('Unable to send ( No connection to host ):', packet)
+        if(rockpool.debug_enabled) console.log('Unable to send ( No connection to host ):', packet)
     }
 
 }
