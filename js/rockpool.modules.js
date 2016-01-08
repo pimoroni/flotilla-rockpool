@@ -70,7 +70,8 @@ rockpool.module_handlers['rainbow'] = {
     'title': 'Rainbow',
     'address': 0x54,
     'send': function(data){
-        var grb = [Math.floor(data.r*255),Math.floor(data.g*255),Math.floor(data.b*255)];
+        var brightness = Math.round(255*data.brightness);
+        var grb = [Math.floor(data.r*brightness),Math.floor(data.g*brightness),Math.floor(data.b*brightness)];
         return [grb];
     },
     'outputs': {
@@ -78,14 +79,14 @@ rockpool.module_handlers['rainbow'] = {
             this.name = "LED"
             this.module_type = 'green'
             this.icon = "css/images/icons/icon-light.png"
-            this.data = {r:{}, g:{}, b:{}}
+            this.data = {r:{}, g:{}, b:{}, brightness:{}}
             this.bgColor = rockpool.palette.green;
 
             this.options = [
                 {name: "Rainbow Red",       channel: 'r'},
                 {name: "Rainbow Green",     channel: 'g'},
                 {name: "Rainbow Blue",      channel: 'b'},
-                //{name: "Brightness",channel: 'brightness'},
+                {name: "Brightness",        channel: 'brightness'},
                 {name: "Rainbow Hue",       channel: 'hue'}
             ]
 
