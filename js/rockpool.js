@@ -240,14 +240,18 @@ rockpool.initialize = function(){
         rockpool.add('converter')
     }).find('h2');
 
-    $('.help').on('click',function(){
+    $('body').on('click',function(){
+        rockpool.closeModal();
+    })
+
+    /*$('.help').on('click',function(){
         rockpool.prompt($('.help-content').clone().show().on('click',function(){
 
             $.fancybox.close()
             $(this).remove()
 
         }))
-    });
+    });*/
 
     $('.sprite-icon-load').on('click',function(e){
         e.preventDefault();
