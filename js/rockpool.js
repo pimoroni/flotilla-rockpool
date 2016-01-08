@@ -313,4 +313,10 @@ rockpool.initialize = function(){
 
     rockpool.addPreviousTargets();
     rockpool.findHosts();
+
+    rockpool.on_connect = function(){
+        if(rockpool.rules.length == 0){
+            new rockpool.rule().start();
+        }
+    }
 }
