@@ -415,14 +415,6 @@ rockpool.updatePalettes = function() {
     for(var k in rockpool.inputs){
         var input = (typeof(rockpool.inputs[k]) === 'function') ? new rockpool.inputs[k] : rockpool.inputs[k]
 
-        /*if( input.type != 'variable' && (input.type != 'module' || input.active) ){
-
-            var category = input.type === 'module' ? input.module_type : input.category;
-
-            if( typeof(inputs[ category ]) != "number" ){ inputs[ category ] = 0 }
-
-            inputs[ category ] += 1
-        }*/
         if ( input.type === 'module' && input.active ){
             inputs++;
         }
@@ -434,74 +426,31 @@ rockpool.updatePalettes = function() {
     for(var k in rockpool.outputs){
         var output = (typeof(rockpool.outputs[k]) === 'function') ? new rockpool.outputs[k] : rockpool.outputs[k]
 
-        /*if( output.category != 'General' && output.type != 'variable' && (output.type != 'module' || output.active) ){
-
-            var category = output.type === 'module' ? output.module_type : output.category;
-
-            if( typeof(outputs[ category ]) != "number" ){ outputs[ category ] = 0 }
-
-            outputs[ category ] += 1
-        }*/
-
         if ( output.type === 'module' && output.active ){
             outputs++;
         }
     }
 
-    var converters = {}
-
-    // Update converters
-    /*for(var k in rockpool.converters){
-        var output = (typeof(rockpool.converters[k]) === 'function') ? new rockpool.converters[k] : rockpool.converters[k]
-
-        if( output.type != 'variable' && k != 'noop' ){
-            if( typeof(converters[ output.category ]) != "number" ){ converters[ output.category ] = 0 }
-
-            converters[output.category] += 1
-        }
-    }*/
-
-    //console.log(inputs,outputs)
-
-    //console.log('Updating counts...');
 
     var addInput = $('.add-input h2 .counts');
     if( addInput.length == 0 ){
         addInput = $('<div class="counts"></div>').appendTo('.add-input h2')
     }
     addInput.find('i').remove()
-    //for( var k in inputs ){
-        $('<i>')
-        //.addClass('sprite sprite-icon-add-input')
+    $('<i>')
         .addClass(k.toLowerCase())
         .text(inputs)
         .appendTo(addInput)
-    //}
 
     var addOutput = $('.add-output h2 .counts');
     if( addOutput.length == 0 ){
         addOutput = $('<div class="counts"></div>').appendTo('.add-output h2')
     }
     addOutput.find('i').remove()
-    //for( var k in outputs ){
         $('<i>')
-        //.addClass('sprite sprite-icon-add-output')
         .addClass(k.toLowerCase())
         .text(outputs)
         .appendTo(addOutput)
-    //}
-
-    /*var addConverter = $('.add-converter h2 .counts');
-    if( addConverter.length == 0 ){
-        addConverter = $('<div class="counts"></div>').appendTo('.add-converter h2')
-    }
-    addConverter.find('i').remove()
-    for( var k in converters ){
-        $('<i>').addClass('sprite sprite-icon-add-' + k.toLowerCase().slice(0,-1))
-        .addClass(k.toLowerCase())
-        .text(converters[k])
-        .appendTo(addConverter)
-    }*/
 
     rockpool.generatePalette('input')
     rockpool.generatePalette('output')
