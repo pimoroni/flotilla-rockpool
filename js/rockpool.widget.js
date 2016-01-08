@@ -76,7 +76,6 @@ rockpool.widget =  function( type, rule, key ) {
 
                 var child_index = this.child.widget_index-1;
                 var child_offset;
-                //console.log(child_index);
 
                 if( child_index > -1 ){
                     child_offset = this.child.converters[child_index].dom.offset().top - group_offset;
@@ -86,11 +85,8 @@ rockpool.widget =  function( type, rule, key ) {
                     child_offset = this.child.input.dom.offset().top - group_offset;
                 }
 
-                //console.log('Is comparator', parent_offset, child_offset);
 
                 offset_top += ((child_offset - parent_offset) / 2);
-                
-                //this.dom.find('.name').text('p:' + parent_offset + ' c:' + child_offset + ' h:' + (child_offset-parent_offset+row_height));
 
                 pipe.css({
                     height: child_offset-parent_offset+row_height,
@@ -100,18 +96,15 @@ rockpool.widget =  function( type, rule, key ) {
 
         }
 
+        this.dom.css({
+            top: offset_top
+        }) 
 
-
-            this.dom.css({
-                top: offset_top
-            }) 
-
-            if( this.isOutput() ){
-                this.dom.next('.block').css({
-                    top:offset_top
-                })
-            }
-
+        if( this.isOutput() ){
+            this.dom.next('.block').css({
+                top:offset_top
+            })
+        }
 
         this.icon.removeClass(function(index, css){
             return (css.match (/(^|\s)sprite-\S+/g) || []).join(' ');
