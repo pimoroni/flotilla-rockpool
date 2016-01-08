@@ -153,7 +153,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#809ec9cb', e
 
 .fancybox-overlay, .modal {
 	background-image:none;
-    background-color:rgba(0, 101, 122, 0.81);
+    background-color:rgba(0, 101, 122, 0.95);
 }
 .palette h1, .palette h2, .palette .label {
 	color:#FFFFFF;
