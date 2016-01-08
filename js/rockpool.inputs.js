@@ -21,13 +21,6 @@ rockpool.pressed={
 };
 
 rockpool.inputs = {
-    off: function () {
-        this.name = "Off"
-        this.icon = "css/images/icons/icon-off.png"
-        this.bgColor = rockpool.palette.blue
-        this.category = rockpool.category.generators
-        this.get = function () { return 0 }
-    },
     /*high: function () {
         this.name = "On"
         this.icon = "css/images/icons/icon-on.png"
