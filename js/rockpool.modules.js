@@ -79,7 +79,8 @@ rockpool.module_handlers['rainbow'] = {
             this.name = "LED"
             this.module_type = 'green'
             this.icon = "css/images/icons/icon-light.png"
-            this.data = {r:{}, g:{}, b:{}, brightness:{}}
+            this.data = {r:{}, g:{}, b:{}, brightness:null}
+            this.defaults = {brightness:1}
             this.bgColor = rockpool.palette.green;
 
             this.options = [
