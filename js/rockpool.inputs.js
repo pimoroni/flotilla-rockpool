@@ -74,13 +74,13 @@ rockpool.inputs = {
         this.category = rockpool.category.generators
 
         this.options = [
-                {category: 'Waveforms', name:'Sine',     sequence: function(){ return (Math.sin(rockpool.time/4) + 1.0) / 2.0 }, icon: "css/images/icons/icon-sine.png"},
+                {category: 'Waveforms', name:'Sine',     sequence: function(){ return (Math.sin(rockpool.time/10) + 1.0) / 2.0 }, icon: "css/images/icons/icon-sine.png"},
                 {category: 'Waveforms', name:'Random',   sequence: function(){ return Math.random() }, icon: "css/images/icons/icon-random.png" },
-                {category: 'Waveforms', name:'Pulse',    sequence: function(){ return 1.0 - (((rockpool.time) % 10) / 10.0);}, icon: "css/images/icons/icon-pulse.png"}, // [0, 0.5, 1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1]
-                {category: 'Waveforms', name:'Square',   sequence: function(){ return Math.round(rockpool.time/2) % 2;}, icon: "css/images/icons/icon-square.png"}, // [0, 0, 1, 1]
-                {category: 'Waveforms', name:'Triangle', sequence: function(){ return Math.abs(((rockpool.time)%10)-5)/5.0;console.log(r);}, icon: "css/images/icons/icon-triangle.png"}, // [0, 0.5, 1, 0.5]
-                {category: 'Waveforms', name:'Saw',      sequence: function(){ return (((rockpool.time) % 5) / 5.0);}, icon: "css/images/icons/icon-saw.png"}, //[1,0.5,0]
-                {category: 'Waveforms', name:'Clock',    sequence: function(){ return ((rockpool.time) % 2);}, icon: "css/images/icons/icon-clock.png"} // function(){ var d = new Date(); return d.getTime() % 2;}
+                {category: 'Waveforms', name:'Pulse',    sequence: function(){ return 1.0 - (((rockpool.time/10) % 10) / 10.0);}, icon: "css/images/icons/icon-pulse.png"}, // [0, 0.5, 1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1]
+                {category: 'Waveforms', name:'Square',   sequence: function(){ return Math.round(rockpool.time/10) % 2;}, icon: "css/images/icons/icon-square.png"}, // [0, 0, 1, 1]
+                {category: 'Waveforms', name:'Triangle', sequence: function(){ return Math.abs(((rockpool.time/10)%10)-5)/5.0;console.log(r);}, icon: "css/images/icons/icon-triangle.png"}, // [0, 0.5, 1, 0.5]
+                {category: 'Waveforms', name:'Saw',      sequence: function(){ return (((rockpool.time/10) % 5) / 5.0);}, icon: "css/images/icons/icon-saw.png"}, //[1,0.5,0]
+                {category: 'Waveforms', name:'Clock',    sequence: function(){ return ((rockpool.time/10) % 2) / 2.0;}, icon: "css/images/icons/icon-clock.png"} // function(){ var d = new Date(); return d.getTime() % 2;}
             ]
 
         this.get = function ( options ) {
