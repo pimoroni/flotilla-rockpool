@@ -22,9 +22,21 @@ var FlotillaScanner = function(){
         this.progress = index-1;
         this.callback_progress(index-1);
 
-        var scan_ip = this.start + index;
-        var host = this.host + '.' + scan_ip.toString();
+        var scan_ip;
+        var host;
+
+        if(this.start == 0 && this.end == 0){
+            host = this.host;
+        }
+        else
+        {
+            scan_ip = this.start + index;
+            host = this.host + '.' + scan_ip.toString();  
+        }
+
         var timeout = null;
+
+        var query_timeout = this.query_timeout;
 
         var details = {dock_user: null, dock_name: null, dock_version: null, dock_serial: null};
 
@@ -45,18 +57,20 @@ var FlotillaScanner = function(){
             socket_attempt.send('hello');
 
             timeout = setTimeout(function(){
-                console.log('Query timeout...');
+                console.log('Query timeout...',host);
                 socket_attempt.onopen = function(){};
                 // This will cause onerror and onclose to trigger
                 socket_attempt.close();
-            },this.query_timeout);
-            //socket_attempt.close();
-            //obj.callback_found(host);
+            },query_timeout);
+
+            console.log(query_timeout);
         }
         socket_attempt.onmessage = function(event) {
             var message = event.data;
             console.log(message);
             if( message.includes('# Dock:') ){
+
+                clearTimeout(timeout);
 
                 message = message.replace('# Host:','').split(',');
                 details.dock_version = message[0];
@@ -66,8 +80,6 @@ var FlotillaScanner = function(){
 
                 obj.callback_found(host, details);
                 socket_attempt.close();
-
-                clearTimeout(timeout);
             }
         }
         socket_attempt.onerror = function() {
@@ -85,12 +97,21 @@ var FlotillaScanner = function(){
     }
 
     this.scan = function(host, connection_timeout, callback_progress, callback_found){
-        var start_end   = host[3];
         this.connection_timeout = connection_timeout;
-        this.start      = start_end[0];
-        this.end        = start_end[1];
         this.scan_total = this.end - this.start;
-        this.host       = host.slice(0,3).join('.');
+
+        if(typeof(host) === "string"){
+            this.host   = host;
+            this.start      = 0;
+            this.end        = 0;
+        }
+        else
+        {
+            this.host   = host.slice(0,3).join('.');
+            var start_end   = host[3];
+            this.start      = start_end[0];
+            this.end        = start_end[1];
+        }
 
         this.callback_found    = callback_found;
         this.callback_progress = callback_progress;
@@ -102,7 +123,7 @@ var FlotillaScanner = function(){
     this.progress = 0;
     this.terminate = false;
     this.connection_timeout = 750;
-    this.query_timeout = 1000;
+    this.query_timeout = 2000;
     this.addHost = null;
     this.host  = '';
     this.start = 0;

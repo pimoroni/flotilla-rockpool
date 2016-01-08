@@ -184,7 +184,7 @@ rockpool.widget =  function( type, rule, key ) {
     this.get = function(){
         var value = this.handler.get ? this.handler.get(this.options) : 0
         this.history.push(value)
-        this.history = this.history.slice(Math.max(this.history.length - 50, 0))
+        this.history = this.history.slice(Math.max(this.history.length - 500, 0))
 
         if( this.isInput() ){
             this.inspector.text(Math.round(value*1000).toString());
@@ -197,7 +197,7 @@ rockpool.widget =  function( type, rule, key ) {
 
         var output =  this.handler.convert ? this.handler.convert(value) : 0
         this.history.push(output)
-        this.history = this.history.slice(Math.max(this.history.length - 50, 0))
+        this.history = this.history.slice(Math.max(this.history.length - 500, 0))
 
         return output
     }
@@ -402,7 +402,7 @@ rockpool.widget =  function( type, rule, key ) {
     this.history = [];
 
     this.rightMargin    = 22; // was 50
-    this.dotSpacing     = 22; // was 14
+    this.dotSpacing     = 2; // was 14
     this.verticalMargin = 2;
     this.dotRadius      = 4; // Was 5
 
@@ -427,9 +427,21 @@ rockpool.widget =  function( type, rule, key ) {
 
     var widget = this;
 
-    this.dom.on('click',function(e){
+    this.dom
+    .on('click',function(e){
         e.preventDefault();
-        rockpool.add(type,rule,widget.dom.index());
+        if(widget.hasOptions()){
+            rockpool.modal_activator = $(this).find('img');
+            rockpool.configureWidget(widget.handler_key, rule, widget.type);
+        }
+        else
+        {
+            rockpool.add(type,rule,widget.dom.index());
+        }
         return false;
     })
+
+    if(this.hasOptions()){
+        this.setOptions(0);
+    }
 }

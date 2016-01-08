@@ -227,7 +227,8 @@ rockpool.rule = function (parent, widget_index) {
 
             this.dom_enabled = $('<div class="pure-u-1-12 center block toggle"></div>').appendTo(this.dom);
 
-            this.input = this.input ? this.input : new rockpool.widget( 'input', this, 'low' )
+            this.input = this.input ? this.input : new rockpool.widget( 'input', this, 'state' );
+
             var i = this.converter_count
             while(i--){
                 this.addConverter('noop')

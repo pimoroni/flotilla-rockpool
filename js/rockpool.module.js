@@ -45,7 +45,7 @@ var FlotillaModule = function(settings, host_idx, channel_idx, module_code) {
 
             var x = packets.length;
             while(x--){
-                rockpool.sendHostUpdate(this.host, this.channel, this.code, packets[x]);
+                rockpool.sendHostUpdate(this.host, this.channel+1, this.code, packets[x]);
             }
             return true;
         }

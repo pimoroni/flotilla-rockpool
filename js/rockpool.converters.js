@@ -56,6 +56,30 @@ rockpool.converters = {
         this.convert = function (value, idx) { return ( value > this.childValue ) ? 1 : 0 }
         this.set     = function (value, idx) { this.childValue = value }
     },
+    sine: function(){
+        this.name = "Sine Wave"
+        this.category = rockpool.category.converters
+        this.icon = "css/images/icons/icon-sine.png"
+
+        this.frequency = 0;
+        this.phase = 0.0;
+
+        this.convert = function (new_frequency) { 
+
+            var time = rockpool.time;
+
+            if( new_frequency != this.frequency ){
+                var c = (time * this.frequency + this.phase) % (2.0 * Math.PI);
+                var n = (time * new_frequency) % (2.0 * Math.PI);
+
+                this.phase = c - n;
+                this.frequency = new_frequency;
+            }
+
+            return (Math.sin(time * this.frequency + this.phase) + 1.0) / 2.0;
+
+        }   
+    },
     mix: function () {
         this.name = "Mix"
         this.category = rockpool.category.deciders

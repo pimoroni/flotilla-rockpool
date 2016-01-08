@@ -61,7 +61,8 @@ rockpool.useAnimationFrame = false;
 window.requestAnimationFrame(function(){rockpool.useAnimationFrame = true})
 
 rockpool.channelToNumber = function(channel){
-    return [
+    return channel + 1;
+    /*return [
         '8',
         '7',
         '6',
@@ -70,7 +71,7 @@ rockpool.channelToNumber = function(channel){
         '3',
         '2',
         '1'
-    ][channel];
+    ][channel];*/
 }
 
 rockpool.getGUID = function(){
@@ -121,7 +122,7 @@ rockpool.run = function () {
     if(rockpool.useAnimationFrame){
         rockpool.renderLoop();
     }
-    setInterval(rockpool.updateLoop, 100);
+    setInterval(rockpool.updateLoop, 50);
 }
 
 rockpool.getTime = function () {
@@ -301,7 +302,11 @@ rockpool.initialize = function(){
         $(this).html( rockpool.languify( $(this).html() ) );
     });
 
-    rockpool.addCommonTargets();
+    //rockpool.addCommonTargets();
+    rockpool.addScanTarget('127.0.0.1', 5000);
+    rockpool.addScanTarget('raspberrypi', 5000);
+    rockpool.addScanTarget('raspberrypi.local', 5000);
+
     rockpool.addPreviousTargets();
     rockpool.findHosts();
 }

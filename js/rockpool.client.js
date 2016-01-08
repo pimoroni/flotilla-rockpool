@@ -61,29 +61,31 @@ rockpool.addScanTarget = function(target, timeout){
         timeout = 750;
     }
     if( typeof(target) === 'string' ){
-        var host = target.split('.');
-        if(host.length < 4){
-            return false;
-        }
-        if(host[3].indexOf('/') > -1){
-            host[3] = host[3].split('/').map(function(value){return parseInt(value)});
-        }
-        else
-        {
-            host[3] = [host[3],host[3]]
-        }
-        host = host.map(
-            function(value){
-                if ( typeof(value) === "string" ){
-                    return parseInt(value)
-                }
-                else
-                {
-                    return value.map(function(value){return parseInt(value)});
-                }
+        if( !target.match(/[a-z]/i) ){
+            var host = target.split('.');
+            if(host.length < 4){
+                return false;
             }
-        );
-        target = host;
+            if(host[3].indexOf('/') > -1){
+                host[3] = host[3].split('/').map(function(value){return parseInt(value)});
+            }
+            else
+            {
+                host[3] = [host[3],host[3]]
+            }
+            host = host.map(
+                function(value){
+                    if ( typeof(value) === "string" ){
+                        return parseInt(value)
+                    }
+                    else
+                    {
+                        return value.map(function(value){return parseInt(value)});
+                    }
+                }
+            );
+            target = host;
+        }
     }
     rockpool.attempt_list.push({target:target, timeout:timeout});
 }
@@ -167,7 +169,7 @@ rockpool.findHosts = function(){
                     var details = msg.data['details'];
                     var successful_subnet = host.split('.').slice(0,3).join('.');
                     rockpool.addHost(host,details);
-                    stopOtherScans(successful_subnet);
+                    //stopOtherScans(successful_subnet);
                 }
 
                 if( 'progress' in msg.data ){
@@ -194,7 +196,7 @@ rockpool.findHosts = function(){
                 function(host, details)    {
                     var successful_subnet = host.split('.').slice(0,3).join('.');
                     rockpool.addHost(host, details);
-                    stopOtherScans(successful_subnet);
+                    //stopOtherScans(successful_subnet);
                 }
             );
         }
