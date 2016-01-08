@@ -257,73 +257,6 @@ rockpool.widget =  function( type, rule, key ) {
         context.stroke();
     }
 
-    this.drawChartQuadratic = function (width, height, context, values) {
-        var max = Math.round((width) / this.dotSpacing) + 1;
-
-        values = values.slice(-max);
-        while(values.length < max){
-            values.push(0);
-        }
-
-        var points = [];
-
-        for(var i = 0; i < max; i++) {
-            var value = values[i] * (height - (this.verticalMargin*2));
-            points.push({
-                x: width  - ( i * this.dotSpacing ),
-                y: height - ( value ) - this.verticalMargin
-            })
-        }
-
-        context.globalCompositeOperation = "source-over"
-        context.beginPath(); 
-
-        context.moveTo(points[0].x, points[0].y);
-        for (i = 1; i < points.length - 2; i ++)
-        {
-            var xc = (points[i].x + points[i + 1].x) / 2;
-            var yc = (points[i].y + points[i + 1].y) / 2;
-            context.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
-        }
-        context.quadraticCurveTo(points[i].x, points[i].y, points[i+1].x,points[i+1].y);
-        context.stroke();
-
-        context.lineTo(-10,height+10);
-        context.lineTo(width+10,height+10);
-        context.fill();
-
-    }
-
-    this.drawChartDots = function (width, height, context, values) {
-        var max = Math.round((width - this.rightMargin) / this.dotSpacing)
-        for(var i = 0; i < max; i++) {
-            /* Scale value to fit canvas heigth */
-            var value = values[values.length - 1 - i] * (height - (this.verticalMargin*2) - this.dotRadius - this.dotRadius)
-
-            var x = width - this.rightMargin - (i * this.dotSpacing);
-            var y = height - value - this.dotRadius - this.verticalMargin;
-
-            context.beginPath()
-            context.arc(x, y, this.dotRadius, 0, Math.PI * 2, false)
-            context.closePath()                       
-            context.fillStyle = i == 0 ? "rgba(235, 230, 220, 1)" : "rgba(235, 230, 220, " + ((1 - (i / max)) / 2) + ")"
-            context.fill()
-
-            if(i == 0 && this.rightMargin > 0) {
-                var y = height - ((0.5+value)|0) - (this.dotRadius*2) - this.verticalMargin;
-                var w = this.rightMargin+this.dotRadius;
-                var h = this.dotRadius*2;
-
-                var gradient=context.createLinearGradient(x, y, x+w, y+h);
-                gradient.addColorStop(0.1,"rgba(235, 230, 220, 1)");
-                gradient.addColorStop(0.8,"rgba(235, 230, 220, 0)");
-                context.fillStyle = gradient;
-
-                context.fillRect(x, y, w, h);
-            }
-        }
-    }
-
     this.drawChart = function(){
         if( this.type == 'output' ) return false;
 
@@ -431,8 +364,15 @@ rockpool.widget =  function( type, rule, key ) {
     .on('click',function(e){
         e.preventDefault();
         if(widget.hasOptions()){
-            rockpool.modal_activator = $(this).find('img');
-            rockpool.configureWidget(widget.handler_key, rule, widget.type);
+            if(rockpool.isModalOpen()){
+                rockpool.closeModal();
+                rockpool.add(type,rule,widget.dom.index());
+            }
+            else
+            {
+                rockpool.modal_activator = $(this).find('img');
+                rockpool.configureWidget(widget.handler_key, rule, widget.type);
+            }
         }
         else
         {
