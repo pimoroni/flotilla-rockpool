@@ -56,6 +56,7 @@ var FlotillaModule = function(settings, host_idx, channel_idx, module_code) {
 		Updates all outputs with data from singleton output objects
     */
     this.syncOutputs  = function() {
+
 		for( var k in this.outputs ){
 
       		for( var property in this.outputs[k].data ){
@@ -68,10 +69,20 @@ var FlotillaModule = function(settings, host_idx, channel_idx, module_code) {
                 if(!this.output_data[property]) this.output_data[property] = {}
 
                 if( typeof( this.outputs[k].data[property] ) === 'object' && this.outputs[k].data[property] != null ){
+
                     this.outputs[k].data[property].avg = rockpool.helpers.objAvg
                     this.output_data[property][k] = this.outputs[k].data[property].avg()
+
                 }else{
-                    this.output_data[property][k] = this.outputs[k].data[property]
+
+                    if( this.outputs[k].defaults[property] && this.outputs[k].data[property] == null ){
+                        this.output_data[property][k] = this.outputs[k].defaults[property];
+                    }
+                    else
+                    {
+                        this.output_data[property][k] = this.outputs[k].data[property]
+                    }
+
                 }
 
       		}
