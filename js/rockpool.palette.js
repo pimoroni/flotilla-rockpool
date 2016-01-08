@@ -179,6 +179,12 @@ rockpool.positionModal = function(){
 
 
 }
+rockpool.isModalOpen = function(){
+    if(rockpool.modal_element){
+        return true;
+    }
+    return false;
+}
 rockpool.closeModal = function(){
     if(!rockpool.modal_element) return false;
     rockpool.modal_element.fadeOut('fast',function(){$(this).remove();})
@@ -191,7 +197,7 @@ rockpool.configureWidget = function(key, rule, type){
     var categories = {}
     var palette = $('<div class="palette">') //<header><h1>' + handler.name + '</h1></header></div>')
     var handler;
-    
+
     switch(type){
         case 'input':
             handler = (typeof(rockpool.inputs[key]) === 'function') ? new rockpool.inputs[key] : rockpool.inputs[key];
@@ -241,10 +247,6 @@ rockpool.configureWidget = function(key, rule, type){
 
                 break;
         }
-     
-
-        //rockpool.redraw()
-        //rule.render()
     })
 }
 
@@ -406,42 +408,50 @@ rockpool.add = function(type, rule, index){
 
 rockpool.updatePalettes = function() {
 
-    var inputs = {}
+    //var inputs = {}
+    var inputs = 0;
 
     // Update inputs
     for(var k in rockpool.inputs){
         var input = (typeof(rockpool.inputs[k]) === 'function') ? new rockpool.inputs[k] : rockpool.inputs[k]
 
-        if( input.type != 'variable' && (input.type != 'module' || input.active) ){
+        /*if( input.type != 'variable' && (input.type != 'module' || input.active) ){
 
             var category = input.type === 'module' ? input.module_type : input.category;
 
             if( typeof(inputs[ category ]) != "number" ){ inputs[ category ] = 0 }
 
             inputs[ category ] += 1
+        }*/
+        if ( input.type === 'module' && input.active ){
+            inputs++;
         }
     }
 
-    var outputs = {}
+    var outputs = 0;
 
     // Update outputs
     for(var k in rockpool.outputs){
         var output = (typeof(rockpool.outputs[k]) === 'function') ? new rockpool.outputs[k] : rockpool.outputs[k]
 
-        if( output.category != 'General' && output.type != 'variable' && (output.type != 'module' || output.active) ){
+        /*if( output.category != 'General' && output.type != 'variable' && (output.type != 'module' || output.active) ){
 
             var category = output.type === 'module' ? output.module_type : output.category;
 
             if( typeof(outputs[ category ]) != "number" ){ outputs[ category ] = 0 }
 
             outputs[ category ] += 1
+        }*/
+
+        if ( output.type === 'module' && output.active ){
+            outputs++;
         }
     }
 
     var converters = {}
 
     // Update converters
-    for(var k in rockpool.converters){
+    /*for(var k in rockpool.converters){
         var output = (typeof(rockpool.converters[k]) === 'function') ? new rockpool.converters[k] : rockpool.converters[k]
 
         if( output.type != 'variable' && k != 'noop' ){
@@ -449,7 +459,7 @@ rockpool.updatePalettes = function() {
 
             converters[output.category] += 1
         }
-    }
+    }*/
 
     //console.log(inputs,outputs)
 
@@ -460,26 +470,28 @@ rockpool.updatePalettes = function() {
         addInput = $('<div class="counts"></div>').appendTo('.add-input h2')
     }
     addInput.find('i').remove()
-    for( var k in inputs ){
-        $('<i>').addClass('sprite sprite-icon-add-input')
+    //for( var k in inputs ){
+        $('<i>')
+        //.addClass('sprite sprite-icon-add-input')
         .addClass(k.toLowerCase())
-        .text(inputs[k])
+        .text(inputs)
         .appendTo(addInput)
-    }
+    //}
 
     var addOutput = $('.add-output h2 .counts');
     if( addOutput.length == 0 ){
         addOutput = $('<div class="counts"></div>').appendTo('.add-output h2')
     }
     addOutput.find('i').remove()
-    for( var k in outputs ){
-        $('<i>').addClass('sprite sprite-icon-add-output')
+    //for( var k in outputs ){
+        $('<i>')
+        //.addClass('sprite sprite-icon-add-output')
         .addClass(k.toLowerCase())
-        .text(outputs[k])
+        .text(outputs)
         .appendTo(addOutput)
-    }
+    //}
 
-    var addConverter = $('.add-converter h2 .counts');
+    /*var addConverter = $('.add-converter h2 .counts');
     if( addConverter.length == 0 ){
         addConverter = $('<div class="counts"></div>').appendTo('.add-converter h2')
     }
@@ -489,7 +501,7 @@ rockpool.updatePalettes = function() {
         .addClass(k.toLowerCase())
         .text(converters[k])
         .appendTo(addConverter)
-    }
+    }*/
 
     rockpool.generatePalette('input')
     rockpool.generatePalette('output')
