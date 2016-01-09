@@ -8,6 +8,7 @@ rockpool.rule = function (parent, widget_index) {
             source = JSON.parse(source);
         }
 
+        console.log("Setting input handler", source.input.key, source.input.option);
         this.setInputHandler( source.input.key, source.input.option > -1 ? source.input.option : null );
 
         for(var x = 0; x < source.converters.length; x++){
@@ -38,11 +39,11 @@ rockpool.rule = function (parent, widget_index) {
         var o = {
             input: {  
                 key:    this.input.handler_key,
-                option: this.input.option_index
+                option: this.input.options ? this.input.option_index : -1
             },
             output:{ 
                 key:    this.output.handler_key,
-                option: this.output.option_index
+                option: this.output.options ? this.output.option_index : -1
             },
             converters: []
         }
@@ -148,6 +149,7 @@ rockpool.rule = function (parent, widget_index) {
         if(typeof(this.getInput().handler.init) === 'function'){
             this.getInput().handler.init(this)
         }
+        this.getInput().update(true);
         this.render();
 
         this.runEventHandler('on_set_input_handler');
