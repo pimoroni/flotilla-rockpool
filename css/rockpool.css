@@ -86,17 +86,40 @@ body:after {
 
 #header {
     background:center bottom url('images/bg-sky.png') repeat-x;
-    height:185px;
+    height:150px;
 }
 
 #header h2 {
 	color:#00829A;
+    cursor:pointer;
+}
+
+.counts i {
+    background:#00829A;
+    border-radius:50%;
+    color:#FFF;
 }
 
 .help-balloon {
     color:#FFF;
 }
 
+/* Toolbar */
+
+.toolbar {
+    background:#003040;
+}
+
+.toolbar li.button {
+    background:#7DAF30;
+    color:#003040;
+    font-weight:bold;
+}
+.toolbar li.button:hover {
+    background:#9DCF50;
+    cursor:pointer;
+    cursor:hand;
+}
 /* Rules */
 
 .name, .inspector {
