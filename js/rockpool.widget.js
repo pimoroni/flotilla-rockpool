@@ -34,6 +34,8 @@ rockpool.widget =  function( type, rule, key ) {
     }
 
     this.setOptions = function(index) {
+        if (!this.hasOptions()) return false;
+
         this.option_index = index;
         if(this.options != this.handler.options[index]){
             this.dom_update_needed = true;
