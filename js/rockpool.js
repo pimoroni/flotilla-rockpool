@@ -254,6 +254,29 @@ rockpool.initialize = function(){
         }))
     });*/
 
+
+    $('.toolbar').on('click','li',function(e){
+        e.preventDefault();
+
+        var o = $(this);
+        var action = $(this).data('action');
+
+        switch(action){
+            case 'new':
+                new rockpool.rule().start();
+                break;
+            case 'clear':
+                rockpool.clear();
+                break;
+            case 'load':
+                rockpool.clear();
+                rockpool.loadState('test-saveload');
+                break;
+            case 'save':
+                rockpool.saveCurrentState('test-saveload');
+        }
+    });
+
     $('.sprite-icon-load').on('click',function(e){
         e.preventDefault();
 
