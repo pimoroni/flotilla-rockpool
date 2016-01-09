@@ -296,13 +296,38 @@ rockpool.module_handlers['matrix'] = {
     },
     'outputs': {
         'display': function() {
-            this.name = 'Matrix Text'
+            this.name = 'Matrix Display'
             this.module_type = 'green'
             this.icon = "css/images/icons/icon-matrix.png"
             this.bgColor = rockpool.palette.green
             this.data = {image:[0, 0, 0, 0, 0, 0, 0, 0]}
+            this.history = [0,0,0,0,0,0,0,0];
+            this.x = 4;
+            this.y = 4;
 
             this.options = [
+                {name:'Line Graph',  fn: function(value,t){
+                    t.history.push(1 << Math.round( value * 7 ));
+                    t.history = t.history.slice(Math.max(t.history.length - 10, 0))
+
+                    return t.history;
+                }},
+                {name:'Plot X',  fn: function(value,t){
+                    t.x = Math.round( value * 7 );
+                    var p = [0,0,0,0,0,0,0,0];
+
+                    p[t.x] = t.y;
+
+                    return p;
+                }},
+                {name:'Plot Y',  fn: function(value,t){
+                    t.y = 1 << Math.round( value * 7 );
+                    var p = [0,0,0,0,0,0,0,0];
+
+                    p[t.x] = t.y;
+
+                    return p;
+                }},
                 {name:'Number', fn: function(value){ return matrix_font[Math.ceil(value * 9).toString().charCodeAt(0)]; } },
                 {name:'Letter', fn: function(value){ return matrix_font[ 97 + Math.ceil(value * 25) ]; } }
             ]
@@ -310,7 +335,7 @@ rockpool.module_handlers['matrix'] = {
             this.set = function (value, id, options){
                 if(!options) return false;
 
-                this.data.image = options.fn(value);
+                this.data.image = options.fn(value,this);
             }
 
         },
