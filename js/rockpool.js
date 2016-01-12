@@ -314,6 +314,10 @@ rockpool.initialize = function(){
         document.documentElement.requestFullscreen();
     }
 
+    window.onbeforeunload = function(){
+        rockpool.disconnect();
+    }
+
     FastClick.attach(document.body);
 
     $.fancybox.defaults.padding = 0

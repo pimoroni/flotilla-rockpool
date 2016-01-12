@@ -290,7 +290,18 @@ rockpool.isConnected = function(){
     return rockpool.socket.readyState == rockpool.socket.OPEN;
 }
 
+rockpool.disconnect = function(){
+
+    if(rockpool.isConnected()){
+        rockpool.socket.onclose = function(){};
+        rockpool.socket.close();
+        rockpool.socket = null;
+    }
+
+}
+
 rockpool.connect = function(host, port){
+    rockpool.disconnect();
 
     var prompt = $("<div>")
         .addClass('host-picker palette')
