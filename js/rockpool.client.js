@@ -39,6 +39,40 @@ rockpool.addHost = function(host, details){
     }
 }
 
+rockpool.discoverHosts = function(){
+    
+    $.ajax({
+        type: 'GET',
+        url: 'http://discover.flotil.la',
+        async: false,
+        jsonpCallback: 'jsonp_callback',
+        contentType: "application/json",
+        dataType: 'jsonp',
+        success: function(json) {
+            console.log(json);
+
+            for(idx in json.ipv4){
+                rockpool.addScanTarget(json.ipv4[idx], 5000);
+            }
+
+            rockpool.addScanTarget('127.0.0.1', 5000);
+            rockpool.addPreviousTargets();
+            rockpool.findHosts();
+        },
+        error: function(obj,err) {
+            console.log(err);
+
+            /*rockpool.addScanTarget('127.0.0.1', 5000);
+            rockpool.addScanTarget('raspberrypi', 5000);
+            rockpool.addScanTarget('raspberrypi.local', 5000);
+
+            rockpool.addPreviousTargets();
+            rockpool.findHosts();*/
+        }
+    });
+
+}
+
 rockpool.stopScan = function(){
     var x = rockpool.attempt_list.length;
 

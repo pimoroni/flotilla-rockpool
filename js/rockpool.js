@@ -272,8 +272,12 @@ rockpool.initialize = function(){
                 rockpool.clear();
                 rockpool.loadState('test-saveload');
                 break;
+            case 'dock':
+                rockpool.discoverHosts();
+                break;
             case 'save':
                 rockpool.saveCurrentState('test-saveload');
+                break;
         }
     });
 
@@ -331,12 +335,15 @@ rockpool.initialize = function(){
     });
 
     //rockpool.addCommonTargets();
+    /*
     rockpool.addScanTarget('127.0.0.1', 5000);
     rockpool.addScanTarget('raspberrypi', 5000);
     rockpool.addScanTarget('raspberrypi.local', 5000);
 
     rockpool.addPreviousTargets();
     rockpool.findHosts();
+    */
+    rockpool.discoverHosts();
 
     rockpool.on_connect = function(){
         if(rockpool.rules.length == 0){
