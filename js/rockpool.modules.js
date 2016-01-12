@@ -129,7 +129,9 @@ rockpool.module_handlers['rainbow'] = {
 
             this.stop = function(id) {
                 for( var key in this.data ){
-                    this.data[key][id] = null
+                    if(this.data[key] != null){
+                        this.data[key][id] = null
+                    }
                 }
             }
 
