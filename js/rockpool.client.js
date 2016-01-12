@@ -62,12 +62,12 @@ rockpool.discoverHosts = function(){
         error: function(obj,err) {
             console.log(err);
 
-            /*rockpool.addScanTarget('127.0.0.1', 5000);
+            rockpool.addScanTarget('127.0.0.1', 5000);
             rockpool.addScanTarget('raspberrypi', 5000);
             rockpool.addScanTarget('raspberrypi.local', 5000);
 
             rockpool.addPreviousTargets();
-            rockpool.findHosts();*/
+            rockpool.findHosts();
         }
     });
 
