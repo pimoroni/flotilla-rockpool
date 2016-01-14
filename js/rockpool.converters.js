@@ -228,5 +228,13 @@ rockpool.converters = {
         this.childValue = 0
         this.convert = function (value) { return (this.childValue + value > 1) ? 1 : this.childValue + value}
         this.set     = function (value) { this.childValue = value }
+    },
+    subtract: function () {
+        this.name = "Subtract"
+        this.category = rockpool.category.deciders
+        this.icon = "css/images/icons/icon-add.png"
+        this.childValue = 0
+        this.convert = function (value) { return (value - this.childValue < 0) ? 0 : value - this.childValue}
+        this.set     = function (value) { this.childValue = value }
     }
 }
