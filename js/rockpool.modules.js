@@ -143,11 +143,72 @@ rockpool.module_handlers['motion'] = {
     'title': 'Motion',
     'address': 0x1d,
     'receive': function(data){
+
+
+        var i;
+        var _X = 0;
+        var _Y = 1;
+        var _Z = 2;
+
         //console.log(data);
         var x = (parseInt(data[0]) + 33767) / 65535;
         var y = (parseInt(data[1]) + 33767) / 65535;
         var z = (parseInt(data[2]) + 33767) / 65535;
-        return {'x': x, 'y': y, 'z': z};
+        var m_x = (parseInt(data[3]) + 33767) / 65535;
+        var m_y = (parseInt(data[4]) + 33767) / 65535;
+        var m_z = (parseInt(data[5]) + 33767) / 65535;
+
+        var accel = [0,0,0];
+        for(i = 0; i < 3; i++){
+            accel[i] = parseInt(data[i]) / Math.pow(2, 15) * 2;
+            accel[i] = Math.min(Math.abs(accel[i]), 1.0) * Math.sign(accel[i]);
+        }
+
+        var mag = [0,0,0];
+        for(i = 0; i < 3; i++){
+            mag[i] = parseInt(data[3+i]);
+        }
+
+
+        var pitch = Math.asin(-1*accel[_X]);
+        var roll = Math.abs(Math.cos(pitch)) >= Math.abs(accel[_Y]) ? Math.asin(accel[_Y]/Math.cos(pitch)) : 0;
+
+        var tiltcomp = [0,0,0];
+
+        tiltcomp[_X] = mag[_X] * Math.cos(pitch) + mag[_Z] * Math.sin(pitch);
+
+        tiltcomp[_Y] = mag[_X] * Math.sin(roll) * Math.sin(pitch) + 
+                       mag[_Y] * Math.cos(roll) - mag[_Z] * Math.sin(roll) * Math.cos(pitch);
+
+        tiltcomp[_Z] = mag[_X] * Math.cos(roll) * Math.sin(pitch) +
+                       mag[_Y] * Math.sin(roll) + 
+                       mag[_Z] * Math.cos(roll) * Math.cos(pitch);
+
+        var heading = Math.atan2(tiltcomp[_Y], tiltcomp[_X]);
+
+        if( heading < 0 ){
+            heading += 2*Math.PI;
+        }
+        if( heading > 2*Math.PI ){
+            self.heading -= 2*Math.PI;
+        }
+
+        heading = heading * (180/Math.PI);
+
+        var deviation = heading;
+
+        if( heading >= 180 ){
+            deviation = heading - 360;
+        }
+
+        deviation += 180.0;
+        deviation /= 360.0;
+
+        return {
+            'x': x, 'y': y, 'z': z,
+            'm_x': m_x, 'm_y': m_y, 'm_z': m_z,
+            'd': deviation
+        };
     },
     'inputs': {
         'axis': function(){
@@ -156,11 +217,15 @@ rockpool.module_handlers['motion'] = {
             this.module_type = 'blue'
             this.icon = "css/images/icons/icon-joystick.png"
             this.bgColor = rockpool.palette.blue
-            this.data = {x:0,y:0,z:0}
+            this.data = {x:0,y:0,z:0,m_x:0,m_y:0,m_z:0,d:0}
             this.options = [
-                {name: 'X', axis: 'x'},
-                {name: 'Y', axis: 'y'},
-                {name: 'Z', axis: 'z'}
+                {name: 'Accel X', axis: 'x'},
+                {name: 'Accel Y', axis: 'y'},
+                {name: 'Accel Z', axis: 'z'},
+                {name: 'Mag X', axis: 'm_x'},
+                {name: 'Mag Y', axis: 'm_y'},
+                {name: 'Mag Z', axis: 'm_z'},
+                {name: 'From N', axis: 'd'}
             ]
 
             this.get = function(options) {
