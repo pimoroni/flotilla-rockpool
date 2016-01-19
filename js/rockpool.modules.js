@@ -247,7 +247,7 @@ rockpool.module_handlers['colour'] = {
         var r = parseInt(data[0])/255.0;
         var g = parseInt(data[1])/255.0;
         var b = parseInt(data[2])/255.0;
-        var c = 0; //parseInt(data[3])/255.0;
+        var c = parseInt(data[3])/255.0;
         return {'r': r, 'g': g, 'b': b, 'brightness': c};
     },
     'inputs': {
@@ -287,9 +287,13 @@ rockpool.module_handlers['weather'] = {
             this.icon = "css/images/icons/icon-default.png"
             this.bgColor = rockpool.palette.blue
             this.data = {temperature:0}
+            this.raw = function(){
+                return (this.data.temperature / 100.00) + 'c';
+            }
             this.get = function(){
-                var highest = 40.00;
-                var lowest = 10.00;
+                console.log("Temp:", this.data.temperature);
+                var highest = 50.00;
+                var lowest = -50.00;
                 var temp = this.data.temperature / 100.00;
 
                 if(temp > temp) {temp = highest}
