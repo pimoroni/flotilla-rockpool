@@ -230,11 +230,15 @@ h2 {
 .decider .name {
 }
 
+.inspector small {
+    display:block;
+    font-size:12px;
+}
 .inspector {
     height: 22px;
-    width: 44px;
+    width: 100px;
     position: absolute;
-    left: -56px;
+    left: -105px;
     top: 0px;
     line-height:44px;
     z-index: -1;
