@@ -75,7 +75,7 @@ var FlotillaModule = function(settings, host_idx, channel_idx, module_code) {
 
                 }else{
 
-                    if( this.outputs[k].defaults[property] && this.outputs[k].data[property] == null ){
+                    if( this.outputs[k].defaults && this.outputs[k].defaults[property] && this.outputs[k].data[property] == null ){
                         this.output_data[property][k] = this.outputs[k].defaults[property];
                     }
                     else

@@ -198,7 +198,14 @@ rockpool.widget =  function( type, rule, key ) {
         this.history = this.history.slice(Math.max(this.history.length - 500, 0))
 
         if( this.isInput() ){
-            this.inspector.text(Math.round(value*1000).toString());
+            var raw = Math.round(value*1000).toString();
+            if( this.handler.raw ){
+                raw = this.handler.raw(this.options) + '<small>' + raw +  '</small>';
+            }
+            if( raw != this.last_inspector_value ){
+                this.inspector.html(raw);
+                this.last_inspector_value = raw;
+            }
         }
 
         return value
@@ -333,6 +340,7 @@ rockpool.widget =  function( type, rule, key ) {
     }
 
     this.option_index = -1;
+    this.last_inspector_value = 0;
 
     this.type        = type;
     this.subtype     = null;
