@@ -344,8 +344,6 @@ rockpool.module_handlers['light'] = {
     }
 }
 
-rockpool.matrix_brightness = 20
-
 rockpool.module_handlers['matrix'] = {
 	'title': 'Matrix',
     'average': false,
@@ -361,7 +359,7 @@ rockpool.module_handlers['matrix'] = {
                 data.image[5],
                 data.image[6],
                 data.image[7],
-                rockpool.matrix_brightness
+                data.brightness
             ]
         ];
     },
@@ -415,8 +413,8 @@ rockpool.module_handlers['matrix'] = {
             this.module_type = 'green'
             this.icon = "css/images/icons/icon-matrix.png"
             this.bgColor = rockpool.palette.green
-            this.data = {brightness:100}
-            this.set = function (value) { this.data.value = value*255 }
+            this.data = {brightness:30}
+            this.set = function (value) { this.data.brightness = Math.round(value*30) }
         }
     }
 }
