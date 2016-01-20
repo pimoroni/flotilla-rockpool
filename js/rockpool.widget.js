@@ -154,7 +154,7 @@ rockpool.widget =  function( type, rule, key ) {
     }
 
     this.setLabel = function( label ){
-        var channel = typeof(this.handler.channel) !== 'undefined' ? ' (' + rockpool.channelToNumber(this.handler.channel) + ')' : '';
+        var channel = typeof(this.handler.channel) !== 'undefined' ? ' <span>' + rockpool.channelToNumber(this.handler.channel) + '</span>' : '';
         this.dom.find('.name').html( rockpool.languify(label) + channel )
     }
 
@@ -373,7 +373,7 @@ rockpool.widget =  function( type, rule, key ) {
     var widget = this;
 
     this.dom
-    .on('click',function(e){
+    .on('click','i',function(e){
         e.preventDefault();
         rockpool.add(type,rule,widget.dom.index());
 
