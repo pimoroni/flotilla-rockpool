@@ -15,6 +15,7 @@ to or receievd from the host transport.
 '<handle>': {
     'title': '<Human-readable title>',
     'address': <i2c-address>,
+    'color': <physical-module-color>,
     'receive': function(data){ return { <new key value data> } },
     'send':    function(data){ return [ <array of messages to send> ] },
     'inputs'  ...
@@ -28,24 +29,19 @@ Flotilla Module inputs and outputs
 rockpool.module_handlers['touch'] = {
     'title': 'Touch',
     'address': 0x2c,
+    'color': 'red',
     'receive': function(data){
-        //console.log(data);
-        //var button = parseInt(data[0]);
-        //var state =  parseInt(data[1]) >= 1 ? 1.0 : 0.0;
         var result = {}
         for( var x = 0; x < 4; x++ ){
             result[x+1] = data[x] >= 1 ? 1.0 : 0.0;
         }
-        //console.log(result);
         return result;
     },
     'inputs': {
         'button': function(){
 
             this.name = "Channel"
-            this.module_type = 'blue'
-            this.icon = "css/images/icons/icon-button.png"
-            this.bgColor = rockpool.palette.blue
+            this.icon = "button"
             this.data = {1:0.0,2:0.0,3:0.0,4:0.0}
             this.options = [
                 {name: 'Touch One',   channel: 1},
@@ -69,6 +65,7 @@ rockpool.module_handlers['touch'] = {
 rockpool.module_handlers['rainbow'] = {
     'title': 'Rainbow',
     'address': 0x54,
+    'color': 'yellow',
     'send': function(data){
         var brightness = Math.round(255*data.brightness);
         var grb = [Math.floor(data.r*brightness),Math.floor(data.g*brightness),Math.floor(data.b*brightness)];
@@ -77,8 +74,6 @@ rockpool.module_handlers['rainbow'] = {
     'outputs': {
         'LED': function() {
             this.name = "LED"
-            this.module_type = 'green'
-            this.icon = "css/images/icons/icon-light.png"
             this.data = {r:{}, g:{}, b:{}, brightness:null}
             this.defaults = {brightness:1}
             this.bgColor = rockpool.palette.green;
@@ -142,8 +137,8 @@ rockpool.module_handlers['rainbow'] = {
 rockpool.module_handlers['motion'] = {
     'title': 'Motion',
     'address': 0x1d,
+    'color': 'red',
     'receive': function(data){
-
 
         var i;
         var _X = 0;
@@ -214,9 +209,7 @@ rockpool.module_handlers['motion'] = {
         'axis': function(){
 
             this.name = "Axis"
-            this.module_type = 'blue'
-            this.icon = "css/images/icons/icon-joystick.png"
-            this.bgColor = rockpool.palette.blue
+            this.icon = "joystick"
             this.data = {x:0,y:0,z:0,m_x:0,m_y:0,m_z:0,d:0}
             this.options = [
                 {name: 'Accel X', axis: 'x'},
@@ -243,6 +236,7 @@ rockpool.module_handlers['motion'] = {
 rockpool.module_handlers['colour'] = {
     'title': 'Colour',
     'address': 0x39,
+    'color': 'purple',
     'receive': function(data) {
         var r = parseInt(data[0])/255.0;
         var g = parseInt(data[1])/255.0;
@@ -253,15 +247,13 @@ rockpool.module_handlers['colour'] = {
     'inputs': {
         'colour': function() {
             this.name = "Colour"
-            this.module_type = 'blue'
-            this.icon = "css/images/icons/icon-colour.png"
             this.bgColor = rockpool.palette.blue
             this.data = {r:0,g:0,b:0,brightness:0}
             this.options = [
-                {name:'Colour Red', channel:'r'},
-                {name:'Colour Green', channel:'g'},
-                {name:'Colour Blue', channel:'b'},
-                {name:'Colour Brightness', channel:'brightness'}
+                {name:'Red', channel:'r'},
+                {name:'Green', channel:'g'},
+                {name:'Blue', channel:'b'},
+                {name:'Brightness', channel:'brightness'}
             ]
             this.get = function(options){
 
@@ -277,15 +269,13 @@ rockpool.module_handlers['colour'] = {
 rockpool.module_handlers['weather'] = {
     'title': 'Weather',
     'address': 0x00,
+    'color': 'blue',
     'receive': function(data){
         return {'temperature': parseInt(data[0]), 'pressure': parseInt(data[1])}
     },
     'inputs': {
         'temperature': function(){
-            this.name = "Weather Temperature"
-            this.module_type = 'blue'
-            this.icon = "css/images/icons/icon-default.png"
-            this.bgColor = rockpool.palette.blue
+            this.name = "Temperature"
             this.data = {temperature:0}
             this.raw = function(){
                 return (this.data.temperature / 100.00) + 'c';
@@ -304,10 +294,7 @@ rockpool.module_handlers['weather'] = {
             }
         },
         'pressure': function(){
-            this.name = "Weather Pressure"
-            this.module_type = 'blue'
-            this.icon = "css/images/icons/icon-default.png"
-            this.bgColor = rockpool.palette.blue
+            this.name = "Pressure"
             this.data = {pressure:0}
             this.get = function(){
                 var highest = 108.00;
@@ -327,17 +314,14 @@ rockpool.module_handlers['weather'] = {
 rockpool.module_handlers['light'] = {
 	'title': 'Light',
     'address': 0x29,
+    'color': 'green',
     'receive': function(data) {
         var vis = parseInt(data[0]);
-        //var ir = parseInt(data[1]);
         return {'vis': vis};
     },
     'inputs': {
         'visible': function() {
             this.name = "Light Visible"
-            this.module_type = 'blue'
-            this.icon = "css/images/icons/icon-light.png"
-            this.bgColor = rockpool.palette.blue
             this.data = {vis:0}
             this.get = function () { return (this.data.vis/3000) > 1 ? 1 : (this.data.vis/3000) }
         }
@@ -348,6 +332,7 @@ rockpool.module_handlers['matrix'] = {
 	'title': 'Matrix',
     'average': false,
     'address': 0x63,
+    'color': 'blue',
     'send': function(data){
         return [
             [
@@ -365,21 +350,25 @@ rockpool.module_handlers['matrix'] = {
     },
     'outputs': {
         'display': function() {
-            this.name = 'Matrix Display'
-            this.module_type = 'green'
-            this.icon = "css/images/icons/icon-matrix.png"
-            this.bgColor = rockpool.palette.green
-            this.data = {image:[0, 0, 0, 0, 0, 0, 0, 0]}
+            this.name = 'Matrix'
+
+            this.data = {
+                image:[0, 0, 0, 0, 0, 0, 0, 0],
+                brightness: 30
+            }
+
             this.history = [0,0,0,0,0,0,0,0];
             this.x = 4;
             this.y = 4;
+
+            this.max_brightness = 30;
 
             this.options = [
                 {name:'Line Graph',  fn: function(value,t){
                     t.history.push(1 << Math.round( value * 7 ));
                     t.history = t.history.slice(Math.max(t.history.length - 10, 0))
 
-                    return t.history;
+                    t.data.image = t.history;
                 }},
                 {name:'Plot X',  fn: function(value,t){
                     t.x = Math.round( value * 7 );
@@ -387,7 +376,7 @@ rockpool.module_handlers['matrix'] = {
 
                     p[t.x] = t.y;
 
-                    return p;
+                    t.data.image = p;
                 }},
                 {name:'Plot Y',  fn: function(value,t){
                     t.y = 1 << Math.round( value * 7 );
@@ -395,26 +384,19 @@ rockpool.module_handlers['matrix'] = {
 
                     p[t.x] = t.y;
 
-                    return p;
+                    t.data.image = p;
                 }},
-                {name:'Number', fn: function(value){ return matrix_font[Math.ceil(value * 9).toString().charCodeAt(0)]; } },
-                {name:'Letter', fn: function(value){ return matrix_font[ 97 + Math.ceil(value * 25) ]; } }
+                {name:'Number', fn: function(value,t){ t.data.image = matrix_font[Math.ceil(value * 9).toString().charCodeAt(0)]; } },
+                {name:'Letter', fn: function(value,t){ t.data.image = matrix_font[ 97 + Math.ceil(value * 25) ]; } },
+                {name:'Brightness', fn: function(value,t){ t.data.brightness = Math.round(value*t.max_brightness); }}
             ]
 
             this.set = function (value, id, options){
                 if(!options) return false;
 
-                this.data.image = options.fn(value,this);
+                options.fn(value,this);
             }
 
-        },
-        'brightness': function() {
-            this.name = "Matrix Brightness"
-            this.module_type = 'green'
-            this.icon = "css/images/icons/icon-matrix.png"
-            this.bgColor = rockpool.palette.green
-            this.data = {brightness:30}
-            this.set = function (value) { this.data.brightness = Math.round(value*30) }
         }
     }
 }
@@ -435,6 +417,7 @@ var number_digit_map = [
 rockpool.module_handlers['number'] = {
 	'title': 'Number',
     'address': 0x63,
+    'color': 'red',
     'send': function(data){
         // Input should look like "XXXX" or "X.XXX" or "XX.XX" or "XX:XX" or "XX:X'"
         console.log(data);
@@ -450,28 +433,6 @@ rockpool.module_handlers['number'] = {
 
         }
 
-        /*function get_digit_segment(segment){
-            var d1 = (digits[0] & segment) > 0;
-            var d2 = (digits[1] & segment) > 0;
-            var d3 = (digits[2] & segment) > 0;
-            var d4 = (digits[3] & segment) > 0;
-
-            return d1 | d2 << 1 | d3 << 2 | d4 << 3;
-        }
-
-        var display = [0,0,0,0,0,0,0,0,0,0,0];
-
-        display[0] = get_digit_segment(128); // Top
-        display[1] = get_digit_segment(64);  // Top Right
-        display[2] = get_digit_segment(32);  // Bottom Right
-        display[3] = get_digit_segment(16);  // Bottom
-        display[4] = get_digit_segment(8);   // Bottom Left
-        display[5] = get_digit_segment(4);   // Top Left
-        display[6] = get_digit_segment(2);   // Middle
-        display[7] = get_digit_segment(1);   // Dot
-        */
-
-
         display[4] = data.colon; // Colon
         display[5] = data.apostrophe; // Apostrophe
 
@@ -482,9 +443,6 @@ rockpool.module_handlers['number'] = {
 	'outputs': {
 		'number': function() {
 			this.name = "Number"
-            this.module_type = 'green'
-            this.icon = "css/images/icons/icon-7seg.png"
-            this.bgColor = rockpool.palette.green
 			this.data = {number:"0000", brightness:50, colon: 0, apostrophe: 0}
 			this.pad = function (str, max) {
 				return str.length < max ? this.pad("0" + str, max) : str;
@@ -497,27 +455,8 @@ rockpool.module_handlers['number'] = {
 rockpool.module_handlers['dial'] = {
 	'title': 'Dial',
     'address': 0x15,
-    'receive': function(data) {
-        var val = parseInt(data[0]);
-        if( val >= 1021 ){ val = 1024; }
-
-        return { 'value': Math.min(val/1024.0,1.0) };
-    },
-	'inputs': {
-		'position': function () {
-			this.name = "Dial Position"
-        this.module_type = 'red'
-        this.icon = "css/images/icons/icon-dial.png"
-        this.bgColor = rockpool.palette.red
-			this.data = {value:0}
-			this.get = function () { return this.data.value }
-		}
-	}
-}
-
-rockpool.module_handlers['slider'] = {
-	'title': 'Slider',
-    'address': 0x16,
+    'color': 'yellow',
+    'icon': 'dial',
     'receive': function(data) {
         var val = parseInt(data[0]);
         if( val >= 1021 ){ val = 1024; }
@@ -526,12 +465,35 @@ rockpool.module_handlers['slider'] = {
     },
 	'inputs': {
 		'position': function () {
-			this.name = "Slider Position"
-        this.module_type = 'red'
-        this.icon = "css/images/icons/icon-slider.png"
-        this.bgColor = rockpool.palette.red
+			this.name = "Dial"
 			this.data = {position:0}
-			this.get = function () { return this.data.position }
+            this.options = [
+                {name: "Position"}
+            ]
+			this.get = function (options) { return this.data.position }
+		}
+	}
+}
+
+rockpool.module_handlers['slider'] = {
+	'title': 'Slider',
+    'address': 0x16,
+    'color': 'yellow',
+    'icon': 'slider',
+    'receive': function(data) {
+        var val = parseInt(data[0]);
+        if( val >= 1021 ){ val = 1024; }
+
+        return { 'position': Math.min(val/1024.0,1.0) };
+    },
+	'inputs': {
+		'position': function () {
+			this.name = "Slider"
+			this.data = {position:0}
+            this.options = [
+                {name: "Position"}
+            ]
+			this.get = function (options) { return this.data.position }
 		}
 	}
 }
@@ -539,6 +501,7 @@ rockpool.module_handlers['slider'] = {
 rockpool.module_handlers['motor'] = {
 	'title': 'Motor',
     'address': 0x64,
+    'color': 'purple',
     'send': function(data){
         return [
             [Math.round(data.speed).toString()]
@@ -546,16 +509,13 @@ rockpool.module_handlers['motor'] = {
     },
 	'outputs': {
         'speed': function () {
-            this.name = "Motor Speed"
-            this.module_type = 'orange'
-            this.icon = "css/images/icons/icon-motor.png"
-            this.bgColor = rockpool.palette.orange
+            this.name = "Speed"
             this.data = {speed:{}}
 
             this.options = [
-                {name: "Motor Speed",     fn: function(value){return (value*126)-63;}},
-                {name: "Motor Forwards",  fn: function(value){return value == 0 ? null : (value*63);}},
-                {name: "Motor Backwards", fn: function(value){return value == 0 ? null : -(value*63);}}
+                {name: "Speed",     fn: function(value){return (value*126)-63;}},
+                {name: "Forwards",  fn: function(value){return value == 0 ? null : (value*63);}},
+                {name: "Backwards", fn: function(value){return value == 0 ? null : -(value*63);}}
             ]
 
             this.set = function( value, id, options ){
@@ -570,8 +530,9 @@ rockpool.module_handlers['motor'] = {
 	}
 
 rockpool.module_handlers['joystick'] = {
-		'title': 'Joystick',
+	'title': 'Joystick',
     'address': 0x12,
+    'color': 'green',
     'receive': function(data) {
         var x = parseInt(data[1]);
         var y = parseInt(data[2]);
@@ -581,17 +542,12 @@ rockpool.module_handlers['joystick'] = {
 		'inputs': {
 			'button': function () {
 	        this.name = "Button"
-            this.module_type = 'red'
-            this.icon = "css/images/icons/icon-button.png"
-            this.bgColor = rockpool.palette.red
+            this.icon = "button"
             this.data = {button:0}
 	        this.get = function () { return this.data.button ? 1 : 0 }
     	},
         'direction': function(){
             this.name = "Direction"
-            this.module_type = 'red'
-            this.icon = "css/images/icons/icon-joystick.png"
-            this.bgColor = rockpool.palette.red
             this.data = {x:0.5,y:0.5}
 
             this.options = [
@@ -750,7 +706,7 @@ var buttonfactory = function(button_index,button_title){
     return function() {
                 this.name = button_title ? button_title : "Key " + button_index
                 this.data = {'button':[]}
-                this.icon = "css/images/icons/icon-button.png"
+                this.icon = "button"
                 this.bgColor = rockpool.palette.red
                 this.get = function () {  return this.data.button[button_index] ? 1 : 0 }
             }

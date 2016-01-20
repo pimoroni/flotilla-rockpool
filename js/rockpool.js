@@ -27,7 +27,10 @@ rockpool.category = {
     keyboard: 'Keyboard',
     variables: 'Variables',
     empty: 'Empty',
-    general: 'General'
+    general: 'General',
+    maths: 'Maths',
+    modify: 'Modify',
+    compare: 'Compare'
 };
 
 rockpool.guid = 0;
@@ -240,19 +243,6 @@ rockpool.initialize = function(){
     $('.add-converter').on('click',function(){
         rockpool.add('converter')
     }).find('h2');
-
-    $('body').on('click',function(){
-        rockpool.closeModal();
-    })
-
-    /*$('.help').on('click',function(){
-        rockpool.prompt($('.help-content').clone().show().on('click',function(){
-
-            $.fancybox.close()
-            $(this).remove()
-
-        }))
-    });*/
 
 
     $('.toolbar').on('click','li',function(e){

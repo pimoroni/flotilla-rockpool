@@ -7,6 +7,8 @@ rockpool.connection_timeout = 500; // seems stable at (250 * number of ranges to
 
 rockpool.valid_hosts = [];
 rockpool.attempt_list = [];
+rockpool.minimum_dock_version = 1.1;
+rockpool.current_dock_version = 1.1;
 
 rockpool.host_picker = $('<div>').addClass('host-picker palette')
     .appendTo('.palettes')
@@ -33,9 +35,11 @@ rockpool.host_picker = $('<div>').addClass('host-picker palette')
 rockpool.addHost = function(host, details){
     console.log('Adding valid host', host, details);
 
-    if( rockpool.valid_hosts.indexOf(host) == -1 ){
-        rockpool.valid_hosts.push(host);
-        $('<div><p>' + details.dock_name + '</p><small>' + host + '</small></div>').data('host',host).addClass('host').appendTo(rockpool.host_picker);
+    if(details.dock_version < rockpool.minimum_dock_version) return; // Add an alert about dock needing an update here
+
+    if( rockpool.valid_hosts.indexOf(details.dock_serial) == -1 ){
+        rockpool.valid_hosts.push(details.dock_serial);
+        $('<div><p>' + details.dock_name + '</p><small>' + host + '</small><small>' + details.dock_version + '</small></div>').data('host',host).addClass('host').appendTo(rockpool.host_picker);
     }
 }
 

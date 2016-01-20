@@ -17,7 +17,7 @@ new function() {
         this.options = parent.options
         this.name = 'Variables'
         this.bgColor = rockpool.palette.blue
-        this.icon = 'css/images/icons/icon-variable.png'
+        this.icon = 'variable'
         this.type = 'variable'
         this.category = rockpool.category.variables
         this.get = function (options) { return parent.variables[options.index] }
@@ -26,7 +26,7 @@ new function() {
         this.options = parent.options
         this.name = 'Variables'
         this.bgColor = rockpool.palette.blue
-        this.icon = 'css/images/icons/icon-variable.png'
+        this.icon = 'variable'
         this.type = 'variable'
         this.category = rockpool.category.variables
         this.set = function (value,idx,options) { parent.variables[options.index] = value }
@@ -35,7 +35,7 @@ new function() {
         this.options = parent.options
         this.name = 'Variables'
         this.bgColor = rockpool.palette.blue
-        this.icon = 'css/images/icons/icon-variable.png'
+        this.icon = 'variable'
         this.type = 'variable'
         this.category = rockpool.category.variables
         this.convert = function (value) { parent.variables[index] = value; return value }
