@@ -54,10 +54,11 @@ rockpool.widget =  function( type, rule, key ) {
         if(this.dom_update_needed || force == true){
             this.dom_update_needed = false;
 
-            this.setLabel(   this.getOption('name') )
-            this.setSubType( this.getOption('type') )
-            this.setIcon(    this.getOption('icon') )
-            var color = this.handler.color;
+            this.setLabel(   this.getOption('name') );
+            this.setSubType( this.getOption('type') );
+            this.setIcon(    this.getOption('icon') );
+
+            var color = this.getOption('color');
 
             if(this.isComparator()){
                 rule.updateDom();
@@ -125,7 +126,7 @@ rockpool.widget =  function( type, rule, key ) {
 
             this.dom.addClass('color-' + color);
             this.dom.addClass(type + ' ' + (this.subtype?this.subtype:''));
-            this.dom.addClass(this.getOption('name').toLowerCase().replace(' ','-'));
+            this.dom.addClass('name-' + this.getOption('name').toLowerCase().replace(' ','-'));
 
             if ( this.handler.name == "Empty" ){
                 this.dom.addClass('empty');

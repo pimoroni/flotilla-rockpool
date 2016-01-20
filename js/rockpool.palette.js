@@ -123,8 +123,10 @@ rockpool.generatePalette = function(type){
                 for(var idx in handler.options){
                     var opt = handler.options[idx]
 
+                    var opt_color = opt.color ? 'color-' + opt.color : color;
+
                     var dom_option = $('<li><i><img src=""><span class="name">' + rockpool.languify(opt.name) + '</span></i></li>')
-                                    .addClass(color)
+                                    .addClass(opt_color)
                                     .data({
                                         'seq': idx,
                                         'key': k
