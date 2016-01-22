@@ -72,7 +72,7 @@ rockpool.generatePalette = function(type){
 
             var category = handler.category ? handler.category : 'General';
 
-            var dom_parent = categories[category] ? categories[category] : categories[category] = $('<ul><li><h2>' + rockpool.languify(category) + '</h2></li></ul>').appendTo(dom_section);
+            var dom_parent = categories[category] ? categories[category] : categories[category] = $('<div class="pure-g"><div class="pure-u-1-5"><h2>' + rockpool.languify(category) + '</h2></div><div class="pure-u-4-5"><ul></ul></div></div>').appendTo(dom_section);
 
 
             var icon = handler.icon ? 'css/images/icons/icon-' + handler.icon + '.png' : 'css/images/icons/icon-default.png';
@@ -83,7 +83,7 @@ rockpool.generatePalette = function(type){
                                     .data({
                                         'key': k
                                     })
-                                    .appendTo(dom_parent)
+                                    .appendTo(dom_parent.find('ul'))
                                     .find('img').attr('src',icon);
 
         }
@@ -95,8 +95,12 @@ rockpool.generatePalette = function(type){
             Inputs and outputs are grouped by parent module or type ( variable, value, generator etc )
         */
         var types = {};
-        types["real"] = $("<div><header><h1>" + rockpool.languify("Choose an " + type) + "</h1></header>").appendTo(dom_list);
-        types["virtual"] = $("<div><header><h1>" + rockpool.languify("Choose a virtual " + type) + "</h1></header>").appendTo(dom_list);
+        types["real"] = $("<div><header><h1>" + rockpool.languify("Choose an " + type) + "</h1></header>");
+        types["virtual"] = $("<div><header><h1>" + rockpool.languify("Choose a virtual " + type) + "</h1></header>");
+
+        var counts = {"real":0, "virtual":0};
+
+        var categories = {};
 
         for(var k in collection){
             var handler = (typeof(collection[k]) === 'function') ? new collection[k] : collection[k]
@@ -113,8 +117,27 @@ rockpool.generatePalette = function(type){
 
             var color = handler.color ? 'color-' + handler.color : 'color-grey';
 
-            var dom_parent = $('<ul><li class="' + color + '" data-key="' + k + '"><i><img src=""><span class="name">' + rockpool.languify(handler.name) + '</span></i></li></ul>').appendTo(types[type]);
-            dom_parent.find('img').attr('src','css/images/icons/icon-' + icon + '.png');
+            var category = handler.category ? handler.category : handler.name;
+
+            var dom_parent =  null;
+            if( type == "real" ){
+                dom_parent = types[type].find('.category-' + category.toLowerCase());
+            }
+
+            if(!dom_parent || dom_parent.length == 0){
+                dom_parent = $('<div class="pure-g category-' + category.toLowerCase() + '"><div class="pure-u-1-5"><ul><li class="' + color + '"><i><img src=""><span class="name">' + rockpool.languify(category) + '</span></i></li></ul></div><div class="pure-u-4-5"><ul></ul></div></div>')
+                    .appendTo(types[type]);
+
+                dom_parent.find('img')
+                    .attr('src','css/images/icons/icon-' + icon + '.png');
+            }
+
+            counts[type]++;
+
+            var channel_text = '';
+            if( type == "real" ){
+               channel_text = ' <span>' + rockpool.channelToNumber(channel) + '</span>';
+            }
 
             if(handler.options){
 
@@ -125,24 +148,49 @@ rockpool.generatePalette = function(type){
 
                     var opt_color = opt.color ? 'color-' + opt.color : color;
 
-                    var dom_option = $('<li><i><img src=""><span class="name">' + rockpool.languify(opt.name) + '</span></i></li>')
+                    var dom_option = $('<li><i><img src=""><div class="name">' + rockpool.languify(opt.name) + channel_text + '</div></i></li>')
+                                    .addClass('option')
                                     .addClass(opt_color)
                                     .data({
                                         'seq': idx,
                                         'key': k
                                     })
-                                    .appendTo(dom_parent);
+                                    .appendTo(dom_parent.find('ul:eq(1)'));
 
                     var icon = opt.icon ? opt.icon : (handler.icon ? handler.icon : 'default');
 
-                    if(opt.type){d.addClass(item.type)}
+                    if(opt.type){dom_option.addClass(item.type)}
                     if(icon){dom_option.find('img').attr('src','css/images/icons/icon-' + icon + '.png')}
                 }
 
             }
+            else
+            {
+                    var dom_option = $('<li><i><img src=""><div class="name">' + rockpool.languify(handler.name) + channel_text + '</span></div></i></li>')
+                                    .addClass('option')
+                                    .addClass(color)
+                                    .data({
+                                        'key': k
+                                    })
+                                    .appendTo(dom_parent.find('ul:eq(1)'));
+
+                    var icon = handler.icon ? handler.icon : 'default';
+
+                    if(icon){dom_option.find('img').attr('src','css/images/icons/icon-' + icon + '.png')}
+            }
 
 
         } 
+
+        if( counts['real'] > 0 ) {
+            types['real'].appendTo(dom_list);
+        }
+        else
+        {
+            $('<div><header><h1>' + rockpool.languify("Plug something in!") + '</h1></header><p class="help">Plug in a module to start creating with Rockpool!</p>').appendTo(dom_list);
+        }
+
+        if( counts['virtual'] > 0 ) types['virtual'].appendTo(dom_list);
     }
 
 
@@ -195,7 +243,7 @@ rockpool.add = function(type, rule, index){
 
             switch(type){
                 case 'input':
-                        dom_list.on('click','li',function(){
+                        dom_list.on('click','li.option',function(){
 
                             var k = $(this).data('key');
                             var o = parseInt($(this).data('seq'));
@@ -207,7 +255,7 @@ rockpool.add = function(type, rule, index){
                         })
                     break;
                 case 'output':
-                        dom_list.on('click','li',function(){
+                        dom_list.on('click','li.option',function(){
 
                             var k = $(this).data('key');
                             var o = parseInt($(this).data('seq'));

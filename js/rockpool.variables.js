@@ -1,6 +1,6 @@
 new function() {
-    this.variables = [0,0,0,0,0,0,0]
-    this.names = ['Red','Orange','Yellow','Green','Blue','Indigo','Violet']
+    this.variables = [0,0,0,0,0,0]
+    this.names = ['Red','Orange','Yellow','Green','Blue','Violet'] //,'Indigo'
     //this.colours = ['e55424','f4856f','f7d44a','00b188','4ec0df','788eb6','9178b6']
     this.options = []
 

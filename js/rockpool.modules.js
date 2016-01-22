@@ -40,14 +40,14 @@ rockpool.module_handlers['touch'] = {
     'inputs': {
         'button': function(){
 
-            this.name = "Channel"
+            this.name = "Touch"
             this.icon = "button"
             this.data = {1:0.0,2:0.0,3:0.0,4:0.0}
             this.options = [
-                {name: 'Touch One',   channel: 1},
-                {name: 'Touch Two',   channel: 2},
-                {name: 'Touch Three', channel: 3},
-                {name: 'Touch Four',  channel: 4}
+                {name: 'One',   channel: 1},
+                {name: 'Two',   channel: 2},
+                {name: 'Three', channel: 3},
+                {name: 'Four',  channel: 4}
             ]
 
             this.get = function(options) {
@@ -277,13 +277,17 @@ rockpool.module_handlers['weather'] = {
         'temperature': function(){
             this.name = "Temperature"
             this.data = {temperature:0}
+            this.options = [
+                {name: "+- 50c",  highest: 50,  lowest: -50},
+                {name: "+- 100c", highest: 100, lowest: -100}
+            ]
             this.raw = function(){
                 return (this.data.temperature / 100.00) + 'c';
             }
-            this.get = function(){
-                console.log("Temp:", this.data.temperature);
-                var highest = 50.00;
-                var lowest = -50.00;
+            this.get = function(options){
+
+                var highest = options ? options.highest : 50.00;
+                var lowest = options ? options.lowest : -50.00;
                 var temp = this.data.temperature / 100.00;
 
                 if(temp > temp) {temp = highest}
@@ -532,6 +536,7 @@ rockpool.module_handlers['motor'] = {
 rockpool.module_handlers['joystick'] = {
 	'title': 'Joystick',
     'address': 0x12,
+    'icon': "joystick",
     'color': 'green',
     'receive': function(data) {
         var x = parseInt(data[1]);
@@ -539,18 +544,13 @@ rockpool.module_handlers['joystick'] = {
         var b = parseInt(data[0]);
         return {'x': x, 'y': y, 'button': b};
     },
-		'inputs': {
-			'button': function () {
-	        this.name = "Button"
-            this.icon = "button"
-            this.data = {button:0}
-	        this.get = function () { return this.data.button ? 1 : 0 }
-    	},
+	'inputs': {
         'direction': function(){
-            this.name = "Direction"
-            this.data = {x:0.5,y:0.5}
+            this.name = "Joystick"
+            this.data = {x:0.5,y:0.5,button:0}
 
             this.options = [
+                {name:'Button', fn: function(data){     return (data.button) }},
                 {name:'X', fn: function(data){     return (data.x)/1023 }},
                 {name:'Y', fn: function(data){     return (data.y)/1023 }},
                 {name:'Up', fn: function(data){    return (data.y) < 512 ? 0 : (data.y-512)/512 }},
