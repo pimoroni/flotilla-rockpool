@@ -130,6 +130,8 @@ rockpool.generatePalette = function(type){
 
                 dom_parent.find('img')
                     .attr('src','css/images/icons/icon-' + icon + '.png');
+
+                dom_parent.find('i').addClass('icon-' + icon);
             }
 
             counts[type]++;
@@ -140,8 +142,6 @@ rockpool.generatePalette = function(type){
             }
 
             if(handler.options){
-
-                dom_parent.find('li').data('seq',0);
 
                 for(var idx in handler.options){
                     var opt = handler.options[idx]
@@ -160,6 +160,7 @@ rockpool.generatePalette = function(type){
                     var icon = opt.icon ? opt.icon : (handler.icon ? handler.icon : 'default');
 
                     if(opt.type){dom_option.addClass(item.type)}
+                    if(icon){dom_option.find('i').addClass('icon-' + icon);}
                     if(icon){dom_option.find('img').attr('src','css/images/icons/icon-' + icon + '.png')}
                 }
 
@@ -177,6 +178,7 @@ rockpool.generatePalette = function(type){
                     var icon = handler.icon ? handler.icon : 'default';
 
                     if(icon){dom_option.find('img').attr('src','css/images/icons/icon-' + icon + '.png')}
+                    if(icon){dom_option.find('i').addClass('icon-' + icon);}
             }
 
 
@@ -259,6 +261,8 @@ rockpool.add = function(type, rule, index){
 
                             var k = $(this).data('key');
                             var o = parseInt($(this).data('seq'));
+
+                            console.log('Setting output', k, o);
 
                             rule = rule instanceof rockpool.rule ? rule : new rockpool.rule()
                             rule.start();

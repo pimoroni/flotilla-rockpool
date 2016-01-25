@@ -10,12 +10,13 @@ body {
 }
 
 @font-face {
-    font-family: 'flotilla';
-    src:url('fonts/flotilla.eot?-moe4l1');
-    src:url('fonts/flotilla.eot?#iefix-moe4l1') format('embedded-opentype'),
-        url('fonts/flotilla.woff?-moe4l1') format('woff'),
-        url('fonts/flotilla.ttf?-moe4l1') format('truetype'),
-        url('fonts/flotilla.svg?-moe4l1#icomoon') format('svg');
+    font-family: 'flotilla-regular';
+    src:url('fonts/flotilla-regular.eot?-moe4l1');
+    src:url('fonts/flotilla-regular.eot?#iefix-moe4l1') format('embedded-opentype'),
+        url('fonts/flotilla-regular.woff?-moe4l1') format('woff'),
+        url('fonts/flotilla-regular.ttf?-moe4l1') format('truetype'),
+        url('fonts/flotilla-regular.svg?-moe4l1#boo') format('svg'),
+        url('fonts/flotilla-regular.ico') format('otf');
 
     font-weight: normal;
     font-style: normal;
@@ -82,6 +83,7 @@ h2 {
     font-size: 30px;
     background:#FFF;
     color:#000;
+    margin-left:10px;
 }
 
 .host-picker .host p {
@@ -94,6 +96,11 @@ h2 {
     display:block;
 }
 
+.host-picker .choices {
+    padding:10px;
+    overflow: hidden;
+}
+
 .host-picker .custom {
     float:left;
     display:block;
@@ -101,15 +108,19 @@ h2 {
     height:200px;
     font-size: 20px;
     border-radius:10px;
-    background:#00546d;
+    background:rgba(0,0,0,0.5);
     color:#FFF;
 }
-}
 
-.host-picker .custom p {
-    padding:0 10px;
+.host-picker .custom h3 {
     margin:0;
-    margin-top:50px;
+    padding:10px;
+    padding-bottom:0;
+}
+.host-picker .custom p {
+    margin:0;
+    padding:10px;
+    font-size:16px;
 }
 .host-picker .custom a {
     margin:0 10px;
@@ -237,6 +248,80 @@ i img {max-width:100%;width:100%;height:auto;margin:0 auto;}
     z-index:1;
 }
 
+.block i:after, .palette i:after {
+    width:72px;
+    height:72px;
+    line-height:61px;
+    font-size:102px;
+    text-align:center;
+    position:absolute;
+    left:0;
+    top:0;
+    font-family:flotilla-regular;
+    font-style:normal;
+}
+
+.icon-number img,
+.icon-joystick img,
+.icon-dial img,
+.icon-motor img,
+.icon-matrix img,
+.icon-rainbow img,
+.icon-light img,
+.icon-touch img,
+.icon-motion img,
+.icon-weather img,
+.icon-slider img,
+.icon-color img {display:none;}
+
+i.icon-weather:after {
+    content: 'B';
+}
+
+i.icon-number:after {
+    content: 'N';
+}
+
+i.icon-joystick:after {
+    content:'J';
+}
+
+i.icon-dial:after {
+    content:'D';
+}
+
+i.icon-slider:after {
+    content:'S';
+}
+
+i.icon-color:after {
+    content:'C';
+}
+
+i.icon-motion:after {
+    content:'m';
+}
+
+i.icon-touch:after {
+    content:'T';
+}
+
+i.icon-light:after {
+    content:'L';
+}
+
+i.icon-motor:after {
+    content:'M';
+}
+
+i.icon-matrix:after {
+    content: 'n';
+}
+
+i.icon-rainbow:after {
+    content: 'R';
+}
+
 .block i {
     margin-left:-36px;
     left: 50%;
@@ -267,7 +352,20 @@ i .name span {
     display:inline-block;
 }
 
-.inspector small {display:none;}
+.inspector small {
+    display:none;
+    font-size:14px;
+    margin-left:5px;
+    margin-right:-10px;
+    padding-right:10px;
+    background:#F0F0F0;
+    border-left:1px solid #CCC;
+    padding-left:5px;
+    border-radius:8px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.inspector.detail small {display:inline;}
 .inspector {
     display:none;
     position: absolute;
@@ -278,8 +376,8 @@ i .name span {
     font-size: 14px;
     text-align: right;
 
-    top: 72px;
-    left: 72px;
+    top: 50px;
+    left: 60px;
     text-align: left;
     background: #FFF;
     color: #000;
@@ -295,7 +393,7 @@ i .name span {
 .output .inspector {
     display:inline-block;
     left: auto;
-    right:72px;
+    right:60px;
 }
 
 .palette {
@@ -327,8 +425,31 @@ i .name span {
     position:absolute;
     right:0;
     top:0;
-    background:#FFF;
+    background:#787980;
+    width:60px;
+    height:60px;
+    border-radius: 30px;
 }
+.palette .close:before,
+.palette .close:after {
+    width:40px;
+    height:10px;
+    background:#FFFFFF;
+    content:'';
+    display:block;
+    position:absolute;
+    top:25px;
+    left:10px;
+    transform-origin:20px 5px;
+    -webkit-transform-origin:20px 5px;
+    transform:rotate(46deg);
+    -webkit-transform:rotate(45deg);
+}
+.palette .close:before {
+    transform:rotate(46deg);
+    -webkit-transform:rotate(-45deg);
+}
+
 .palette ul {
     text-align:left;
     padding:0;
@@ -445,7 +566,7 @@ footer {
     background-color:#ED1558;
 }
 
-.color-violet i {
+.color-purple i {
     background-color:#9879D3;
 }
 

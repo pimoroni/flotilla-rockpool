@@ -164,6 +164,7 @@ rockpool.widget =  function( type, rule, key ) {
 
     this.setIcon = function( icon ){
         this.img.attr('src', icon ? 'css/images/icons/icon-' + icon + '.png' : 'css/images/icon-empty.png');
+        this.dom.find('i').addClass('icon-' + icon);
         this.dom.find('.icon').append(((this.type != 'converter' && !isNaN(this.handler.channel)) ? ' <span class="channel">' + rockpool.channelToNumber(this.handler.channel) + '</span>' : ''))
     }
 
@@ -372,7 +373,14 @@ rockpool.widget =  function( type, rule, key ) {
 
     var widget = this;
 
+
     this.dom
+    .on('click', '.inspector', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        $(this).toggleClass('detail');
+    })
     .on('click','i',function(e){
         e.preventDefault();
         rockpool.add(type,rule,widget.dom.index());

@@ -195,7 +195,7 @@ rockpool.sync = function() {
 
 rockpool.respond = function () {
     rockpool.forRules(function(r){r.respond()})
-    rockpool.positionModal();
+    //rockpool.positionModal();
 }
 
 rockpool.registerInput = function( host, channel, code, name, handler ) {
