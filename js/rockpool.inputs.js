@@ -95,31 +95,42 @@ rockpool.inputs = {
 }
 
 if(window.DeviceMotionEvent) {
-    rockpool.tilt = {x:0,y:0,z:0};
+    rockpool.tilt = {x:0.5,y:0.5,z:0.5};
 
-    rockpool.inputs.tilt = function() {
-        this.name = "Tilt"
-        this.icon = "sine"
-        this.bgColor = rockpool.palette.blue
-        this.category = rockpool.category.generators
+    window.addEventListener('devicemotion', function(event) {
 
-        this.options = [
-            {category: 'Tilt', name: 'X', icon: "sine"},
-            {category: 'Tilt', name: 'Y', icon: "sine"},
-            {category: 'Tilt', name: 'Z', icon: "sine"},
-        ]
+        if(!rockpool.inputs.tilt && x + y + z != 0){
+            rockpool.inputs.tilt = function() {
+                this.name = "Tilt"
+                this.icon = "sine"
+                this.bgColor = rockpool.palette.blue
+                this.category = rockpool.category.generators
 
-        this.get = function(options){
-            switch(options.name){
-                case 'X':
-                    return rockpool.tilt.x;
-                case 'Y':
-                    return rockpool.tilt.y;
-                case 'Z':
-                    return rockpool.tilt.z;
+                this.options = [
+                    {category: 'Tilt', name: 'X', icon: "sine"},
+                    {category: 'Tilt', name: 'Y', icon: "sine"},
+                    {category: 'Tilt', name: 'Z', icon: "sine"},
+                ]
+
+                this.get = function(options){
+                    switch(options.name){
+                        case 'X':
+                            return rockpool.tilt.x;
+                        case 'Y':
+                            return rockpool.tilt.y;
+                        case 'Z':
+                            return rockpool.tilt.z;
+                    }
+                }
             }
         }
-    }
+
+      rockpool.tilt = {
+        x: (min(-1.0,max(1.0,event.accelerationIncludingGravity.x / 9.5)) + 1.0) / 2,
+        y: (min(-1.0,max(1.0,event.accelerationIncludingGravity.y / 9.5)) + 1.0) / 2,
+        z: (min(-1.0,max(1.0,event.accelerationIncludingGravity.z / 9.5)) + 1.0) / 2
+      }
+    });
 }
 
 rockpool.enable_keyboard = function(){
