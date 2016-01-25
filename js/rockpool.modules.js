@@ -30,6 +30,7 @@ rockpool.module_handlers['touch'] = {
     'title': 'Touch',
     'address': 0x2c,
     'color': 'red',
+    'icon': 'touch',
     'receive': function(data){
         var result = {}
         for( var x = 0; x < 4; x++ ){
@@ -41,7 +42,7 @@ rockpool.module_handlers['touch'] = {
         'button': function(){
 
             this.name = "Touch"
-            this.icon = "button"
+            this.icon = "touch"
             this.data = {1:0.0,2:0.0,3:0.0,4:0.0}
             this.options = [
                 {name: 'One',   channel: 1},
@@ -66,6 +67,7 @@ rockpool.module_handlers['rainbow'] = {
     'title': 'Rainbow',
     'address': 0x54,
     'color': 'yellow',
+    'icon': 'rainbow',
     'send': function(data){
         var brightness = Math.round(255*data.brightness);
         var grb = [Math.floor(data.r*brightness),Math.floor(data.g*brightness),Math.floor(data.b*brightness)];
@@ -79,11 +81,11 @@ rockpool.module_handlers['rainbow'] = {
             this.bgColor = rockpool.palette.green;
 
             this.options = [
-                {name: "Rainbow Red",       channel: 'r'},
-                {name: "Rainbow Green",     channel: 'g'},
-                {name: "Rainbow Blue",      channel: 'b'},
-                {name: "Brightness",        channel: 'brightness'},
-                {name: "Rainbow Hue",       channel: 'hue'}
+                {name: "Red",       channel: 'r', color: 'red'},
+                {name: "Green",     channel: 'g', color: 'green'},
+                {name: "Blue",      channel: 'b', color: 'blue'},
+                {name: "Brightness",channel: 'brightness'},
+                {name: "Hue",       channel: 'hue', color: 'purple'}
             ]
 
             this.set = function(value, id, options){
@@ -138,6 +140,7 @@ rockpool.module_handlers['motion'] = {
     'title': 'Motion',
     'address': 0x1d,
     'color': 'red',
+    'icon': 'motion',
     'receive': function(data){
 
         var i;
@@ -209,7 +212,7 @@ rockpool.module_handlers['motion'] = {
         'axis': function(){
 
             this.name = "Axis"
-            this.icon = "joystick"
+            this.icon = "motion"
             this.data = {x:0,y:0,z:0,m_x:0,m_y:0,m_z:0,d:0}
             this.options = [
                 {name: 'Accel X', axis: 'x'},
@@ -237,12 +240,15 @@ rockpool.module_handlers['colour'] = {
     'title': 'Colour',
     'address': 0x39,
     'color': 'purple',
+    'icon': 'color',
     'receive': function(data) {
-        var r = parseInt(data[0])/255.0;
-        var g = parseInt(data[1])/255.0;
-        var b = parseInt(data[2])/255.0;
-        var c = parseInt(data[3])/255.0;
-        return {'r': r, 'g': g, 'b': b, 'brightness': c};
+        var c = parseFloat(data[3]);
+
+        var r = parseInt(data[0])/c;
+        var g = parseInt(data[1])/c;
+        var b = parseInt(data[2])/c;
+
+        return {'r': r, 'g': g, 'b': b, 'brightness': c/Math.pow(2,16)};
     },
     'inputs': {
         'colour': function() {
@@ -250,10 +256,10 @@ rockpool.module_handlers['colour'] = {
             this.bgColor = rockpool.palette.blue
             this.data = {r:0,g:0,b:0,brightness:0}
             this.options = [
-                {name:'Red', channel:'r'},
-                {name:'Green', channel:'g'},
-                {name:'Blue', channel:'b'},
-                {name:'Brightness', channel:'brightness'}
+                {name:'Red', channel:'r', color: 'red'},
+                {name:'Green', channel:'g', color: 'green'},
+                {name:'Blue', channel:'b', color: 'blue'},
+                {name:'Brightness', channel:'brightness', color: 'yellow'}
             ]
             this.get = function(options){
 
@@ -270,6 +276,7 @@ rockpool.module_handlers['weather'] = {
     'title': 'Weather',
     'address': 0x00,
     'color': 'blue',
+    'icon': 'weather',
     'receive': function(data){
         return {'temperature': parseInt(data[0]), 'pressure': parseInt(data[1])}
     },
@@ -282,7 +289,7 @@ rockpool.module_handlers['weather'] = {
                 {name: "+- 100c", highest: 100, lowest: -100}
             ]
             this.raw = function(){
-                return (this.data.temperature / 100.00) + 'c';
+                return (this.data.temperature / 100.00).toFixed(2) + 'c';
             }
             this.get = function(options){
 
@@ -300,6 +307,9 @@ rockpool.module_handlers['weather'] = {
         'pressure': function(){
             this.name = "Pressure"
             this.data = {pressure:0}
+            this.raw = function(){
+                return (this.data.pressure / 100).toFixed(2) + 'mb';
+            }
             this.get = function(){
                 var highest = 108.00;
                 var lowest = 90.00;
@@ -319,13 +329,14 @@ rockpool.module_handlers['light'] = {
 	'title': 'Light',
     'address': 0x29,
     'color': 'green',
+    'icon': 'light',
     'receive': function(data) {
         var vis = parseInt(data[0]);
         return {'vis': vis};
     },
     'inputs': {
         'visible': function() {
-            this.name = "Light Visible"
+            this.name = "Light"
             this.data = {vis:0}
             this.get = function () { return (this.data.vis/3000) > 1 ? 1 : (this.data.vis/3000) }
         }
@@ -337,6 +348,7 @@ rockpool.module_handlers['matrix'] = {
     'average': false,
     'address': 0x63,
     'color': 'blue',
+    'icon': 'matrix',
     'send': function(data){
         return [
             [
@@ -422,6 +434,7 @@ rockpool.module_handlers['number'] = {
 	'title': 'Number',
     'address': 0x63,
     'color': 'red',
+    'icon': 'number',
     'send': function(data){
         // Input should look like "XXXX" or "X.XXX" or "XX.XX" or "XX:XX" or "XX:X'"
         console.log(data);
@@ -506,6 +519,7 @@ rockpool.module_handlers['motor'] = {
 	'title': 'Motor',
     'address': 0x64,
     'color': 'purple',
+    'icon': 'motor',
     'send': function(data){
         return [
             [Math.round(data.speed).toString()]
