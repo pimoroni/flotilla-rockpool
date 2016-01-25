@@ -99,6 +99,10 @@ if(window.DeviceMotionEvent) {
 
     window.addEventListener('devicemotion', function(event) {
 
+        var x = event.accelerationIncludingGravity.x;
+        var y = event.accelerationIncludingGravity.y;
+        var z = event.accelerationIncludingGravity.z;
+
         if(!rockpool.inputs.tilt && x + y + z != 0){
             rockpool.inputs.tilt = function() {
                 this.name = "Tilt"
@@ -125,11 +129,11 @@ if(window.DeviceMotionEvent) {
             }
         }
 
-      rockpool.tilt = {
-        x: (Math.max(-1.0,Math.min(1.0,event.accelerationIncludingGravity.x / 9.5)) + 1.0) / 2,
-        y: (Math.max(-1.0,Math.min(1.0,event.accelerationIncludingGravity.y / 9.5)) + 1.0) / 2,
-        z: (Math.max(-1.0,Math.min(1.0,event.accelerationIncludingGravity.z / 9.5)) + 1.0) / 2
-      }
+        rockpool.tilt = {
+            x: (Math.max(-1.0,Math.min(1.0,x / 9.5)) + 1.0) / 2,
+            y: (Math.max(-1.0,Math.min(1.0,y / 9.5)) + 1.0) / 2,
+            z: (Math.max(-1.0,Math.min(1.0,z / 9.5)) + 1.0) / 2
+        }
     });
 }
 
