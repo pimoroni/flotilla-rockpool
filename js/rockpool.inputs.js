@@ -39,7 +39,7 @@ rockpool.inputs = {
         this.name = "Value"
         this.icon = "half"
         this.bgColor = rockpool.palette.blue
-        this.category = rockpool.category.generators
+        this.category = 'Value'
 
         this.options = [
                 {name:'Off',   value: 0.0, icon: "off" },
@@ -64,7 +64,7 @@ rockpool.inputs = {
         this.sindex = 0
         this.icon = "random"
         this.bgColor = rockpool.palette.blue
-        this.category = rockpool.category.generators
+        this.category = 'Pattern'
 
         this.options = [
                 {category: 'Waveforms', name:'Sine',     sequence: function(){ return (Math.sin(rockpool.time/10) + 1.0) / 2.0 }, icon: "sine"},
@@ -106,14 +106,14 @@ if(window.DeviceMotionEvent) {
         if(!rockpool.inputs.tilt && x + y + z != 0){
             rockpool.inputs.tilt = function() {
                 this.name = "Tilt"
-                this.icon = "sine"
+                this.icon = "motion"
                 this.bgColor = rockpool.palette.blue
-                this.category = rockpool.category.generators
+                this.category = 'Orientation'
 
                 this.options = [
-                    {category: 'Tilt', name: 'X', icon: "sine"},
-                    {category: 'Tilt', name: 'Y', icon: "sine"},
-                    {category: 'Tilt', name: 'Z', icon: "sine"},
+                    {category: 'Tilt', name: 'X', icon: "motion"},
+                    {category: 'Tilt', name: 'Y', icon: "motion"},
+                    {category: 'Tilt', name: 'Z', icon: "motion"},
                 ]
 
                 this.get = function(options){
@@ -157,7 +157,7 @@ rockpool.enable_keyboard = function(){
             this.keys = []
             this.icon = "keyboard"
             this.bgColor = rockpool.palette.blue
-            this.category = rockpool.category.generators
+            this.category = 'Keys'
 
             this.options = [
                     {category: 'Keyboard Key', name:"UP/W",     keys:[87, 38], icon: "keyboard-up"},
