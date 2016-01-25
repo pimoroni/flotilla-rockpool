@@ -126,9 +126,9 @@ if(window.DeviceMotionEvent) {
         }
 
       rockpool.tilt = {
-        x: (min(-1.0,max(1.0,event.accelerationIncludingGravity.x / 9.5)) + 1.0) / 2,
-        y: (min(-1.0,max(1.0,event.accelerationIncludingGravity.y / 9.5)) + 1.0) / 2,
-        z: (min(-1.0,max(1.0,event.accelerationIncludingGravity.z / 9.5)) + 1.0) / 2
+        x: (Math.min(-1.0,Math.max(1.0,event.accelerationIncludingGravity.x / 9.5)) + 1.0) / 2,
+        y: (Math.min(-1.0,Math.max(1.0,event.accelerationIncludingGravity.y / 9.5)) + 1.0) / 2,
+        z: (Math.min(-1.0,Math.max(1.0,event.accelerationIncludingGravity.z / 9.5)) + 1.0) / 2
       }
     });
 }
