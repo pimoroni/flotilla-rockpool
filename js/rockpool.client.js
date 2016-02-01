@@ -16,9 +16,12 @@ rockpool.host_picker = $('<div>').addClass('host-picker palette')
         e.preventDefault();
         e.stopPropagation();
         rockpool.stopScan();
+
         var host = $(this).data('host');
+        var details = $(this).data('details');
+
         rockpool.closePrompt();
-        rockpool.connect(host, rockpool.port);
+        rockpool.connect(host, rockpool.port, details);
     })
     .on('click','.custom a',function(e){
         e.preventDefault();
@@ -39,7 +42,13 @@ rockpool.addHost = function(host, details){
 
     if( rockpool.valid_hosts.indexOf(details.dock_serial) == -1 ){
         rockpool.valid_hosts.push(details.dock_serial);
-        $('<div><p>' + details.dock_name + '</p><small>' + host + '</small><small>' + details.dock_version + '</small></div>').data('host',host).addClass('host').appendTo(rockpool.host_picker.find('.choices'));
+        $('<div><p>' + details.dock_name + '</p><small>' + host + '</small><small>' + details.dock_version + '</small></div>')
+            .data({
+                'host':host,
+                'details':details
+            })
+            .addClass('host')
+            .appendTo(rockpool.host_picker.find('.choices'));
     }
 }
 
@@ -304,8 +313,9 @@ rockpool.disconnect = function(){
 
 }
 
-rockpool.connect = function(host, port){
+rockpool.connect = function(host, port, details){
     rockpool.disconnect();
+    console.log('Connected', details);
 
     var prompt = $("<div>")
         .addClass('host-picker palette')
@@ -359,12 +369,6 @@ rockpool.addressLookup = function(module_addr){
 }
 
 rockpool.parseCommand = function(data_in){
-
-    if(data_in == 'update'){
-        //rockpool.update();
-        //rockpool.sync();
-        return;
-    }
 
     if(data_in[0] == '#'){
         console.log('Debug: ', data_in);
