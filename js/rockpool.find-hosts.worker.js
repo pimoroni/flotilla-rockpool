@@ -72,6 +72,15 @@ var FlotillaScanner = function(){
                 socket_attempt.close();
 
             }
+            if( message.includes('# Daemon:') ){
+
+                message = message.replace('# Daemon: ','').split(',');
+                daemon_details = {}
+                daemon_details.daemon_version = parseFloat(message[0]);
+                daemon_details.canonical_address = message[1];
+                obj.callback_daemon(host, daemon_details);
+
+            }
             if( message.includes('# Dock:') ){
 
 
@@ -100,7 +109,7 @@ var FlotillaScanner = function(){
         this.terminate = true;
     }
 
-    this.scan = function(host, connection_timeout, callback_progress, callback_found){
+    this.scan = function(host, connection_timeout, callback_progress, callback_found, callback_daemon){
         this.connection_timeout = connection_timeout;
         this.scan_total = this.end - this.start;
 
@@ -119,6 +128,7 @@ var FlotillaScanner = function(){
 
         this.callback_found    = callback_found;
         this.callback_progress = callback_progress;
+        this.callback_daemon   = callback_daemon;
 
         this.attemptConnection(0);
     }
@@ -155,7 +165,8 @@ if( typeof(this.Window) !== "function" ){
                     host, 
                     connection_timeout,
                     function(progress)    {postMessage({progress:progress})},
-                    function(host,details){postMessage({found_host:host,details:details})}
+                    function(host,details){postMessage({found_host:host,details:details})},
+                    function(host,details){postMessage({found_daemon:host,details:details})}
                 )
             }
 
