@@ -78,12 +78,13 @@ var FlotillaScanner = function(){
                 daemon_details = {}
                 daemon_details.daemon_version = parseFloat(message[0]);
                 daemon_details.canonical_address = message[1];
+                if( daemon_details.canonical_address == "" ) daemon_details.canonical_address = host;
                 obj.callback_daemon(host, daemon_details);
 
             }
             if( message.includes('# Dock:') ){
 
-
+                details = {};
                 message = message.replace('# Dock: ','').split(',');
                 details.dock_version = parseFloat(message[0]);
                 details.dock_serial = message[1];

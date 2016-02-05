@@ -17,10 +17,17 @@ rockpool.host_picker = $('<div>').addClass('host-picker palette')
     .on('click','.host',function(e){
         e.preventDefault();
         e.stopPropagation();
+
+        if($(this).hasClass('update-needed')){
+            return false;
+        }
+
         rockpool.stopScan();
 
         var host = $(this).data('host');
         var details = $(this).data('details');
+
+        console.log('Connecting to', host, details);
 
         rockpool.closePrompt();
         rockpool.connect(host, rockpool.port, details);
@@ -65,7 +72,7 @@ rockpool.addHost = function(host, details){
         if(h.length) return;
 
         //rockpool.valid_hosts.push(details.dock_serial);
-        h = $('<div><p>' + details.dock_name + '</p><small>' + details.dock_user + '</small><small>v' + details.dock_version + '</small></div>')
+        h = $('<div><p>' + details.dock_name + '</p><small>' + details.dock_user + '</small></div>')
             .data({
                 'host':host,
                 'details':details
@@ -76,8 +83,10 @@ rockpool.addHost = function(host, details){
             .addClass('host');
 
         if(details.dock_version < rockpool.minimum_dock_version){
+            h.append('<small class="error">Update Needed!</small>');
             h.addClass('update-needed');
         }
+        h.append('<small>v' + details.dock_version + '</small>');
 
         h.appendTo(daemon);
     //}
@@ -365,6 +374,8 @@ rockpool.connect = function(host, port, details){
         rockpool.socket.send("subscribe: " + details.dock_index);
         rockpool.socket.send('ready'); 
 
+        rockpool.subscribed_to = details.dock_index;
+
         rockpool.addToConnectionHistory(host);
 
         rockpool.enable_keyboard();
@@ -417,6 +428,9 @@ rockpool.parseCommand = function(data_in){
     packet.shift(); // Drop the leading empty item
 
     var host    = parseInt(packet[0].trim());
+
+    if(host != rockpool.subscribed_to) return;
+
     data_in = packet[1].trim();
 
     if(data_in[0] == '#'){
