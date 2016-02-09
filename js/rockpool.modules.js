@@ -238,7 +238,7 @@ rockpool.module_handlers['motion'] = {
 
 rockpool.module_handlers['colour'] = {
     'title': 'Colour',
-    'address': 0x39,
+    'address': 0x29,
     'color': 'purple',
     'icon': 'color',
     'receive': function(data) {
@@ -274,7 +274,7 @@ rockpool.module_handlers['colour'] = {
 
 rockpool.module_handlers['weather'] = {
     'title': 'Weather',
-    'address': 0x00,
+    'address': 0x77,
     'color': 'blue',
     'icon': 'weather',
     'receive': function(data){
@@ -327,7 +327,7 @@ rockpool.module_handlers['weather'] = {
 
 rockpool.module_handlers['light'] = {
 	'title': 'Light',
-    'address': 0x29,
+    'address': 0x39,
     'color': 'green',
     'icon': 'light',
     'receive': function(data) {
@@ -346,7 +346,7 @@ rockpool.module_handlers['light'] = {
 rockpool.module_handlers['matrix'] = {
 	'title': 'Matrix',
     'average': false,
-    'address': 0x63,
+    'address': 0x60,
     'color': 'blue',
     'icon': 'matrix',
     'send': function(data){
