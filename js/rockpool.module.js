@@ -1,6 +1,8 @@
 var FlotillaModule = function(settings, host_idx, channel_idx, module_code) {
 
     this.title 			= settings.title
+    this.icon           = settings.icon
+    this.color          = settings.color ? settings.color : 'grey'
     this.inputs			= []
     this.outputs		= []
     this.active 		= false
@@ -176,6 +178,8 @@ var FlotillaModule = function(settings, host_idx, channel_idx, module_code) {
         this.inputs[k] = new settings.inputs[k]
         this.inputs[k].type = "module"
         this.inputs[k].host = this.host
+        this.inputs[k].color = this.color
+        this.inputs[k].icon = this.inputs[k].icon ? this.inputs[k].icon : this.icon
         this.inputs[k].channel = this.channel
         this.inputs[k].category = settings.title
         this.inputs[k].active = true
@@ -186,6 +190,8 @@ var FlotillaModule = function(settings, host_idx, channel_idx, module_code) {
         this.outputs[k] = new settings.outputs[k]
         this.outputs[k].type = "module"
         this.outputs[k].host = this.host
+        this.outputs[k].color = this.color
+        this.outputs[k].icon = this.outputs[k].icon ? this.outputs[k].icon : this.icon
         this.outputs[k].channel = this.channel
         this.outputs[k].category = settings.title
         this.outputs[k].active = false
