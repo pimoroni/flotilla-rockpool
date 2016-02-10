@@ -155,10 +155,7 @@ rockpool.renderLoop = function () {
 
         rockpool.forRules(function(r){
             r.redrawChart();
-            //r.updateVisibility();
         })
-
-        //rockpool.sync();
 
     }
 }
@@ -195,11 +192,10 @@ rockpool.sync = function() {
 
 rockpool.respond = function () {
     rockpool.forRules(function(r){r.respond()})
-    //rockpool.positionModal();
 }
 
 rockpool.registerInput = function( host, channel, code, name, handler ) {
-    console.log('Registering input:', [host,code,channel,name]);
+    if(rockpool.enable_debug){console.log('Registering input:', [host,code,channel,name]);}
     rockpool.inputs[[host,code,channel,name].join('_')] = handler;
 }
 

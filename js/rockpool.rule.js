@@ -134,12 +134,12 @@ rockpool.rule = function (parent, widget_index) {
         this.runEventHandler('on_set_converter' + idx + '_handler');
     }
 
-    this.setInputHandler = function(key, option) {
+    this.setInputHandler = function(key, option, value) {
 
         this.getInput().setHandler(key);
 
         if( typeof( option ) === "number" && this.getInput().hasOptions() ){
-            this.getInput().setOptions(option);
+            this.getInput().setOptions(option,value);
         }
         else
         {

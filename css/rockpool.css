@@ -493,7 +493,7 @@ i .name span {
     text-align: left;
     padding:0 10px;
 }
-.palette .pure-g:nth-child(even){
+.palette div .pure-g:nth-of-type(odd){
     background:rgba(0,0,0,0.5);
 }
 .palette li {
@@ -567,6 +567,63 @@ footer {
 }
 
 
+/* Config Slider */
+
+.config-slider {
+    background: #333;
+    height: 72px;
+    margin: 10px 87px 25px 87px;
+    position:relative;
+    background-image:      
+      linear-gradient(90deg,
+        transparent 99%, 
+        rgba(0, 0, 0, .2) 100%
+      );
+    background-size:10.1%;
+    background-position:0 0;
+}
+.configure-widget .save {
+    margin-top:10px;
+}
+
+.config-slider div {
+    height: 72px;
+    width:50%;
+    background:#02B186;
+}
+
+.config-slider span.status {
+    width:100%;
+    position:absolute;
+    left:0;
+    top:0;
+    text-align:center;
+    line-height:72px;
+    color:#FFFFFF;
+    font-size:20pt;
+}
+
+.config-slider .icon-on, .config-slider .icon-off {
+    position:absolute;
+    top:0;
+    left:-77px;
+}
+
+.config-slider .icon-off {
+    border-top-right-radius:0px;
+    border-bottom-right-radius:0px;
+    background:#01A176;
+}
+.config-slider .icon-on {
+    right:-77px;
+    left:auto;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.config-slider .current {
+    background:#01A176;
+}
 
 /*
 ############################################ Colours ############################################
@@ -611,12 +668,20 @@ footer {
 .converter canvas {
     border-top-color:    rgba(229, 0, 81, 0.9); /* strokeStyle */
 }
-
+.color-purple canvas {
+    border-top-color:    #9879D3; /* strokeStyle */
+}
 .color-violet canvas {
     border-top-color:    #9879D3; /* strokeStyle */
 }
+.color-orange canvas {
+    border-top-color:    #DB9800
+}
 .color-yellow canvas {
     border-top-color:    #DBB100; /* strokeStyle */
+}
+.color-green canvas {
+    border-top-color:    #02B186; /* strokeStyle */
 }
 .color-blue canvas {
     border-top-color:    #00B0B2; /* strokeStyle */

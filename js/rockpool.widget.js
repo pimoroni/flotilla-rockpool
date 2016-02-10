@@ -4,6 +4,7 @@ rockpool.widget =  function( type, rule, key ) {
 
     this.setHandler = function(key){
         this.handler_key = key;
+        this.options = null;
         switch(this.type){
             case 'converter':
                 this.handler = (typeof(rockpool.converters[key]) === 'function') ? new rockpool.converters[key] : rockpool.converters[key];
@@ -21,8 +22,8 @@ rockpool.widget =  function( type, rule, key ) {
 
     this.killChild = function(){
         if(!this.child) return false;
-        this.child.kill()
-        this.child = null
+        this.child.kill();
+        this.child = null;
     }
 
     this.hasOptions = function(){
@@ -33,10 +34,15 @@ rockpool.widget =  function( type, rule, key ) {
         return (this.options && this.options[option]) ? this.options[option] : this.handler[option];
     }
 
-    this.setOptions = function(index) {
+    this.setOptions = function(index,value) {
         if (!this.hasOptions()) return false;
 
         this.option_index = index;
+
+        if(typeof(value) != "undefined" && this.handler.setValue){
+            this.handler.setValue(value);
+        }
+
         if(this.options != this.handler.options[index]){
             this.dom_update_needed = true;
         }
@@ -168,7 +174,7 @@ rockpool.widget =  function( type, rule, key ) {
 
     this.setIcon = function( icon ){
         this.img.attr('src', icon ? 'css/images/icons/icon-' + icon + '.png' : 'css/images/icon-empty.png');
-        this.dom.find('i').addClass('icon-' + icon);
+        this.dom.find('i').attr('class','').addClass('icon-' + icon);
         this.dom.find('.icon').append(((this.type != 'converter' && !isNaN(this.handler.channel)) ? ' <span class="channel">' + rockpool.channelToNumber(this.handler.channel) + '</span>' : ''))
     }
 
