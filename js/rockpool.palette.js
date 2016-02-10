@@ -145,7 +145,9 @@ rockpool.generatePalette = function(type){
             if(handler.options){
 
                 for(var idx in handler.options){
-                    var opt = handler.options[idx]
+                    var opt = handler.options[idx];
+
+                    if(opt.hidden) continue;
 
                     var opt_color = opt.color ? 'color-' + opt.color : color;
 
@@ -237,23 +239,21 @@ rockpool.add = function(type, rule, index){
 
             var dom_list = $('.palettes .palette.' + type).off('click');
 
-            if(type == 'input' && rule instanceof rockpool.rule){
-                if(typeof(rule.getInput().handler.configure_ui) === "function"){
+            if(type == 'input' && rule instanceof rockpool.rule && typeof(rule.getInput().handler.configure_ui) === "function"){
 
-                    var dom_configure = dom_list.find('.configure-widget');
+                var dom_configure = dom_list.find('.configure-widget');
 
-                    if(dom_configure.length == 0){
-                        dom_configure = $('<div>').addClass('configure-widget');
-                        dom_configure.html('<header><h1>Configure Input</h1></header>');
-                        dom_list.find('div:eq(0)').before(dom_configure);
-                    }
-
-                    dom_configure.find('div').remove()
-                    dom_configure.append('<div>');
-
-                    rule.getInput().handler.configure_ui(rule,dom_configure.find('div'))
-
+                if(dom_configure.length == 0){
+                    dom_configure = $('<div>').addClass('configure-widget');
+                    dom_configure.html('<header><h1>Configure Input</h1></header>');
+                    dom_list.find('div:eq(0)').before(dom_configure);
                 }
+
+                dom_configure.find('div').remove()
+                dom_configure.append('<div>');
+
+                rule.getInput().handler.configure_ui(rule,dom_configure.find('div'))
+
             }
             else
             {

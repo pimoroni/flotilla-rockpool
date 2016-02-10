@@ -668,12 +668,20 @@ footer {
 .converter canvas {
     border-top-color:    rgba(229, 0, 81, 0.9); /* strokeStyle */
 }
-
+.color-purple canvas {
+    border-top-color:    #9879D3; /* strokeStyle */
+}
 .color-violet canvas {
     border-top-color:    #9879D3; /* strokeStyle */
 }
+.color-orange canvas {
+    border-top-color:    #DB9800
+}
 .color-yellow canvas {
     border-top-color:    #DBB100; /* strokeStyle */
+}
+.color-green canvas {
+    border-top-color:    #02B186; /* strokeStyle */
 }
 .color-blue canvas {
     border-top-color:    #00B0B2; /* strokeStyle */

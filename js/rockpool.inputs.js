@@ -27,7 +27,7 @@ rockpool.inputs = {
         this.bgColor = rockpool.palette.blue
         this.category = 'Value'
         this.setValue = function(value){
-            this.options[1].value = parseFloat(value);
+            this.options[11].value = parseFloat(value);
         }
         this.configure_ui = function(obj_rule,dom_configure){
             var obj_rule_input = obj_rule.getInput();
@@ -42,16 +42,16 @@ rockpool.inputs = {
             var dom_slider_status = $('<span>').addClass('status').appendTo(dom_slider);
 
             $('<i class="icon-off option"><span class="name">Off</span></i>').data({'key':'state','seq':0}).appendTo(dom_slider);
-            $('<i class="icon-on option"><span class="name">On</span></i>').data({'key':'state','seq':2}).appendTo(dom_slider);
+            $('<i class="icon-on option"><span class="name">On</span></i>').data({'key':'state','seq':10}).appendTo(dom_slider);
 
             var dom_save = $('<div class="color-green option"><i class="icon-tick"><span class="name">Save</span></i></div>')
                 .addClass('save')
-                .data({'key':'state','seq':1,'value':current_value})
+                .data({'key':'state','seq':11,'value':current_value})
                 .appendTo(dom_ok_container);
 
             if(current_value == 1){
                 dom_slider.find('.icon-on').addClass('current');
-                dom_save.data({'key':'state','seq':2,'value':current_value});
+                dom_save.data({'key':'state','seq':10,'value':current_value});
             }
             else if(current_value == 0){
                 dom_save.data({'key':'state','seq':0,'value':current_value});
@@ -70,7 +70,7 @@ rockpool.inputs = {
                 
                 obj.find('div').css({width:(Math.round(percent*1000.0)/10.0) + '%'});
 
-                dom_save.data({'key':'state','seq':1,'value':percent});
+                dom_save.data({'key':'state','seq':11,'value':percent});
 
                 dom_slider_status.text(Math.round(percent*1000.0) +'%');  
             }
@@ -93,8 +93,17 @@ rockpool.inputs = {
 
         this.options = [
                 {name:'Off',     value: 0.0, icon: "off" },
-                {name:'Percent', value: 0.5 },
-                {name:'On',      value: 1.0, icon: "on" }
+                {name:'10%', value: 0.1 },
+                {name:'20%', value: 0.2 },
+                {name:'30%', value: 0.3 },
+                {name:'40%', value: 0.4 },
+                {name:'50%', value: 0.5 },
+                {name:'60%', value: 0.6 },
+                {name:'70%', value: 0.7 },
+                {name:'80%', value: 0.8 },
+                {name:'90%', value: 0.9 },
+                {name:'On',      value: 1.0, icon: "on" },
+                {name:'Percentage', value: 0.5, hidden: true }
             ]
 
         this.get = function ( options ) {
