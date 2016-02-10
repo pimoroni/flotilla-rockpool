@@ -14,6 +14,7 @@ rockpool.prompt = function(content, close_on_click){
         beforeClose : function(){}
         //helpers     : {overlay : {locked : false}}
     });
+    $('.fancybox-overlay,.fancybox-wrap').on('click','.close', function(){ $.fancybox.close(); });
     $('.fancybox-overlay,.fancybox-wrap').on('click', function(){
 
         if( close_on_click ){
@@ -236,7 +237,30 @@ rockpool.add = function(type, rule, index){
 
             var dom_list = $('.palettes .palette.' + type).off('click');
 
-            rockpool.prompt(dom_list)
+            if(type == 'input' && rule instanceof rockpool.rule){
+                if(typeof(rule.getInput().handler.configure_ui) === "function"){
+
+                    var dom_configure = dom_list.find('.configure-widget');
+
+                    if(dom_configure.length == 0){
+                        dom_configure = $('<div>').addClass('configure-widget');
+                        dom_configure.html('<header><h1>Configure Input</h1></header>');
+                        dom_list.find('div:eq(0)').before(dom_configure);
+                    }
+
+                    dom_configure.find('div').remove()
+                    dom_configure.append('<div>');
+
+                    rule.getInput().handler.configure_ui(rule,dom_configure.find('div'))
+
+                }
+            }
+            else
+            {
+                dom_list.find('.configure-widget').remove();
+            }
+
+            rockpool.prompt(dom_list, false);
 
             dom_list.on('click','ul',function(e){
                 e.preventDefault();
@@ -245,19 +269,24 @@ rockpool.add = function(type, rule, index){
 
             switch(type){
                 case 'input':
-                        dom_list.on('click','li.option',function(){
+                        dom_list.on('click','.option',function(e){
+
+                            e.preventDefault();
+                            e.stopPropagation();
 
                             var k = $(this).data('key');
                             var o = parseInt($(this).data('seq'));
+                            var value = $(this).data('value');
 
                             rule = rule instanceof rockpool.rule ? rule : new rockpool.rule()
                             rule.start();
-                            rule.setInputHandler(k, o)
+                            rule.setInputHandler(k, o, value);
+
                             $.fancybox.close()
                         })
                     break;
                 case 'output':
-                        dom_list.on('click','li.option',function(){
+                        dom_list.on('click','li.option',function(e){
 
                             var k = $(this).data('key');
                             var o = parseInt($(this).data('seq'));
@@ -271,7 +300,7 @@ rockpool.add = function(type, rule, index){
                         })
                     break;
                 default:
-                    dom_list.on('click','li.option',function(){
+                    dom_list.on('click','li.option',function(e){
                         var k = $(this).data('key')
                         $.fancybox.close()
 

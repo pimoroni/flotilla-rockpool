@@ -33,10 +33,15 @@ rockpool.widget =  function( type, rule, key ) {
         return (this.options && this.options[option]) ? this.options[option] : this.handler[option];
     }
 
-    this.setOptions = function(index) {
+    this.setOptions = function(index,value) {
         if (!this.hasOptions()) return false;
 
         this.option_index = index;
+
+        if(typeof(value) != "undefined" && this.handler.setValue){
+            this.handler.setValue(value);
+        }
+
         if(this.options != this.handler.options[index]){
             this.dom_update_needed = true;
         }

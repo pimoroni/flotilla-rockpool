@@ -21,38 +21,80 @@ rockpool.pressed={
 };
 
 rockpool.inputs = {
-    /*high: function () {
-        this.name = "On"
-        this.icon = "on"
-        this.bgColor = rockpool.palette.blue
-        this.category = rockpool.category.generators
-        this.get = function () { return 1 }
-    },
-    low: function () {
-        this.name = "Off"
-        this.icon = "off"
-        this.bgColor = rockpool.palette.blue
-        this.category = rockpool.category.generators
-        this.get = function () { return 0 }
-    },*/
     state: function() {
         this.name = "Value"
         this.icon = "half"
         this.bgColor = rockpool.palette.blue
         this.category = 'Value'
+        this.setValue = function(value){
+            this.options[1].value = parseFloat(value);
+        }
+        this.configure_ui = function(obj_rule,dom_configure){
+            var obj_rule_input = obj_rule.getInput();
+            var current_value = obj_rule_input.options ? obj_rule_input.options.value : 0;
+
+            var dom = $('<div>').addClass('pure-g');
+            var dom_slider_container = $('<div>').addClass('pure-u-4-5').appendTo(dom);
+            var dom_ok_container = $('<div>').addClass('pure-u-1-5').appendTo(dom);
+
+            var dom_slider = $('<div>').addClass('config-slider color-grey').appendTo(dom_slider_container);
+            var dom_slider_bar = $('<div>').css({width:(current_value*100)+'%'}).appendTo(dom_slider);
+            var dom_slider_status = $('<span>').addClass('status').appendTo(dom_slider);
+
+            $('<i class="icon-off option"><span class="name">Off</span></i>').data({'key':'state','seq':0}).appendTo(dom_slider);
+            $('<i class="icon-on option"><span class="name">On</span></i>').data({'key':'state','seq':2}).appendTo(dom_slider);
+
+            var dom_save = $('<div class="color-green option"><i class="icon-tick"><span class="name">Save</span></i></div>')
+                .addClass('save')
+                .data({'key':'state','seq':1,'value':current_value})
+                .appendTo(dom_ok_container);
+
+            if(current_value == 1){
+                dom_slider.find('.icon-on').addClass('current');
+                dom_save.data({'key':'state','seq':2,'value':current_value});
+            }
+            else if(current_value == 0){
+                dom_save.data({'key':'state','seq':0,'value':current_value});
+            }
+
+            dom_slider_status.text(Math.round(current_value * 1000) +'%');
+
+            function update_slider(e,obj){
+
+                var offset = e.pageX - obj.position().left - 97 ;
+                var width = obj.width();
+
+                var percent = offset/width;
+                if(percent < 0.001){percent = 0.001};
+                if(percent > 0.999){percent = 0.999};
+                
+                obj.find('div').css({width:(Math.round(percent*1000.0)/10.0) + '%'});
+
+                dom_save.data({'key':'state','seq':1,'value':percent});
+
+                dom_slider_status.text(Math.round(percent*1000.0) +'%');  
+            }
+            var dragging = false;
+
+            dom_slider.on('mousedown',function(){dragging=true});
+            dom_slider.on('mouseup',function(){dragging=false});
+            dom_slider.on('mousemove',function(e){
+                if(dragging){
+                update_slider(e,$(this));
+                }
+            })
+
+            dom_slider.on('click',function(e){
+                update_slider(e,$(this));
+            });
+
+            dom.appendTo(dom_configure);
+        }
 
         this.options = [
-                {name:'Off',   value: 0.0, icon: "off" },
-                {name:'10%',   value: 0.1 },
-                {name:'20%',   value: 0.2 },
-                {name:'30%',   value: 0.3 },
-                {name:'40%',   value: 0.4 },
-                {name:'50%',   value: 0.5 },
-                {name:'60%',   value: 0.6 },
-                {name:'70%',   value: 0.7 },
-                {name:'80%',   value: 0.8 },
-                {name:'90%',   value: 0.9 },
-                {name:'On',    value: 1.0, icon: "on" }
+                {name:'Off',     value: 0.0, icon: "off" },
+                {name:'Percent', value: 0.5 },
+                {name:'On',      value: 1.0, icon: "on" }
             ]
 
         this.get = function ( options ) {
