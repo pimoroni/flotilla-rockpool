@@ -21,6 +21,7 @@ rockpool.helpers = {
         var sum = 0;
         var j = 0;
         for( var i in this ){
+            if(isNaN(i)) continue;
             if(isFinite(this[i]) && this[i] !== null){
               sum=sum+parseFloat(this[i]);
                j++;
@@ -37,7 +38,6 @@ rockpool.converters = {
     noop: function () {
         this.name = "Empty"
         this.category = rockpool.category.empty
-        this.icon = "add"
         this.convert = function (value) { return value }        
     },
     /*
@@ -85,7 +85,7 @@ rockpool.converters = {
 
         }
     },
-    /*sine: function(){
+    sine: function(){
         this.name = "Sine Wave"
         this.category = rockpool.category.modify
         this.icon = "sine"
@@ -108,7 +108,7 @@ rockpool.converters = {
             return (Math.sin(time * this.frequency + this.phase) + 1.0) / 2.0;
 
         }   
-    },*/
+    },
     toggle: function () {
         this.name = "Toggle"
         this.category = rockpool.category.modify

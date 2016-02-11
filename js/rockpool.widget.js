@@ -192,7 +192,7 @@ rockpool.widget =  function( type, rule, key ) {
     this.get = function(){
         var value = this.handler.get ? this.handler.get(this.options) : 0
         this.history.push(value)
-        this.history = this.history.slice(Math.max(this.history.length - 500, 0))
+        this.history = this.history.slice(-200)
 
         if( this.isInput() ){
             var raw = Math.round(value*1000).toString();
@@ -212,7 +212,7 @@ rockpool.widget =  function( type, rule, key ) {
 
         var output =  this.handler.convert ? this.handler.convert(value) : 0
         this.history.push(output)
-        this.history = this.history.slice(Math.max(this.history.length - 500, 0))
+        this.history = this.history.slice(-200)
 
         return output
     }
@@ -300,7 +300,7 @@ rockpool.widget =  function( type, rule, key ) {
             This blends the right-hand edge of the graph into the pipe so it doesn't
             end abruptly on converters. It looks nice, but it probably doesn't do much
             for performance. Remove, or add conditional logic, to optimise.
-            */
+                */
             context.save();
             context.globalCompositeOperation = "destination-in"
             gradient = context.createLinearGradient(0, 0, canvas.width, 0)
@@ -311,6 +311,7 @@ rockpool.widget =  function( type, rule, key ) {
             context.fillStyle = gradient;
             context.fillRect(0, 0, canvas.width, canvas.height);
             context.restore();
+            
 
         }
     }
@@ -355,7 +356,7 @@ rockpool.widget =  function( type, rule, key ) {
     this.history = [];
 
     this.rightMargin    = 22; // was 50
-    this.dotSpacing     = 2; // was 14
+    this.dotSpacing     = 3; // was 14
     this.verticalMargin = 2;
     this.dotRadius      = 4; // Was 5
 
@@ -393,7 +394,7 @@ rockpool.widget =  function( type, rule, key ) {
     })
     .on('click','i',function(e){
         e.preventDefault();
-        rockpool.add(type,rule,widget.dom.index());
+        rockpool.add(type,rule,widget.dom.index() - 2);
 
         /*
         if(widget.hasOptions()){

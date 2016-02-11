@@ -1,6 +1,6 @@
 var rockpool = rockpool || {};
 
-rockpool.active_modules = [];
+rockpool.active_modules = {};
 rockpool.rules = [];
 rockpool.guid = 0;
 rockpool.last_time = 0;
@@ -118,6 +118,9 @@ rockpool.updateActiveWidgets = function () {
 }
 
 rockpool.run = function () {
+    if(rockpool.running) return;
+    rockpool.running = true;
+    
     rockpool.generatePalette('input');
     rockpool.generatePalette('output');
     rockpool.generatePalette('converter');
@@ -196,20 +199,33 @@ rockpool.respond = function () {
 
 rockpool.registerInput = function( host, channel, code, name, handler ) {
     if(rockpool.enable_debug){console.log('Registering input:', [host,code,channel,name]);}
-    rockpool.inputs[[host,code,channel,name].join('_')] = handler;
+    rockpool.inputs[[host,channel,code,name].join('_')] = handler;
 }
 
 rockpool.registerOutput = function( host, channel, code, name, handler ) {
-    rockpool.outputs[[host,code,channel,name].join('_')] = handler;
+    rockpool.outputs[[host,channel,code,name].join('_')] = handler;
 }
 
 rockpool.getModule = function(host_idx, channel_idx, module_code) {
-    var id = [host_idx,channel_idx,module_code].join('_');
+    var id;
+
+    if(typeof(module_code) === "undefined"){
+        for(x in rockpool.active_modules){
+            if(x && x.startsWith([host_idx,channel_idx].join('_'))){
+                id = x;
+                break;
+            }
+        }
+        if(id == ""){return false;}
+    }
+    else{
+        id = [host_idx,channel_idx,module_code].join('_');
+    }
 
     var module = rockpool.active_modules[id];
 
     if (!module) {
-         if (typeof(rockpool.module_handlers[module_code]) !== "undefined")  {
+         if (module_code && typeof(rockpool.module_handlers[module_code]) !== "undefined")  {
             rockpool.active_modules[id] = new FlotillaModule(rockpool.module_handlers[module_code], host_idx, channel_idx, module_code);
         } else {
             return false;

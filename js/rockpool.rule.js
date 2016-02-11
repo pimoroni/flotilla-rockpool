@@ -111,8 +111,18 @@ rockpool.rule = function (parent, widget_index) {
 
     /*
         Set the handler object for a converter/comparator
+        Or an input/output if idx = input or idx = output
     */
-    this.setHandler = function(idx, key){
+    this.setHandler = function(idx, key, option){
+        if(idx == 'input'){
+            this.setInputHandler(key, option)
+            return;
+        }
+        if(idx == 'output'){
+            this.setOutputHandler(key, option)
+            return;
+        }
+
         var converter = this.getConverter(idx)
         if(!converter) return false; // Converter out of range
 
