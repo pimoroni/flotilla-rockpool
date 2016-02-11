@@ -110,6 +110,108 @@ rockpool.inputs = {
             return (options && options.value) ? options.value : 0
         }
     },
+    time: function() {
+        this.name = "Time"
+        this.sindex = 0;
+        this.icon = "clock"
+        this.color = "navy"
+
+        this.options = [
+            {name:'Minute'},
+            {name:'Hour'},
+            {name:'Day'}
+        ];
+
+        this.raw = function(){
+            return new Date().toLocaleTimeString();
+        }
+
+        this.get = function(options){
+            var type = ( options && options.name ) ? options.name : this.options[0].name;
+
+            var d = new Date();
+
+            switch(type){
+                case 'Minute':
+                    return d.getSeconds() / 59;
+                case 'Hour':
+                    return d.getMinutes() / 59;
+                case 'Day':
+                    return d.getHours() / 23;
+
+            }
+        }
+    },
+    random: function() {
+        this.name = "Random"
+        this.sindex = 0;
+        this.icon = "random"
+        this.color = "navy"
+        this.tick = 0;
+        this.value = 0;
+
+        this.options = [
+            {name:'Slow', speed:15},
+            {name:'Medium', speed:10},
+            {name:'Fast', speed:5}
+        ];
+
+        this.get = function(options){
+
+            var speed = ( options && options.speed ) ? options.speed : this.options[0].speed;
+
+
+            if(this.tick == 0){
+                this.value = Math.random();
+            }
+
+            this.tick++;
+            this.tick%=speed;
+
+            return this.value;
+
+        }
+    },
+    wave: function() {
+        this.name = "Wave"
+        this.sindex = 0;
+        this.icon = "sine"
+        this.color = "navy"
+
+        this.options = [
+            {name:'Slow', speed:1.0},
+            {name:'Medium', speed:5.0},
+            {name:'Fast', speed:9.0}
+        ];
+
+        this.get = function(options){
+
+            var speed = ( options && options.speed ) ? options.speed : this.options[0].speed;
+
+            return (Math.sin(rockpool.time/(90/speed)) + 1.0) / 2.0;
+
+        }
+    },
+    square: function() {
+        this.name = "Square"
+        this.sindex = 0;
+        this.icon = "square"
+        this.color = "navy"
+
+        this.options = [
+            {name:'Slow', speed:1.0},
+            {name:'Medium', speed:5.0},
+            {name:'Fast', speed:9.0}
+        ];
+
+        this.get = function(options){
+
+            var speed = ( options && options.speed ) ? options.speed : this.options[0].speed;
+
+            return Math.round(rockpool.time/(90/speed)) % 2;
+
+        }
+    }/*,
     pattern: function () {
         this.name = "Pattern"
         this.sindex = 0
@@ -142,7 +244,7 @@ rockpool.inputs = {
             }
             return value;
         }
-    },
+    },*/
 }
 
 if(window.DeviceMotionEvent) {

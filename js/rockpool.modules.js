@@ -209,19 +209,76 @@ rockpool.module_handlers['motion'] = {
         };
     },
     'inputs': {
+        'shake': function(){
+            this.name = "Shake"
+            this.icon = "motion"
+            this.data = {x:0,y:0,z:0,m_x:0,m_y:0,m_z:0,d:0}
+            this.last = []
+            this.shake = 0;
+            this.shakes = [];
+
+            this.get = function(){
+
+                // Watch X, Y and Z acelleration
+                var val = this.data['x'] + this.data['y'] + this.data['z'];
+
+                this.last.push(val);
+                this.last = this.last.slice(-5);
+
+                if( Math.abs(this.last[0] - val) > 0.1){
+                    this.shake += Math.abs(this.last[0] - val)/3;
+                }
+                else
+                {
+                    this.shake *= 0.9;
+                    if(this.shake < 0.01){
+                        this.shake = 0;
+                    }
+                }
+
+                this.shake = Math.max(Math.min(this.shake,1.0),0.0);
+
+                /* Smooth out transitions */
+                this.shakes.push(this.shake);
+                this.shakes = this.shakes.slice(-10);
+                this.shakes.avg = rockpool.helpers.avg;
+                return this.shakes.avg();
+
+            }
+        },
+        'heading': function(){
+            this.name = "Heading"
+            this.icon = "motion"
+            this.data = {x:0,y:0,z:0,m_x:0,m_y:0,m_z:0,d:0}
+            this.get = function(){return this.data['d'];}
+
+        },
+        'steer': function(){
+            this.name = "Steer"
+            this.icon = "motion"
+            this.data = {x:0,y:0,z:0,m_x:0,m_y:0,m_z:0,d:0}
+            this.steer = [];
+            this.get = function(){
+                var val = ((this.data['y'] - 0.5) * 2.5) + 0.5
+                val = Math.max(Math.min(val,1.0),0.0);
+
+                this.steer.push(val);
+                this.steer = this.steer.slice(-4);
+                this.steer.avg = rockpool.helpers.avg;
+                return this.steer.avg();
+            }
+
+        }/*,
         'axis': function(){
 
             this.name = "Axis"
             this.icon = "motion"
             this.data = {x:0,y:0,z:0,m_x:0,m_y:0,m_z:0,d:0}
             this.options = [
-                {name: 'Accel X', axis: 'x'},
-                {name: 'Accel Y', axis: 'y'},
-                {name: 'Accel Z', axis: 'z'},
-                {name: 'Mag X', axis: 'm_x'},
-                {name: 'Mag Y', axis: 'm_y'},
-                {name: 'Mag Z', axis: 'm_z'},
-                {name: 'From N', axis: 'd'}
+                {name: 'Tilt X', axis: 'x'},
+                {name: 'Tilt Y', axis: 'y'},
+                {name: 'Tilt Z', axis: 'z'},
+                {name: 'Heading', axis: 'd'}
             ]
 
             this.get = function(options) {
@@ -232,7 +289,7 @@ rockpool.module_handlers['motion'] = {
 
             }
 
-        }
+        }*/
     }
 }
 
@@ -285,16 +342,18 @@ rockpool.module_handlers['weather'] = {
             this.name = "Temperature"
             this.data = {temperature:0}
             this.options = [
-                {name: "+- 50c",  highest: 50,  lowest: -50},
-                {name: "+- 100c", highest: 100, lowest: -100}
+                {name: "Temperature",  highest: 50,  lowest: -50},
             ]
+            this.convertRaw = function(value){
+                return ((value - 0.5) * 10).toFixed(2) + 'c';
+            }
             this.raw = function(){
                 return (this.data.temperature / 100.00).toFixed(2) + 'c';
             }
             this.get = function(options){
 
-                var highest = options ? options.highest : 50.00;
-                var lowest = options ? options.lowest : -50.00;
+                var highest = options ? options.highest : 40.00;
+                var lowest = options ? options.lowest : -40.00;
                 var temp = this.data.temperature / 100.00;
 
                 if(temp > temp) {temp = highest}
