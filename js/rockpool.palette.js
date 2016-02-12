@@ -93,7 +93,7 @@ rockpool.refreshVirtualModules = function(obj, type){
     dom_virtual.find('div').remove();
 
     var collection = rockpool.inputs;
-    if(type == 'outputs'){
+    if(type == 'output'){
         collection = rockpool.outputs;
     }
 
@@ -156,7 +156,6 @@ rockpool.generatePalette = function(type){
         rockpool.refreshConnectedModules(dom_connected_modules,type);
         dom_connected_modules.appendTo(dom_palette);
 
-
         var dom_virtual_modules = $('<div>').addClass('virtual-modules');
         rockpool.refreshVirtualModules(dom_virtual_modules,type);
         dom_virtual_modules.appendTo(dom_palette);
@@ -201,7 +200,7 @@ rockpool.add = function(type, rule, index){
         var type = $(this).data('type');
 
         var collection = rockpool.inputs;
-        if(type == 'outputs'){
+        if(type == 'output'){
             collection = rockpool.outputs;
         }
 
