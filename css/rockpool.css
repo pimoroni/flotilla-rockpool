@@ -546,6 +546,7 @@ footer {
     position:absolute;
     left:50%;
     z-index:10;
+    margin-top:25px;
 }
 .popup:before {
     content:'';
@@ -619,6 +620,31 @@ footer {
     text-rendering: auto;
     width: 12.5%;
     position: relative;
+}
+
+.greyout .connected-modules {
+    background:#111111;
+}
+.greyout .virtual-modules {
+    background:#091223;
+}
+
+.greyout .icon-palette > div {
+    opacity:0.1;
+    -webkit-filter: blur(1px);
+}
+.greyout .icon-palette > div.selected > span {
+    display:none;
+}
+
+.greyout .icon-palette > div.active:hover {
+    opacity:0.2;
+    -webkit-filter: none;
+}
+.greyout .icon-palette > div.selected,
+.greyout .icon-palette > div.selected:hover{
+    opacity:1.0;
+    -webkit-filter: none;
 }
 
 .icon-palette span {

@@ -218,7 +218,7 @@ rockpool.inputs = {
         ];
 
         this.setValue = function(option,value){
-            this.options[option].speed = parseFloat(value) * 90;
+            this.options[option].speed = parseFloat(value) * 30;
         }
 
         this.get = function(options){
@@ -327,7 +327,7 @@ if(window.DeviceMotionEvent) {
                 {category: 'Keyboard Key', name:"Up",     keys:[87, 38], icon: "keyboard-up"},
                 {category: 'Keyboard Key', name:"Down",   keys:[83, 40], icon: "keyboard-down"},
                 {category: 'Keyboard Key', name:"Left",   keys:[65, 37], icon: "keyboard-left"},
-                {category: 'Keyboard Key', name:"Right",  keys:[68, 39], icon: "keyboard-right"},
+                {category: 'Keyboard Key', name:"Right",  keys:[68, 39], icon: "keyboard-right"}/*,
                 {category: 'Keyboard Key', name:"0",      keys:[48], icon: "keyboard-number"},
                 {category: 'Keyboard Key', name:"1",      keys:[49], icon: "keyboard-number"},
                 {category: 'Keyboard Key', name:"2",      keys:[50], icon: "keyboard-number"},
@@ -337,7 +337,7 @@ if(window.DeviceMotionEvent) {
                 {category: 'Keyboard Key', name:"6",      keys:[54], icon: "keyboard-number"},
                 {category: 'Keyboard Key', name:"7",      keys:[55], icon: "keyboard-number"},
                 {category: 'Keyboard Key', name:"8",      keys:[56], icon: "keyboard-number"},
-                {category: 'Keyboard Key', name:"9",      keys:[57], icon: "keyboard-number"},
+                {category: 'Keyboard Key', name:"9",      keys:[57], icon: "keyboard-number"},*/
             ]
         this.get = function(options){
             var x = options ? options.keys.length : this.keys.length
