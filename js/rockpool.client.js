@@ -376,7 +376,6 @@ rockpool.connect = function(host, port, details){
 
         rockpool.addToConnectionHistory(host);
 
-        rockpool.enable_keyboard();
         if(typeof(rockpool.on_connect) === "function"){
             rockpool.on_connect();
         }

@@ -425,7 +425,6 @@ i .name span {
 .palette {
     z-index: 9000;
     display:block;
-    overflow:hidden;
     width:auto;
     height:100%;
     max-width:760px;
@@ -534,9 +533,73 @@ footer {
 }
 
 
+/* popup */
+
+.popup ul, .popup li {
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+.popup {
+    border-top:5px solid #224280;
+    position:absolute;
+    left:50%;
+    z-index:10;
+    margin-top:25px;
+}
+.popup:before {
+    content:'';
+    border:20px solid transparent;
+    border-bottom-color:#333333;
+    position:absolute;
+    top:-45px;
+    margin-left:-20px;
+    left:50%;
+}
+.popup ul {
+    white-space: pre;
+}
+.popup li {
+    display:inline-block;
+    background:#224280;
+    color:#FFFFFF;
+    line-height: 40px;
+    margin-left: 5px;
+    margin-top: 5px;
+    cursor:pointer;
+    cursor:hand;
+    vertical-align:top;
+}
+.popup .option {
+    padding: 0 20px;
+}
+.popup .slider {
+    position: relative;
+    width:200px;
+    height:40px;
+}
+.popup .slider div {
+    background:#95c11f;
+    position:absolute;
+    left:0;
+    top:0;
+    height:40px;
+}
+.popup .slider strong {
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    text-align:center;
+}
+.popup li:nth-child(1){
+    margin-left:0;
+}
+
 /* Config Slider */
 
-.connected-modules, .virtual-modules {
+.connected-modules, .virtual-modules, .modifiers {
     display:block;
     background:#333333;
     border-radius:20px;
@@ -548,7 +611,7 @@ footer {
     margin-top:10px;
 }
 
-.channels div, .virtual div {
+.icon-palette > div {
     display: inline-block;
     zoom: 1;
     letter-spacing: normal;
@@ -556,24 +619,51 @@ footer {
     vertical-align: top;
     text-rendering: auto;
     width: 12.5%;
+    position: relative;
 }
 
-.channels span, .virtual span {
+.greyout .connected-modules {
+    background:#111111;
+}
+.greyout .virtual-modules {
+    background:#091223;
+}
+
+.greyout .icon-palette > div {
+    opacity:0.1;
+    -webkit-filter: blur(1px);
+}
+.greyout .icon-palette > div.selected > span {
+    display:none;
+}
+
+.greyout .icon-palette > div.active:hover {
+    opacity:0.2;
+    -webkit-filter: none;
+}
+.greyout .icon-palette > div.selected,
+.greyout .icon-palette > div.selected:hover{
+    opacity:1.0;
+    -webkit-filter: none;
+}
+
+.icon-palette span {
     display:block;
     color:#FFF;
     text-align:center;
     margin-top:5px;
 }
 
-.channels i, .virtual i {
+.icon-palette i {
     margin: 0 auto;
 }
 
 .channels .color-grey.disabled i {
-    background-color:#000000;
+    background-color:#282828;
 }
 .channels .color-grey i {
-    color:#666666;
+    color:#333333;
+    background-color:#444444;
 }
 .channels .color-grey span {
     color:#444444;
@@ -639,31 +729,31 @@ footer {
 ############################################ Colours ############################################
 */
 
-.color-yellow i {
+.color-yellow i, .color-yellow li {
     background-color:#DBB100;
 }
 
-.color-orange i {
+.color-orange i, .color-orange li {
     background-color:#DB9800; /* TBC */
 }
 
-.color-blue i {
+.color-blue i, .color-blue li {
     background-color:#00B0B2;
 }
 
-.color-green i {
+.color-green i, .color-green li {
     background-color:#02B186; /* TBC */
 }
 
-.color-red i {
+.color-red i, .color-red li {
     background-color:#ED1558;
 }
 
-.color-purple i {
+.color-purple i, .color-purple li {
     background-color:#9879D3;
 }
 
-.color-grey i {
+.color-grey i, .color-grey li {
     background-color:#787980;
 }
 
@@ -678,26 +768,40 @@ footer {
 .converter canvas {
     border-top-color:    rgba(229, 0, 81, 0.9); /* strokeStyle */
 }
-.color-purple canvas {
+
+
+.color-purple .popup:before {border-bottom-color:#9879D3;}
+.color-violet .popup:before {border-bottom-color:#9879D3;}
+.color-orange .popup:before {border-bottom-color:#DB9800;}
+.color-yellow .popup:before {border-bottom-color:#DBB100;}
+.color-green .popup:before {border-bottom-color:#02B186;}
+.color-blue .popup:before {border-bottom-color:#00B0B2;}
+.color-red .popup:before {border-bottom-color:#ED1558;}
+.color-grey .popup:before {border-bottom-color:#787980;}
+
+.color-purple canvas, .color-purple .popup {
     border-top-color:    #9879D3; /* strokeStyle */
 }
-.color-violet canvas {
+.color-violet canvas, .color-violet .popup {
     border-top-color:    #9879D3; /* strokeStyle */
 }
-.color-orange canvas {
+.color-orange canvas, .color-orange .popup {
     border-top-color:    #DB9800
 }
-.color-yellow canvas {
+.color-yellow canvas, .color-yellow .popup {
     border-top-color:    #DBB100; /* strokeStyle */
 }
-.color-green canvas {
+.color-green canvas, .color-green .popup {
     border-top-color:    #02B186; /* strokeStyle */
 }
-.color-blue canvas {
+.color-blue canvas, .color-blue .popup {
     border-top-color:    #00B0B2; /* strokeStyle */
 }
-.color-red canvas {
+.color-red canvas, .color-red .popup {
     border-top-color:    #ED1558; /* strokeStyle */
+}
+.color-grey canvas, .color-grey .popup {
+    border-top-color:    #787980; /* strokeStyle */
 }
 
 

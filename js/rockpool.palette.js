@@ -11,7 +11,9 @@ rockpool.prompt = function(content, close_on_click){
         content     : content,
         width       : '100%',
         margin      : [10, 10, 10, 10],
-        beforeClose : function(){}
+        beforeClose : function(){
+            $('.greyout').removeClass('greyout');
+        }
         //helpers     : {overlay : {locked : false}}
     });
     $('.fancybox-overlay,.fancybox-wrap').on('click','.close', function(){ $.fancybox.close(); });
@@ -40,7 +42,7 @@ rockpool.refreshConnectedModules = function(obj, type){
 
     var dom_channels = obj.find('div.channels');
     if(!dom_channels.length){
-        dom_channels = $('<div>').addClass('channels pure-g').appendTo(obj);
+        dom_channels = $('<div>').addClass('channels icon-palette pure-g').appendTo(obj);
 
         for(x = 0; x<8; x++){
             $('<div><i></i><span>').appendTo(dom_channels);
@@ -49,13 +51,14 @@ rockpool.refreshConnectedModules = function(obj, type){
 
     for(channel_index = 0; channel_index<8; channel_index++){
         var module = rockpool.getModule(dock_id, channel_index);
-        var dom_module = dom_channels.find('div:eq(' + channel_index + ')');
+        var dom_module = dom_channels.find('> div:eq(' + channel_index + ')');
         if(module === false || module.active === false){
             dom_module
                 .attr('class','color-grey disabled')
                 .find('i')
                 .attr('class','');
             dom_module.find('span').text('');
+            dom_module.find('.popup').remove();
         }
         else
         {
@@ -87,12 +90,12 @@ rockpool.refreshVirtualModules = function(obj, type){
 
     var dom_virtual = obj.find('div.virtual');
     if(!dom_virtual.length){
-        dom_virtual = $('<div>').addClass('virtual pure-g').appendTo(obj);
+        dom_virtual = $('<div>').addClass('virtual icon-palette pure-g').appendTo(obj);
     }
     dom_virtual.find('div').remove();
 
     var collection = rockpool.inputs;
-    if(type == 'outputs'){
+    if(type == 'output'){
         collection = rockpool.outputs;
     }
 
@@ -104,14 +107,45 @@ rockpool.refreshVirtualModules = function(obj, type){
         if(typeof(item) === "function") item = new item;
 
 
-        var dom_item = $('<div><i></i><span>')
+        var dom_item = $('<div><i><img></i><span>')
             .data({
                 'type': type,
                 'key':key
             })
-            .addClass('active')
+            .addClass('active color-grey')
             .appendTo(dom_virtual);
         dom_item.find('span').text(item.name);
+        if(item.icon){
+            dom_item.find('img').attr('src','css/images/icons/icon-' + item.icon + '.png');
+        }
+    }
+
+}
+
+rockpool.refreshConverters = function(obj){
+
+    var dom_converters = obj.find('div.modify');
+
+    if(!dom_converters.length){
+        dom_converters = $('<div>').addClass('modify icon-palette pure-g').appendTo(obj);
+    }
+    dom_converters.find('div').remove();
+
+    for(key in rockpool.converters){
+
+        var converter = typeof(rockpool.converters[key]) === "function" ? new rockpool.converters[key] : rockpool.converters[key];
+
+        var dom_item = $('<div><i><img></i><span>')
+            .data({
+                'key':key
+            })
+            .addClass('active')
+            .appendTo(dom_converters);
+        dom_item.find('span').text(converter.name);
+        if(converter.icon){
+            dom_item.find('img').attr('src','css/images/icons/icon-' + converter.icon + '.png');
+        }
+
     }
 
 }
@@ -130,12 +164,19 @@ rockpool.generatePalette = function(type){
         rockpool.refreshConnectedModules(dom_connected_modules,type);
         dom_connected_modules.appendTo(dom_palette);
 
-
         var dom_virtual_modules = $('<div>').addClass('virtual-modules');
         rockpool.refreshVirtualModules(dom_virtual_modules,type);
         dom_virtual_modules.appendTo(dom_palette);
 
         return;
+    }
+
+    if(type == 'converter'){
+
+        var dom_converters = $('<div>').addClass('modifiers');
+        rockpool.refreshConverters(dom_converters);
+        dom_converters.appendTo(dom_palette);
+
     }
 
 }
@@ -146,27 +187,30 @@ rockpool.add = function(type, rule, index){
 
     dom_palette.find('.popup').hide();
 
-    if(type == 'converter'){
-
-        rule = rule instanceof rockpool.rule ? rule : new rockpool.rule();
-        rule.start();
-        rule.setHandler(index,"add");
-        rockpool.closePrompt();
-
-        return;
-    }
-
 
     // Type is "input" or "output"
     dom_palette
     .off('click')
-    .on('click','.virtual .active', function(){
+    .on('click','.modify .active', function(e){
+        e.stopPropagation();
+
+        var key = $(this).data('key');
+
+        rule = rule instanceof rockpool.rule ? rule : new rockpool.rule();
+        rule.start();
+        rule.setHandler(index,key);
+        rockpool.closePrompt();
+
+
+    })
+    .on('click','.virtual .active', function(e){
+        e.stopPropagation();
 
         var key = $(this).data('key');
         var type = $(this).data('type');
 
         var collection = rockpool.inputs;
-        if(type == 'outputs'){
+        if(type == 'output'){
             collection = rockpool.outputs;
         }
 
@@ -174,7 +218,7 @@ rockpool.add = function(type, rule, index){
 
         if(module.options && module.options.length > 0){
             // Needs configuration
-            rockpool.virtualConfigureMenu(type, rule, key, module);
+            rockpool.virtualConfigureMenu($(this), type, rule, key, module);
         }
         else
         {
@@ -185,7 +229,9 @@ rockpool.add = function(type, rule, index){
         }
 
     })
-    .on('click','.channels .active', function(){
+    .on('click','.channels .active', function(e){
+        e.stopPropagation();
+
         var dock_id = 0;
         var channel_index = $(this).data('channel');
         var type = $(this).data('type');
@@ -196,13 +242,14 @@ rockpool.add = function(type, rule, index){
 
         if(module.needsConfiguration(type))
         {
-            rockpool.moduleConfigureMenu(type, rule, index, module);
+            rockpool.moduleConfigureMenu($(this), type, rule, index, module);
         }
         else
         {
             rule = rule instanceof rockpool.rule ? rule : new rockpool.rule();
             rule.start();
-            rule.setHandler(type,[module.key,module.firstInput().key].join('_'));
+            var io_key =  type == 'input' ? module.firstInput().key : module.firstOutput().key;
+            rule.setHandler(type,[module.key,io_key].join('_'));
             rockpool.closePrompt();
         }
     });
@@ -210,14 +257,16 @@ rockpool.add = function(type, rule, index){
     rockpool.prompt(dom_palette, false);
 }
 
-rockpool.virtualConfigureMenu = function(type, rule, key, module){
+rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
 
     var dom_palette = $('.palette.' + type);
+    dom_palette.addClass('greyout').find('.selected').removeClass('selected');
+    target.addClass('selected');
 
-    var dom_popup = dom_palette.find('.popup.' + key);
+    var dom_popup = target.find('.popup.' + key);
     if(dom_popup.length == 0){
 
-        var dom_popup = $('<div><ul>').addClass('popup').addClass(key).appendTo(dom_palette);
+        var dom_popup = $('<div><ul>').addClass('popup').addClass(key).appendTo(target);
 
         var dom_menu = dom_popup.find('ul');
 
@@ -225,20 +274,91 @@ rockpool.virtualConfigureMenu = function(type, rule, key, module){
 
             var option = module.options[idx];
 
-            $('<li>')
-                .data({
-                    'key':key,
-                    'idx':idx
-                })
-                .addClass('option')
-                .text(option.name)
-                .appendTo(dom_menu);
+            if(option.ui == 'slider'){
+
+                var dom_option = $('<li>')
+                    .addClass('slider')
+                    .data({
+                        'key':key,
+                        'idx':idx
+                    })
+                    .appendTo(dom_menu);
+
+                var dom_slider = $('<div>').appendTo(dom_option);
+                var dom_slider_label = $('<strong>').text(option.name).appendTo(dom_option)
+
+
+
+            }
+            else
+            {
+
+                $('<li>')
+                    .data({
+                        'key':key,
+                        'idx':idx
+                    })
+                    .addClass('option')
+                    .text(option.name)
+                    .appendTo(dom_menu);
+
+            }
 
         }
 
     }
 
-    dom_popup.off('click').show().on('click','li',function(){
+    $('.popup').hide();
+    dom_popup
+    .off('click')
+    .off('mouseup')
+    .off('mousemove')
+    .off('mousedown')
+    .css('display','inline-block')
+    .on('mousedown','.slider',function(e){
+        e.stopPropagation();
+
+        $(this).data('sliding',true);
+
+        var left = e.pageX - $(this).offset().left;
+        var width = $(this).width();
+        var percent = left/width;
+
+        $(this).data('value',percent);
+
+        $(this).find('div').css({width:(percent*100.0) + '%'});
+        $(this).find('strong').text(Math.round(percent*1000.0));
+    })
+    .on('mouseup','.slider',function(e){
+        e.stopPropagation();
+
+        $(this).data('sliding',false);
+
+        var key = $(this).data('key');
+        var idx = parseInt($(this).data('idx'));
+        var value = $(this).data('value');
+
+        rule = rule instanceof rockpool.rule ? rule : new rockpool.rule();
+        rule.start();
+        rule.setHandler(type,key,idx,value);
+        rockpool.closePrompt();
+
+    })
+    .on('mousemove','.slider',function(e){
+        e.stopPropagation();
+
+        if(!$(this).data('sliding')) return;
+
+        var left = e.pageX - $(this).offset().left;
+        var width = $(this).width();
+        var percent = left/width;
+        $(this).data('value',percent);
+
+        $(this).find('div').css({width:(percent*100.0) + '%'});
+        $(this).find('strong').text(Math.round(percent*1000.0)); 
+    })
+    .on('click','.option',function(e){
+        e.stopPropagation();
 
         var key = $(this).data('key');
         var idx = parseInt($(this).data('idx'));
@@ -250,19 +370,29 @@ rockpool.virtualConfigureMenu = function(type, rule, key, module){
 
     });
 
+    dom_popup.css({'margin-left': -dom_popup.width()/2});
+
+    $('.fancybox-overlay').on('click',function(){
+        dom_popup.hide();
+        dom_palette.removeClass('greyout');
+        target.removeClass('selected');
+        $('.fancybox-overlay').off('click');
+    })
 
 
 }
 
-rockpool.moduleConfigureMenu = function(type, rule, index, module){
+rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
     var dom_palette = $('.palette.' + type);
+    dom_palette.addClass('greyout').find('.selected').removeClass('selected');
+    target.addClass('selected');
 
     var options = module.getOptions(type);
 
-    var dom_popup = dom_palette.find('.popup.' + module.key);
+    var dom_popup = target.find('.popup.' + module.key);
     if(dom_popup.length == 0){
 
-        var dom_popup = $('<div><ul>').addClass('popup').addClass(module.key).appendTo(dom_palette);
+        var dom_popup = $('<div><ul>').addClass('popup').addClass(module.key).appendTo(target);
 
         var dom_menu = dom_popup.find('ul');
 
@@ -281,7 +411,8 @@ rockpool.moduleConfigureMenu = function(type, rule, index, module){
 
     }
 
-    dom_popup.off('click').show().on('click','li',function(){
+    $('.popup').hide();
+    dom_popup.off('click').css('display','inline-block').on('click','li',function(){
 
         var key = $(this).data('key');
         var idx = parseInt($(this).data('idx'));
@@ -292,6 +423,15 @@ rockpool.moduleConfigureMenu = function(type, rule, index, module){
         rockpool.closePrompt();
 
     });
+
+    dom_popup.css({'margin-left': -dom_popup.width()/2});
+
+    $('.fancybox-overlay').on('click',function(){
+        dom_popup.hide();
+        dom_palette.removeClass('greyout');
+        target.removeClass('selected');
+        $('.fancybox-overlay').off('click');
+    })
 
 }
 

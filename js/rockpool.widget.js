@@ -40,7 +40,7 @@ rockpool.widget =  function( type, rule, key ) {
         this.option_index = index;
 
         if(typeof(value) != "undefined" && this.handler.setValue){
-            this.handler.setValue(value);
+            this.handler.setValue(index,value);
         }
 
         if(this.options != this.handler.options[index]){
