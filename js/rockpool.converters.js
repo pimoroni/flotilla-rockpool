@@ -85,7 +85,7 @@ rockpool.converters = {
 
         }
     },
-    sine: function(){
+    /*sine: function(){
         this.name = "Sine Wave"
         this.category = rockpool.category.modify
         this.icon = "sine"
@@ -108,7 +108,7 @@ rockpool.converters = {
             return (Math.sin(time * this.frequency + this.phase) + 1.0) / 2.0;
 
         }   
-    },
+    },*/
     toggle: function () {
         this.name = "Toggle"
         this.category = rockpool.category.modify
