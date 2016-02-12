@@ -633,10 +633,11 @@ footer {
 }
 
 .channels .color-grey.disabled i {
-    background-color:#000000;
+    background-color:#282828;
 }
 .channels .color-grey i {
-    color:#666666;
+    color:#333333;
+    background-color:#444444;
 }
 .channels .color-grey span {
     color:#444444;

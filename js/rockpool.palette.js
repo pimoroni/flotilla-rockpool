@@ -239,7 +239,8 @@ rockpool.add = function(type, rule, index){
         {
             rule = rule instanceof rockpool.rule ? rule : new rockpool.rule();
             rule.start();
-            rule.setHandler(type,[module.key,module.firstInput().key].join('_'));
+            var io_key =  type == 'input' ? module.firstInput().key : module.firstOutput().key;
+            rule.setHandler(type,[module.key,io_key].join('_'));
             rockpool.closePrompt();
         }
     });
