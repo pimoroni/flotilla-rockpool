@@ -130,13 +130,16 @@ rockpool.refreshConverters = function(obj){
 
         var converter = typeof(rockpool.converters[key]) === "function" ? new rockpool.converters[key] : rockpool.converters[key];
 
-        var dom_item = $('<div><i></i><span>')
+        var dom_item = $('<div><i><img></i><span>')
             .data({
                 'key':key
             })
             .addClass('active')
             .appendTo(dom_converters);
         dom_item.find('span').text(converter.name);
+        if(converter.icon){
+            dom_item.find('img').attr('src','css/images/icons/icon-' + converter.icon + '.png');
+        }
 
     }
 
