@@ -13,6 +13,9 @@ rockpool.prompt = function(content, close_on_click){
         margin      : [10, 10, 10, 10],
         beforeClose : function(){
             $('.greyout').removeClass('greyout');
+        },
+        afterClose : function(){
+            $('.greyout').removeClass('greyout');
         }
         //helpers     : {overlay : {locked : false}}
     });
@@ -238,7 +241,7 @@ rockpool.add = function(type, rule, index){
 
         var module = rockpool.getModule(dock_id, channel_index);
 
-        console.log(type, channel_index, module);
+        //console.log(type, channel_index, module);
 
         if(module.needsConfiguration(type))
         {
@@ -412,7 +415,8 @@ rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
     }
 
     $('.popup').hide();
-    dom_popup.off('click').css('display','inline-block').on('click','li',function(){
+    dom_popup.off('click').css('display','inline-block').on('click','li',function(e){
+        e.stopPropagation();
 
         var key = $(this).data('key');
         var idx = parseInt($(this).data('idx'));
@@ -420,6 +424,7 @@ rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
         rule = rule instanceof rockpool.rule ? rule : new rockpool.rule();
         rule.start();
         rule.setHandler(type,key,idx);
+
         rockpool.closePrompt();
 
     });
