@@ -10,7 +10,7 @@ rockpool.prompt = function(content, close_on_click){
         modal       : true,
         content     : content,
         width       : '100%',
-        margin      : [10, 10, 10, 10],
+        margin      : [0, 0, 0, 0],
         beforeClose : function(){
             $('.greyout').removeClass('greyout');
         },
