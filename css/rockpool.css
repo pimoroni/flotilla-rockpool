@@ -73,17 +73,31 @@ h2 {
     font-size:20px;
 }
 .host-picker .host {
-    float:left;
-    display:block;
     width:200px;
-    height:200px;
-    border-radius:100px;
+    display:block;
     line-height:30px;
     text-align:center;
     font-size: 30px;
-    background:#2E6BE2;
     color:#FFF;
     margin-left:10px;
+    position:relative;
+}
+.host-picker .host:after {
+    position:absolute;
+    content:'';
+    float:left;
+    display:block;
+    width:100px;
+    height:100px;
+    border-radius:50px;
+
+    left:50px;
+    top:0px;
+
+    background-image: url('images/flotilla-dock.png');
+    background-size: cover;
+    background-position: center center;
+    background-color: transparent;
 }
 .host-picker .host.update-needed {
     background:#2F2F2F;
@@ -96,7 +110,7 @@ h2 {
 .host-picker .host p {
     margin:0;
     padding:0;
-    padding-top:60px;
+    padding-top:100px;
 }
 .host-picker .host small {
     font-size:20px;
@@ -429,9 +443,32 @@ i .name span {
     height:100%;
     max-width:760px;
     margin:20px auto;
+    position:relative;
+    margin-top:40px;
     /*border-radius:20px;
     background:#224280;*/
 }
+
+/*
+    Dock picture at top of inputs and outputs menus
+*/
+.palette.input:before, .palette.output:before {
+    content:'';
+    width:240px;
+    height:240px;
+    position:absolute;
+    left:50%;
+    margin-left:-120px;
+    background:url('images/flotilla-dock.png') no-repeat center center;
+    top:-160px;
+    z-index:1;
+}
+.palette.input .connected-modules, .palette.output .connected-modules {
+    padding-top: 140px;
+}
+
+
+
 .palette.host-picker {
     border-radius:20px;
     background:#224280;
@@ -446,8 +483,8 @@ i .name span {
 
 .palette .close {
     position:absolute;
-    right:0;
-    top:0;
+    right:-30px;
+    top:-30px;
     background:#787980;
     width:60px;
     height:60px;
@@ -601,13 +638,37 @@ footer {
 
 .connected-modules, .virtual-modules, .modifiers {
     display:block;
-    background:#333333;
+    background:#404040;
     border-radius:20px;
     padding:30px;
+    position: relative;
+}
+.connected-modules:before, .virtual-modules:before, .modifiers:before {
+    content:'';
+    position:absolute;
+    width:100%;
+    height:50px;
+    border-radius:20px;
+    bottom:-10px;
+    background-color:#262626;
+    left:0px;
+    z-index:-1;
+}
+
+
+.modifiers .icon-palette > div {
+    margin-bottom:20px;
+}
+.modifiers {
+    padding-bottom:10px;
+}
+
+.virtual-modules:before {
+    background:#0B1526;
 }
 
 .virtual-modules {
-    background:#224280;
+    background:#132240;
     margin-top:10px;
 }
 
@@ -623,10 +684,16 @@ footer {
 }
 
 .greyout .connected-modules {
+    background:#222222;
+}
+.greyout .connected-modules:before {
     background:#111111;
 }
 .greyout .virtual-modules {
-    background:#091223;
+    background:#090F1D;
+}
+.greyout .virtual-modules:before {
+    background:#050A13;
 }
 
 .greyout .icon-palette > div {
@@ -659,14 +726,28 @@ footer {
 }
 
 .channels .color-grey.disabled i {
-    background-color:#282828;
+    position:relative;
+    background-color:#1C1C1C;
+    border:2px solid #1C1C1C;
+    overflow:hidden;
+    box-sizing:border-box;
+}
+.channels .color-grey.disabled i:after {
+    content:'';
+    background-color:#292929;
+    width:72px;
+    height:72px;
+    border-radius:50%;
+    position:absolute;
+    left:-2px;
+    top:8px;
 }
 .channels .color-grey i {
-    color:#333333;
-    background-color:#444444;
+    color:#404040;
+    background-color:#555555;
 }
 .channels .color-grey span {
-    color:#444444;
+    color:#555555;
 }
 
 .config-slider {
@@ -729,6 +810,10 @@ footer {
 ############################################ Colours ############################################
 */
 
+.color-navy i, .color-navy li {
+    background-color:#4566AD;
+}
+
 .color-yellow i, .color-yellow li {
     background-color:#DBB100;
 }
@@ -770,6 +855,7 @@ footer {
 }
 
 
+.color-navy .popup:before {border-bottom-color:#4566AD;}
 .color-purple .popup:before {border-bottom-color:#9879D3;}
 .color-violet .popup:before {border-bottom-color:#9879D3;}
 .color-orange .popup:before {border-bottom-color:#DB9800;}
@@ -778,6 +864,10 @@ footer {
 .color-blue .popup:before {border-bottom-color:#00B0B2;}
 .color-red .popup:before {border-bottom-color:#ED1558;}
 .color-grey .popup:before {border-bottom-color:#787980;}
+
+.color-navy canvas, .color-navy .popup {
+    border-top-color:#4566AD;
+}
 
 .color-purple canvas, .color-purple .popup {
     border-top-color:    #9879D3; /* strokeStyle */
@@ -836,4 +926,87 @@ footer {
 #rules .rulegroup.off .delete {
     right:-36px;
     -webkit-transition: right linear 0.1s;
+}
+
+
+@media(max-width:860px){
+    .palette .close {
+        right:10px;
+    }
+}
+
+@media(max-width:719px){
+    .palette div i, .palette div i:after {
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+        font-size: 50px;
+        line-height: 50px;
+    }
+    .icon-palette span {
+        font-size:12px;
+    }
+}
+@media(min-width:720px){
+    .connected-modules .icon-palette > div.active:before {
+        content: '';
+        display: block;
+        border-left: 10px solid #00B0B2;
+        width: 0;
+        position: absolute;
+        top: -27px;
+        left: 40px;
+        transform-origin: 5px 0;
+    }
+    .connected-modules .icon-palette > div:nth-of-type(1).active:before,
+    .connected-modules .icon-palette > div:nth-of-type(2).active:before,
+    .connected-modules .icon-palette > div:nth-of-type(3).active:before,
+    .connected-modules .icon-palette > div:nth-of-type(4).active:before {
+        transform: rotate(224deg);
+        height: 240px;
+    }
+    .connected-modules .icon-palette > div:nth-of-type(5).active:before,
+    .connected-modules .icon-palette > div:nth-of-type(6).active:before,
+    .connected-modules .icon-palette > div:nth-of-type(7).active:before, 
+    .connected-modules .icon-palette > div:nth-of-type(8).active:before {
+        transform: rotate(-224deg);
+        height: 240px;
+    }
+
+    .connected-modules .icon-palette > div:nth-of-type(3).active:before,
+    .connected-modules .icon-palette > div:nth-of-type(6).active:before {
+        top: -44px;
+        height: 80px;
+    }
+
+    .connected-modules .icon-palette > div:nth-of-type(4).active:before,
+    .connected-modules .icon-palette > div:nth-of-type(5).active:before {
+        top: -50px;
+        height: 40px;
+    }
+
+    .connected-modules .icon-palette > div.active:after {
+        content: '';
+        display: block;
+        border-left: 10px solid #00B0B2;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        width: 0;
+        height: 30px;
+        position: absolute;
+        top: -32px;
+        left: 40px;
+    }
+
+    .connected-modules .icon-palette > div:nth-of-type(4).active:after,
+    .connected-modules .icon-palette > div:nth-of-type(5).active:after {
+        top:-55px;
+        height:53px;
+    }
+
+    .connected-modules .icon-palette > div:nth-of-type(3).active:after,
+    .connected-modules .icon-palette > div:nth-of-type(6).active:after {
+        top:-49px;
+        height:47px;
+    }
 }

@@ -115,7 +115,7 @@ rockpool.refreshVirtualModules = function(obj, type){
                 'type': type,
                 'key':key
             })
-            .addClass('active color-grey')
+            .addClass('active color-navy')
             .appendTo(dom_virtual);
         dom_item.find('span').text(item.name);
         if(item.icon){
@@ -148,6 +148,7 @@ rockpool.refreshConverters = function(obj){
         if(converter.icon){
             dom_item.find('img').attr('src','css/images/icons/icon-' + converter.icon + '.png');
         }
+        dom_item.addClass('color-' + converter.color);
 
     }
 
