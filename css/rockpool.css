@@ -462,7 +462,7 @@ i .name span {
     background:url('images/flotilla-dock.png') no-repeat center center;
     background-size:cover;
     top:-160px;
-    z-index:1;
+    z-index:2;
 }
 .palette.input .connected-modules, .palette.output .connected-modules {
     padding-top: 140px;
@@ -581,8 +581,6 @@ footer {
 
 .popup {
     border-top:5px solid #224280;
-    position:absolute;
-    left:50%;
     z-index:10;
     margin-top:25px;
 }
@@ -591,7 +589,7 @@ footer {
     border:20px solid transparent;
     border-bottom-color:#333333;
     position:absolute;
-    top:-45px;
+    top:57px;
     margin-left:-20px;
     left:50%;
 }
@@ -682,6 +680,7 @@ footer {
     text-rendering: auto;
     width: 12.5%;
     position: relative;
+    height:95px;
 }
 
 .greyout .connected-modules {
@@ -700,6 +699,10 @@ footer {
 .greyout .icon-palette > div {
     opacity:0.1;
     -webkit-filter: blur(1px);
+}
+.greyout .icon-palette > div.selected {
+    position: relative;
+    z-index: 1
 }
 .greyout .icon-palette > div.selected > span {
     display:none;
