@@ -460,6 +460,7 @@ i .name span {
     left:50%;
     margin-left:-120px;
     background:url('images/flotilla-dock.png') no-repeat center center;
+    background-size:cover;
     top:-160px;
     z-index:1;
 }
