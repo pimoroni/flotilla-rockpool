@@ -511,7 +511,9 @@ i .name span {
     border-radius: 30px;
 }
 .palette .close:before,
-.palette .close:after {
+.palette .close:after,
+.delete i:before,
+.delete i:after {
     width:40px;
     height:10px;
     background:#FFFFFF;
@@ -525,9 +527,14 @@ i .name span {
     transform:rotate(46deg);
     -webkit-transform:rotate(45deg);
 }
-.palette .close:before {
+.palette .close:before,
+.delete i:before {
     transform:rotate(46deg);
     -webkit-transform:rotate(-45deg);
+}
+.delete i:before,
+.delete i:after {
+    top:32px;
 }
 
 .fancybox-overlay {}
@@ -729,7 +736,7 @@ footer {
 }
 
 .greyout .connected-modules {
-    background:#222222;
+    background:#151515;
 }
 .greyout .connected-modules:before {
     background:#111111;
