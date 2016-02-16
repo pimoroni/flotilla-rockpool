@@ -574,6 +574,31 @@ rockpool.module_handlers['slider'] = {
 	}
 }
 
+rockpool.module_handlers['buzzer'] = {
+    'title': 'Buzzer',
+    'address': 0x62,
+    'color': 'purple',
+    'icon': 'motor',
+    'send': function(data){
+        return [
+            [Math.round(data.frequency).toString()]
+        ];
+    },
+    'outputs': {
+        'freq': function () {
+            this.name = "Frequency"
+            this.data = {frequency:0}
+
+            this.set = function( value, id, options ){
+
+                this.data.frequency = (value * 100)
+            }
+
+            this.stop = function(id) { this.data.frequency = 0 }
+        }
+    }
+}
+
 rockpool.module_handlers['motor'] = {
 	'title': 'Motor',
     'address': 0x64,
@@ -604,7 +629,7 @@ rockpool.module_handlers['motor'] = {
             this.stop = function(id) { this.data.speed[id] = null }
         }
 	}
-	}
+}
 
 rockpool.module_handlers['joystick'] = {
 	'title': 'Joystick',

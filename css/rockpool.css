@@ -525,6 +525,25 @@ canvas {
 }
 
 
+.block .add-input:before, .block .add-output:before,
+.block .add-input:after, .block .add-output:after {
+    width:52px;
+    height:10px;
+    background:#FFFFFF;
+    content:'';
+    display:block;
+    position:absolute;
+    top:30px;
+    left:10px;
+    transform-origin:26px 5px;
+    -webkit-transform-origin:26px 5px;
+}
+
+.block .add-input:before, .block .add-output:before {
+    transform:rotate(90deg);
+    -webkit-transform:rotate(90deg);
+}
+
 /* Rules */
 
 .pipe {
@@ -669,7 +688,7 @@ footer {
 
 .virtual-modules {
     background:#132240;
-    margin-top:10px;
+    margin-top:20px;
 }
 
 .icon-palette > div {
