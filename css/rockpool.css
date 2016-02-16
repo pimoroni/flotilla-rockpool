@@ -9,6 +9,10 @@ body {
     overflow:hidden;
 }
 
+#rules {
+    padding-bottom:20px;
+}
+
 @font-face {
     font-family: 'flotilla-regular';
     src:url('fonts/flotilla-regular.eot?-moe4l1');
@@ -36,11 +40,15 @@ h1, h2, h3, h4, .name {
 h2 {
     font-size: 18pt;
     font-weight: 700;
-    color:#FFF;
+    color:#787980;
     margin:0;
     padding:0;
 }
 
+.container > header {
+    margin-bottom: -15px;
+    padding-top: 20px;
+}
 
 /*
 ############################################ Host Picker ############################################
@@ -237,7 +245,7 @@ h2 {
 .rule .toggle, .rule .delete {
     position:absolute;
     top:10px;
-    left:-36px;
+    left:-16px;
 }
 
 .rule .delete {
@@ -247,9 +255,13 @@ h2 {
 
 .rule .toggle i {
     background-color:#DBB100;
+    border-top-left-radius:0;
+    border-bottom-left-radius:0;
 }
 .rule .delete i {
     background-color:#ED1457;
+    border-top-right-radius:0;
+    border-bottom-right-radius:0;
 }
 
 .graph {
@@ -372,24 +384,31 @@ i .name {
     width: 100%;
     position: absolute;
     top: 72px;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 14px;
-    line-height:16px;
-    text-align: center;
-    /*text-shadow: 0px 1px 2px rgba(0,0,0,0.5);*/
-    color:#FFF;
     display:block;
+}
+
+i .name, .icon-palette span {
+
+    color:#FFF;
+    font-style: normal;
+    text-align: center;
     white-space:nowrap;
+    text-transform: lowercase;
+    font-weight: 300;
+    font-size: 16px;
+    line-height:22px;
 }
 
 i .name span {
     background:#FFF;
-    width:14px;
-    height:14px;
-    border-radius:7px;
+    width:18px;
+    height:18px;
+    border-radius:9px;
     color:#132240;
     display:inline-block;
+    line-height:17px;
+    font-size: 13px;
+    font-weight: 700;
 }
 
 .inspector small {
@@ -526,18 +545,22 @@ canvas {
 }
 
 
+.block .add-input, .block .add-output {
+    background:#091224;
+}
+
 .block .add-input:before, .block .add-output:before,
 .block .add-input:after, .block .add-output:after {
     width:52px;
-    height:10px;
+    height:14px;
     background:#FFFFFF;
     content:'';
     display:block;
     position:absolute;
     top:30px;
     left:10px;
-    transform-origin:26px 5px;
-    -webkit-transform-origin:26px 5px;
+    transform-origin:26px 7px;
+    -webkit-transform-origin:26px 7px;
 }
 
 .block .add-input:before, .block .add-output:before {
@@ -625,6 +648,9 @@ footer {
     cursor:pointer;
     cursor:hand;
     vertical-align:top;
+    font-weight:300;
+    text-transform: lowercase;
+    font-size:16px;
 }
 .popup .option {
     padding: 0 20px;
@@ -947,7 +973,7 @@ footer {
     -webkit-transition: right linear 0.1s;
 }
 #rules .rulegroup.off .delete {
-    right:-36px;
+    right:-16px;
     -webkit-transition: right linear 0.1s;
 }
 

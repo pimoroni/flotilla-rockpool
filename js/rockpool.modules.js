@@ -305,6 +305,10 @@ rockpool.module_handlers['colour'] = {
         var g = parseInt(data[1])/c;
         var b = parseInt(data[2])/c;
 
+        r = r > 1 ? 1 : r;
+        g = g > 1 ? 1 : g;
+        b = b > 1 ? 1 : b;
+
         return {'r': r, 'g': g, 'b': b, 'brightness': c/Math.pow(2,16)};
     },
     'inputs': {
@@ -312,6 +316,13 @@ rockpool.module_handlers['colour'] = {
             this.name = "Colour"
             this.bgColor = rockpool.palette.blue
             this.data = {r:0,g:0,b:0,brightness:0}
+            this.raw = function(options){
+
+                if(!options) return 0;
+
+                return (Math.round(this.data[options.channel] * 255)).toString(16);
+
+            }
             this.options = [
                 {name:'Red', channel:'r', color: 'red'},
                 {name:'Green', channel:'g', color: 'green'},
