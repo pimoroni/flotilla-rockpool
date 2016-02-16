@@ -10,7 +10,7 @@ rockpool.prompt = function(content, close_on_click){
         modal       : true,
         content     : content,
         width       : '100%',
-        margin      : [10, 10, 10, 10],
+        margin      : [0, 0, 0, 0],
         beforeClose : function(){
             $('.greyout').removeClass('greyout');
         },
@@ -374,7 +374,18 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
 
     });
 
-    dom_popup.css({'margin-left': -dom_popup.width()/2});
+    dom_popup.css({'margin-left': -(dom_popup.width()/2) + 36});
+
+    if(dom_popup.offset().left < 0){
+        var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
+        margin -= dom_popup.offset().left;
+        dom_popup.css('margin-left', margin);
+    }
+    if(dom_popup.offset().left + dom_popup.width() > $(window).width()){
+        var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
+        margin += ($(window).width() - (dom_popup.offset().left + dom_popup.width()))
+        dom_popup.css('margin-left', margin);
+    }
 
     $('.fancybox-overlay').on('click',function(){
         dom_popup.hide();
@@ -430,7 +441,18 @@ rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
 
     });
 
-    dom_popup.css({'margin-left': -dom_popup.width()/2});
+    dom_popup.css({'margin-left': -(dom_popup.width()/2) + 36});
+
+    if(dom_popup.offset().left < 0){
+        var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
+        margin -= dom_popup.offset().left;
+        dom_popup.css('margin-left', margin);
+    }
+    if(dom_popup.offset().left + dom_popup.width() > $(window).width()){
+        var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
+        margin += ($(window).width() - (dom_popup.offset().left + dom_popup.width()))
+        dom_popup.css('margin-left', margin);
+    }
 
     $('.fancybox-overlay').on('click',function(){
         dom_popup.hide();
