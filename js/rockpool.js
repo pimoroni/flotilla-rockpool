@@ -113,8 +113,8 @@ rockpool.clear = function(){
     })
 }
 
-rockpool.updateActiveWidgets = function () {
-    rockpool.forRules(function(r){r.updateLabels()})
+rockpool.updateActiveWidgets = function (module_key) {
+    rockpool.forRules(function(r){r.updateLabels(module_key)})
 }
 
 rockpool.run = function () {
@@ -204,6 +204,16 @@ rockpool.registerInput = function( host, channel, code, name, handler ) {
 
 rockpool.registerOutput = function( host, channel, code, name, handler ) {
     rockpool.outputs[[host,channel,code,name].join('_')] = handler;
+}
+
+rockpool.newInactiveModuleFromKey = function(key){
+    var key = key.split('_');
+    var host_idx = parseInt(key[0]);
+    var channel_idx = parseInt(key[1]);
+    var module_code = key[2];
+    var module = rockpool.getModule(host_idx, channel_idx, module_code);
+    module.deactivate();
+    return module;
 }
 
 rockpool.getModule = function(host_idx, channel_idx, module_code) {

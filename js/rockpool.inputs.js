@@ -26,14 +26,20 @@ rockpool.inputs = {
         this.icon = "half"
         this.bgColor = rockpool.palette.blue
         this.category = 'Value'
-        this.setValue = function(option,value){
-            this.options[option].value = parseFloat(value);
-        }
+        
         this.options = [
                 {name:'Off',     value: 0.0, icon: "off" },
                 {name:'Percentage', value: 0.5, ui: 'slider' },
                 {name:'On',      value: 1.0, icon: "on" }
             ]
+
+        this.setValue = function(option,value){
+            this.options[option].value = parseFloat(value);
+        }
+
+        this.getValue = function(option){
+            return this.options[option].value;
+        }
 
         this.get = function ( options ) {
             return (options && options.value) ? options.value : 0
@@ -86,6 +92,10 @@ rockpool.inputs = {
             {name:'Custom', speed:5, ui:'slider'}
         ];
 
+        this.getValue = function(option){
+            return 1.0 - (this.options[option].speed / 100.0);
+        }
+
         this.setValue = function(option,value){
             this.options[option].speed = 100 - (parseFloat(value) * 100);
         }
@@ -124,6 +134,10 @@ rockpool.inputs = {
         this.frequency = 0;
         this.phase = 0.0;
 
+        this.getValue = function(option){
+            return this.options[option].frequency;
+        }
+
         this.setValue = function(option,value){
             this.options[option].frequency = parseFloat(value);
         }
@@ -158,6 +172,10 @@ rockpool.inputs = {
             {name:'Fast', speed:9.0},
             {name:'Custom', speed:9.0, ui:'slider'}
         ];
+
+        this.getValue = function(option){
+            return this.options[option].speed / 30.0
+        }
 
         this.setValue = function(option,value){
             this.options[option].speed = parseFloat(value) * 30;

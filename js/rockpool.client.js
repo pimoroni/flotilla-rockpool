@@ -467,7 +467,7 @@ rockpool.parseCommand = function(data_in){
             if( module.active == false ){
                 module.activate();
                 rockpool.updatePalettes();
-                rockpool.updateActiveWidgets();
+                rockpool.updateActiveWidgets(module.key);
             }
             return true;
         case 'd': // Disconnect
@@ -475,14 +475,14 @@ rockpool.parseCommand = function(data_in){
             if( !module ) return false;
             module.deactivate();
             rockpool.updatePalettes();
-            rockpool.updateActiveWidgets();
+            rockpool.updateActiveWidgets(module.key);
             return true;
         case 'c': // Connect
             var module = rockpool.getModule(host, channel, device);
             if( !module ) return false;
             module.activate();
             rockpool.updatePalettes();
-            rockpool.updateActiveWidgets();
+            rockpool.updateActiveWidgets(module.key);
             return true;
     }
 

@@ -8,7 +8,13 @@ rockpool.rule = function (parent, widget_index) {
             source = JSON.parse(source);
         }
 
-        console.log("Setting input handler", source.input.key, source.input.option);
+        //console.log("Setting input handler", source.input.key, source.input.option);
+
+
+        if( !rockpool.inputs[source.input.key] ){
+            rockpool.newInactiveModuleFromKey(source.input.key);
+        }
+
         this.setInputHandler( source.input.key, source.input.option > -1 ? source.input.option : null );
 
         for(var x = 0; x < source.converters.length; x++){
@@ -18,6 +24,10 @@ rockpool.rule = function (parent, widget_index) {
         }
 
         if( !this.getOutput().isComparator() ){
+
+            if( !rockpool.outputs[source.output.key] ){
+                rockpool.newInactiveModuleFromKey(source.output.key);
+            }
 
             this.setOutputHandler( source.output.key, source.output.option > -1 ? source.output.option : null );
         
@@ -37,9 +47,11 @@ rockpool.rule = function (parent, widget_index) {
         }
 
         var o = {
+            enabled: this.enabled,
             input: {  
                 key:    this.input.handler_key,
-                option: this.input.options ? this.input.option_index : -1
+                option: this.input.options ? this.input.option_index : -1,
+                value:  this.input.getValue()
             },
             output:{ 
                 key:    this.output.handler_key,
@@ -205,15 +217,16 @@ rockpool.rule = function (parent, widget_index) {
 
     this.getConverter = function(idx) {return this.converters[idx]}
 
-    this.updateLabels = function() {
-        this.getInput().update();
+    this.updateLabels = function(module_key) {
+        // module_key is the module which has triggered the update
+        this.getInput().update(this.getInput().handler_key.startsWith(module_key));
         this.converters.forEach(function(converter, idx){
                 converter.update();
             }
         )
         // Avoid recursion!
         if( !this.getOutput().isComparator() ){
-            this.getOutput().update();
+            this.getOutput().update(this.getOutput().handler_key.startsWith(module_key));
         }
         
     }
