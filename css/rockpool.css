@@ -910,6 +910,12 @@ footer {
     pointer-events:auto;
 }
 
+.options .toggle img {
+    max-width: 36px;
+    margin: 16px auto;
+    display: block;
+}
+
 .options.open .toggle {
     top:36px;
     cursor:pointer;
