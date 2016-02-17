@@ -9,6 +9,10 @@ body {
     overflow:hidden;
 }
 
+#rules {
+    padding-bottom:20px;
+}
+
 @font-face {
     font-family: 'flotilla-regular';
     src:url('fonts/flotilla-regular.eot?-moe4l1');
@@ -36,11 +40,15 @@ h1, h2, h3, h4, .name {
 h2 {
     font-size: 18pt;
     font-weight: 700;
-    color:#FFF;
+    color:#787980;
     margin:0;
     padding:0;
 }
 
+.container > header {
+    margin-bottom: -15px;
+    padding-top: 20px;
+}
 
 /*
 ############################################ Host Picker ############################################
@@ -237,7 +245,7 @@ h2 {
 .rule .toggle, .rule .delete {
     position:absolute;
     top:10px;
-    left:-36px;
+    left:-16px;
 }
 
 .rule .delete {
@@ -247,9 +255,13 @@ h2 {
 
 .rule .toggle i {
     background-color:#DBB100;
+    border-top-left-radius:0;
+    border-bottom-left-radius:0;
 }
 .rule .delete i {
     background-color:#ED1457;
+    border-top-right-radius:0;
+    border-bottom-right-radius:0;
 }
 
 .graph {
@@ -273,7 +285,7 @@ h2 {
 
 i img {max-width:100%;width:100%;height:auto;margin:0 auto;}
 
-.block i, .palette i, .toggle i, .delete i {
+.block i, .toggle i, .delete i, .icon-palette i, .palette i {
     position: relative;
     display: block;
     width: 72px;
@@ -372,24 +384,31 @@ i .name {
     width: 100%;
     position: absolute;
     top: 72px;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 14px;
-    line-height:16px;
-    text-align: center;
-    /*text-shadow: 0px 1px 2px rgba(0,0,0,0.5);*/
-    color:#FFF;
     display:block;
+}
+
+i .name, .icon-palette span {
+
+    color:#FFF;
+    font-style: normal;
+    text-align: center;
     white-space:nowrap;
+    text-transform: lowercase;
+    font-weight: 300;
+    font-size: 16px;
+    line-height:22px;
 }
 
 i .name span {
     background:#FFF;
-    width:14px;
-    height:14px;
-    border-radius:7px;
+    width:18px;
+    height:18px;
+    border-radius:9px;
     color:#132240;
     display:inline-block;
+    line-height:17px;
+    font-size: 13px;
+    font-weight: 700;
 }
 
 .inspector small {
@@ -492,7 +511,9 @@ i .name span {
     border-radius: 30px;
 }
 .palette .close:before,
-.palette .close:after {
+.palette .close:after,
+.delete i:before,
+.delete i:after {
     width:40px;
     height:10px;
     background:#FFFFFF;
@@ -506,9 +527,14 @@ i .name span {
     transform:rotate(46deg);
     -webkit-transform:rotate(45deg);
 }
-.palette .close:before {
+.palette .close:before,
+.delete i:before {
     transform:rotate(46deg);
     -webkit-transform:rotate(-45deg);
+}
+.delete i:before,
+.delete i:after {
+    top:32px;
 }
 
 .fancybox-overlay {}
@@ -525,6 +551,29 @@ canvas {
     height:72px;
 }
 
+
+.block .add-input, .block .add-output {
+    background:#091224;
+}
+
+.block .add-input:before, .block .add-output:before,
+.block .add-input:after, .block .add-output:after {
+    width:52px;
+    height:14px;
+    background:#FFFFFF;
+    content:'';
+    display:block;
+    position:absolute;
+    top:30px;
+    left:10px;
+    transform-origin:26px 7px;
+    -webkit-transform-origin:26px 7px;
+}
+
+.block .add-input:before, .block .add-output:before {
+    transform:rotate(90deg);
+    -webkit-transform:rotate(90deg);
+}
 
 /* Rules */
 
@@ -606,6 +655,9 @@ footer {
     cursor:pointer;
     cursor:hand;
     vertical-align:top;
+    font-weight:300;
+    text-transform: lowercase;
+    font-size:16px;
 }
 .popup .option {
     padding: 0 20px;
@@ -684,7 +736,7 @@ footer {
 }
 
 .greyout .connected-modules {
-    background:#222222;
+    background:#151515;
 }
 .greyout .connected-modules:before {
     background:#111111;
@@ -811,6 +863,63 @@ footer {
 }
 
 /*
+
+############################################ Options ############################################
+*/
+
+.options {
+    position:fixed;
+    top:auto;
+    left:0;
+    width:100%;
+    bottom:0px;
+    height:72px;
+    overflow:hidden;
+    z-index:10;
+    pointer-events:none;
+}
+
+.options .container {
+    background:#00B0D1;
+    margin:0 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    margin:0 auto;
+    max-width:760px;
+    height:153px;
+    margin-top:72px;
+    padding-top:30px;
+}
+
+.options .toggle,
+.options {
+    transition:top 0.2s ease-in,height 0.2s ease-in;
+}
+
+.options .toggle {
+    width:72px;
+    height:72px;
+    border-radius:36px;
+    border-bottom-left-radius:0px;
+    border-bottom-right-radius:0px;
+    background:#00B0D1;
+    left:50%;
+    margin-left:-36px;
+    top:0px;
+    position:absolute;
+    pointer-events:auto;
+}
+
+.options.open .toggle {
+    top:36px;
+    cursor:pointer;
+}
+
+.options.open {
+    height:225px;
+}
+
+/*
 ############################################ Colours ############################################
 */
 
@@ -928,7 +1037,7 @@ footer {
     -webkit-transition: right linear 0.1s;
 }
 #rules .rulegroup.off .delete {
-    right:-36px;
+    right:-16px;
     -webkit-transition: right linear 0.1s;
 }
 

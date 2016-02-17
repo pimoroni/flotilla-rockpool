@@ -4,7 +4,7 @@
         <title>Rockpool - Flotilla</title>
         <link rel="stylesheet" href="css/jquery.fancybox.min.css">
         <link rel="stylesheet" href="css/pure-min.css">
-        <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="css/rockpool.css">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -28,9 +28,9 @@
             </div>
             <div class="container">
                 <header class="pure-g">
-                    <div class="pure-u-1-5 center"><h2>Input</h2></div>
-                    <div class="pure-u-3-5 center"><h2>Modify</h2></div>
-                    <div class="pure-u-1-5 center"><h2>Output</h2></div>
+                    <div class="pure-u-1-5 center"><h2>input</h2></div>
+                    <div class="pure-u-3-5 center"><h2>modify</h2></div>
+                    <div class="pure-u-1-5 center"><h2>output</h2></div>
                 </header>
                 <div id="rules">
                 </div>
@@ -39,7 +39,7 @@
                         <div class="rule pure-g">
                             <div class="block toggle"></div>
 
-                            <div class="pure-u-1-5 center block input off type-input generators" style="top: 0px;"><i class="add-input">+</i></div>
+                            <div class="pure-u-1-5 center block input off type-input generators" style="top: 0px;"><i class="add-input"></i></div>
 
                             <div class="pure-u-1-5 block"></div>
 
@@ -47,10 +47,25 @@
 
                             <div class="pure-u-1-5 block"></div>
 
-                            <div class="pure-u-1-5 center block output none type-output general"><i class="add-output">+</i></div>
+                            <div class="pure-u-1-5 center block output none type-output general"><i class="add-output"></i></div>
                         </div>
                     </span>
                 </footer>
+            </div>
+        </div>
+        <div class="options closed">
+            <div class="container">
+                <i class="toggle"></i>
+                <div class="icon-palette pure-g">
+                    <div class="active color-navy"><i></i><span>Help</span></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div class="active color-navy"><i></i><span>Panic</span></div>
+                </div>
             </div>
         </div>
         <div style="display:none;" class="palettes"></div>
@@ -78,6 +93,15 @@
         <script>
             "use strict";
             $(function () {rockpool.initialize()});
+
+            $(function () {
+
+                $('.options .toggle').on('click',function(e){
+
+                    $(this).parents('.options').toggleClass('open');
+                })
+
+            })
         </script>
     </body>
 </html>
