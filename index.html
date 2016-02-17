@@ -53,6 +53,21 @@
                 </footer>
             </div>
         </div>
+        <div class="options closed">
+            <div class="container">
+                <i class="toggle"></i>
+                <div class="icon-palette pure-g">
+                    <div class="active color-navy"><i></i><span>Help</span></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div class="active color-navy"><i></i><span>Panic</span></div>
+                </div>
+            </div>
+        </div>
         <div style="display:none;" class="palettes"></div>
 
         <script src="js/lib/jquery-2.1.1.min.js"></script>
@@ -78,6 +93,15 @@
         <script>
             "use strict";
             $(function () {rockpool.initialize()});
+
+            $(function () {
+
+                $('.options .toggle').on('click',function(e){
+
+                    $(this).parents('.options').toggleClass('open');
+                })
+
+            })
         </script>
     </body>
 </html>

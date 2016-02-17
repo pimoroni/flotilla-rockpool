@@ -285,7 +285,7 @@ h2 {
 
 i img {max-width:100%;width:100%;height:auto;margin:0 auto;}
 
-.block i, .palette i, .toggle i, .delete i {
+.block i, .toggle i, .delete i, .icon-palette i, .palette i {
     position: relative;
     display: block;
     width: 72px;
@@ -860,6 +860,63 @@ footer {
 
 .config-slider .current {
     background:#01A176;
+}
+
+/*
+
+############################################ Options ############################################
+*/
+
+.options {
+    position:fixed;
+    top:auto;
+    left:0;
+    width:100%;
+    bottom:0px;
+    height:72px;
+    overflow:hidden;
+    z-index:10;
+    pointer-events:none;
+}
+
+.options .container {
+    background:#00B0D1;
+    margin:0 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    margin:0 auto;
+    max-width:760px;
+    height:153px;
+    margin-top:72px;
+    padding-top:30px;
+}
+
+.options .toggle,
+.options {
+    transition:top 0.2s ease-in,height 0.2s ease-in;
+}
+
+.options .toggle {
+    width:72px;
+    height:72px;
+    border-radius:36px;
+    border-bottom-left-radius:0px;
+    border-bottom-right-radius:0px;
+    background:#00B0D1;
+    left:50%;
+    margin-left:-36px;
+    top:0px;
+    position:absolute;
+    pointer-events:auto;
+}
+
+.options.open .toggle {
+    top:36px;
+    cursor:pointer;
+}
+
+.options.open {
+    height:225px;
 }
 
 /*
