@@ -52,6 +52,8 @@ rockpool.refreshConnectedModules = function(obj, type){
         }
     }
 
+    $('.active-' + type + 's li').removeClass('on');
+
     for(channel_index = 0; channel_index<8; channel_index++){
         var module = rockpool.getModule(dock_id, channel_index);
         var dom_module = dom_channels.find('> div:eq(' + channel_index + ')');
@@ -81,6 +83,8 @@ rockpool.refreshConnectedModules = function(obj, type){
 
                 dom_module
                     .attr('class','color-' + module.color + ' active');
+                    
+                $('.active-' + type + 's').find(' li:eq(' + channel_index + ')').addClass('on');
 
             }
         }

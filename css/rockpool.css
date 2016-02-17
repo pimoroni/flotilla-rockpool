@@ -586,8 +586,40 @@ canvas {
 
 footer {
     background-color:#132240;
+    padding-bottom:60px;
 }
 
+
+/* io indicators */
+
+.active-inputs, .active-outputs {
+    width:76px;
+    display:block;
+    position:relative;
+    left:50%;
+    margin-top:10px;
+    margin-left:-38px;
+}
+.active-inputs ul, .active-outputs ul,
+.active-inputs li, .active-outputs li {
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+.active-inputs li, .active-outputs li {
+    display:inline-block;
+    width:15px;
+    height:15px;
+    border-radius:50%;
+    background:#091224;
+    margin-right:4px;
+    margin-bottom:4px;
+}
+
+.active-inputs li.on, .active-outputs li.on {
+    background:#787980;
+}
 
 /* popup */
 
