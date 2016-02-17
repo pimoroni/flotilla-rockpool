@@ -12,20 +12,6 @@
     </head>
     <body>
         <div class="main">
-            <div class="toolbar" style="margin: 0px auto;width:100%;display:none;">
-                <div id="tools" class="pure-g">
-                    <div class="pure-u-5-5"><ul>
-                        <li data-action="dock" class="button dock">Pick Dock</li>
-                        <li class="spacer">&nbsp;</li>
-                        <li data-action="load" class="button load">Load</li>
-                        <li data-action="save" class="button save">Save</li>
-                        <li class="spacer">&nbsp;</li>
-                        <li data-action="clear" class="button clear">Clear</li>
-                        <li class="spacer">&nbsp;</li>
-                        <li data-action="new" class="button new">New Rule</li>
-                    </ul></div>
-                </div>
-            </div>
             <div class="container">
                 <header class="pure-g">
                     <div class="pure-u-1-5 center"><h2>input</h2></div>
@@ -57,14 +43,14 @@
             <div class="container">
                 <i class="toggle"><img src="css/images/flotilla-anchor.png" /></i>
                 <div class="icon-palette pure-g">
-                    <div class="active color-navy"><i></i><span>Help</span></div>
-                    <div class="active color-navy"><i></i><span>Help</span></div>
-                    <div class="active color-navy"><i></i><span>Help</span></div>
-                    <div class="active color-navy"><i></i><span>Help</span></div>
-                    <div class="active color-navy"><i></i><span>Help</span></div>
-                    <div class="active color-navy"><i></i><span>Help</span></div>
-                    <div class="active color-navy"><i></i><span>Help</span></div>
-                    <div class="active color-navy"><i></i><span>Panic</span></div>
+                    <div class="active color-navy" data-action="save"><i></i><span>Save</span></div>
+                    <div class="active color-navy" data-action="load"><i></i><span>Load</span></div>
+                    <div></div>
+                    <div class="active color-navy" data-action="clear"><i></i><span>Clear</span></div>
+                    <div></div>
+                    <div class="active color-navy" data-action="dock"><i></i><span>Dock</span></div>
+                    <div></div>
+                    <div class="active color-navy" data-action="help"><i></i><span>Help</span></div>
                 </div>
             </div>
         </div>

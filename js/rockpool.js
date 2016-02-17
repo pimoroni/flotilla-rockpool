@@ -267,13 +267,15 @@ rockpool.initialize = function(){
     }).find('h2');
 
 
-    $('.toolbar').on('click','li',function(e){
+    $('.options').on('click','.active',function(e){
         e.preventDefault();
 
         var o = $(this);
         var action = $(this).data('action');
 
         switch(action){
+            case 'help':
+                break;
             case 'new':
                 new rockpool.rule().start();
                 break;

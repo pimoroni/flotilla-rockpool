@@ -194,37 +194,6 @@ h2 {
 
 
 
-/* Toolbar */
-
-.toolbar {
-    background:#003040;
-    position:absolute;
-    bottom:0px;
-}
-
-.toolbar li {
-    display:inline-block;
-    padding:0 10px;
-    line-height:30px;
-    float:left;
-    margin-right:2px;
-}
-.toolbar li.spacer {width:20px;}
-
-
-.toolbar li.button {
-    background:#7DAF30;
-    color:#003040;
-    font-weight:bold;
-}
-
-.toolbar ul, .toolbar li {
-    list-style:none;
-    margin:0;
-    padding:0;
-}
-
-
 
 
 .block { 
@@ -907,6 +876,9 @@ footer {
     margin-left:-36px;
     top:0px;
     position:absolute;
+}
+
+.options .toggle, .options .active {
     pointer-events:auto;
 }
 
