@@ -270,7 +270,7 @@ rockpool.rule = function (parent, widget_index) {
 
             if( !this.isChild() ){
                 this.dom_delete =  $('<div class="delete"></div>').appendTo(this.dom)
-                $('<i></i>').appendTo(this.dom_enabled);
+                $('<i><span class="on">on</span><span class="off">off</span></i>').appendTo(this.dom_enabled);
                 $('<i></i>').appendTo(this.dom_delete);
             }
 
@@ -294,12 +294,16 @@ rockpool.rule = function (parent, widget_index) {
             {
                 this.group.append(this.dom);
 
-                this.dom_delete.on('click',function(){
+                this.dom_delete.on('click',function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
                     var rule = $(this).parent().data('obj') || $(this).parent().parent().data('obj') ;
                     rule.kill();
                 })
 
-                this.dom_enabled.on('click',function(){
+                this.dom_enabled.on('click',function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
                     var rule = $(this).parent().data('obj') || $(this).parent().parent().data('obj') ;
                     rule.toggle();
                 })
