@@ -217,6 +217,22 @@ h2 {
     left:-16px;
 }
 
+.rule .toggle span {
+    font-style: normal;
+    font-size: 30px;
+    letter-spacing: normal;
+    line-height: 72px;
+    display: block;
+    text-indent: 6px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none;
+    user-select: none;   
+}
+
 .rule .delete {
     left:auto;
     right:-72px;
@@ -413,6 +429,15 @@ i .name span {
     border-radius: 8px;
     height: 16px;
     width: auto;
+
+    white-space:pre;
+
+    -webkit-touch-callout: initial;
+    -webkit-user-select: initial;
+    -khtml-user-select: initial; 
+    -moz-user-select: initial; 
+    -ms-user-select: initial;
+    user-select: initial;
 }
 
 .input .inspector {
@@ -1026,7 +1051,17 @@ footer {
 #rules .rulegroup .pipe span:before,
 #rules .rulegroup .pipe span:after {
     -webkit-transition: background-color linear 0.1s;
+    transition: background-color linear 0.1s;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none;
+    user-select: none;   
 }
+
+#rules .rulegroup .toggle i .off {display:none;}
+#rules .rulegroup.off .toggle i .off {display:block;}
 
 #rules .rulegroup.off canvas {display:none;}
 #rules .rulegroup.off .block i,
@@ -1037,8 +1072,10 @@ footer {
 #rules .rulegroup.off .pipe span:after {
     background-color:#4E4F5A;
     -webkit-transition: background-color linear 0.1s;
+    transition: background-color linear 0.1s;
 }
 
+#rules .rulegroup.off .toggle i .on,
 #rules .rulegroup.off .block .inspector,
 #rules .rulegroup.off .empty .name,
 #rules .rulegroup.off .none .name {display:none;}
