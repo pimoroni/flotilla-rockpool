@@ -26,77 +26,20 @@ rockpool.inputs = {
         this.icon = "half"
         this.bgColor = rockpool.palette.blue
         this.category = 'Value'
-        this.setValue = function(option,value){
-            this.options[option].value = parseFloat(value);
-        }
-        /*
-        this.configure_ui = function(obj_rule,dom_configure){
-            var obj_rule_input = obj_rule.getInput();
-            var current_value = obj_rule_input.options ? obj_rule_input.options.value : 0;
-
-            var dom = $('<div>').addClass('pure-g');
-            var dom_slider_container = $('<div>').addClass('pure-u-4-5').appendTo(dom);
-            var dom_ok_container = $('<div>').addClass('pure-u-1-5').appendTo(dom);
-
-            var dom_slider = $('<div>').addClass('config-slider color-grey').appendTo(dom_slider_container);
-            var dom_slider_bar = $('<div>').css({width:(current_value*100)+'%'}).appendTo(dom_slider);
-            var dom_slider_status = $('<span>').addClass('status').appendTo(dom_slider);
-
-            $('<i class="icon-off option"><span class="name">Off</span></i>').data({'key':'state','seq':0}).appendTo(dom_slider);
-            $('<i class="icon-on option"><span class="name">On</span></i>').data({'key':'state','seq':10}).appendTo(dom_slider);
-
-            var dom_save = $('<div class="color-green option"><i class="icon-tick"><span class="name">Save</span></i></div>')
-                .addClass('save')
-                .data({'key':'state','seq':11,'value':current_value})
-                .appendTo(dom_ok_container);
-
-            if(current_value == 1){
-                dom_slider.find('.icon-on').addClass('current');
-                dom_save.data({'key':'state','seq':10,'value':current_value});
-            }
-            else if(current_value == 0){
-                dom_save.data({'key':'state','seq':0,'value':current_value});
-            }
-
-            dom_slider_status.text(Math.round(current_value * 1000) +'%');
-
-            function update_slider(e,obj){
-
-                var offset = e.pageX - obj.position().left - 97 ;
-                var width = obj.width();
-
-                var percent = offset/width;
-                if(percent < 0.001){percent = 0.001};
-                if(percent > 0.999){percent = 0.999};
-                
-                obj.find('div').css({width:(Math.round(percent*1000.0)/10.0) + '%'});
-
-                dom_save.data({'key':'state','seq':11,'value':percent});
-
-                dom_slider_status.text(Math.round(percent*1000.0) +'%');  
-            }
-            var dragging = false;
-
-            dom_slider.on('mousedown',function(){dragging=true});
-            dom_slider.on('mouseup',function(){dragging=false});
-            dom_slider.on('mousemove',function(e){
-                if(dragging){
-                update_slider(e,$(this));
-                }
-            })
-
-            dom_slider.on('click',function(e){
-                update_slider(e,$(this));
-            });
-
-            dom.appendTo(dom_configure);
-        }*/
-
+        
         this.options = [
                 {name:'Off',     value: 0.0, icon: "off" },
                 {name:'Percentage', value: 0.5, ui: 'slider' },
                 {name:'On',      value: 1.0, icon: "on" }
             ]
+
+        this.setValue = function(option,value){
+            this.options[option].value = parseFloat(value);
+        }
+
+        this.getValue = function(option){
+            return this.options[option].value;
+        }
 
         this.get = function ( options ) {
             return (options && options.value) ? options.value : 0
@@ -145,8 +88,17 @@ rockpool.inputs = {
         this.options = [
             {name:'Slow', speed:15},
             {name:'Medium', speed:10},
-            {name:'Fast', speed:5}
+            {name:'Fast', speed:5},
+            {name:'Custom', speed:5, ui:'slider'}
         ];
+
+        this.getValue = function(option){
+            return 1.0 - (this.options[option].speed / 100.0);
+        }
+
+        this.setValue = function(option,value){
+            this.options[option].speed = 100 - (parseFloat(value) * 100);
+        }
 
         this.get = function(options){
 
@@ -182,6 +134,10 @@ rockpool.inputs = {
         this.frequency = 0;
         this.phase = 0.0;
 
+        this.getValue = function(option){
+            return this.options[option].frequency;
+        }
+
         this.setValue = function(option,value){
             this.options[option].frequency = parseFloat(value);
         }
@@ -216,6 +172,10 @@ rockpool.inputs = {
             {name:'Fast', speed:9.0},
             {name:'Custom', speed:9.0, ui:'slider'}
         ];
+
+        this.getValue = function(option){
+            return this.options[option].speed / 30.0
+        }
 
         this.setValue = function(option,value){
             this.options[option].speed = parseFloat(value) * 30;

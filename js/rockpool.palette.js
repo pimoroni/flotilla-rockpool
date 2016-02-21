@@ -10,8 +10,11 @@ rockpool.prompt = function(content, close_on_click){
         modal       : true,
         content     : content,
         width       : '100%',
-        margin      : [10, 10, 10, 10],
+        margin      : [0, 0, 0, 0],
         beforeClose : function(){
+            $('.greyout').removeClass('greyout');
+        },
+        afterClose : function(){
             $('.greyout').removeClass('greyout');
         }
         //helpers     : {overlay : {locked : false}}
@@ -49,6 +52,8 @@ rockpool.refreshConnectedModules = function(obj, type){
         }
     }
 
+    $('.active-' + type + 's li').removeClass('on');
+
     for(channel_index = 0; channel_index<8; channel_index++){
         var module = rockpool.getModule(dock_id, channel_index);
         var dom_module = dom_channels.find('> div:eq(' + channel_index + ')');
@@ -78,6 +83,8 @@ rockpool.refreshConnectedModules = function(obj, type){
 
                 dom_module
                     .attr('class','color-' + module.color + ' active');
+                    
+                $('.active-' + type + 's').find(' li:eq(' + channel_index + ')').addClass('on');
 
             }
         }
@@ -112,7 +119,7 @@ rockpool.refreshVirtualModules = function(obj, type){
                 'type': type,
                 'key':key
             })
-            .addClass('active color-grey')
+            .addClass('active color-navy')
             .appendTo(dom_virtual);
         dom_item.find('span').text(item.name);
         if(item.icon){
@@ -145,6 +152,7 @@ rockpool.refreshConverters = function(obj){
         if(converter.icon){
             dom_item.find('img').attr('src','css/images/icons/icon-' + converter.icon + '.png');
         }
+        dom_item.addClass('color-' + converter.color);
 
     }
 
@@ -238,7 +246,7 @@ rockpool.add = function(type, rule, index){
 
         var module = rockpool.getModule(dock_id, channel_index);
 
-        console.log(type, channel_index, module);
+        //console.log(type, channel_index, module);
 
         if(module.needsConfiguration(type))
         {
@@ -370,7 +378,18 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
 
     });
 
-    dom_popup.css({'margin-left': -dom_popup.width()/2});
+    dom_popup.css({'margin-left': -(dom_popup.width()/2) + 36});
+
+    if(dom_popup.offset().left < 0){
+        var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
+        margin -= dom_popup.offset().left;
+        dom_popup.css('margin-left', margin);
+    }
+    if(dom_popup.offset().left + dom_popup.width() > $(window).width()){
+        var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
+        margin += ($(window).width() - (dom_popup.offset().left + dom_popup.width()))
+        dom_popup.css('margin-left', margin);
+    }
 
     $('.fancybox-overlay').on('click',function(){
         dom_popup.hide();
@@ -412,7 +431,8 @@ rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
     }
 
     $('.popup').hide();
-    dom_popup.off('click').css('display','inline-block').on('click','li',function(){
+    dom_popup.off('click').css('display','inline-block').on('click','li',function(e){
+        e.stopPropagation();
 
         var key = $(this).data('key');
         var idx = parseInt($(this).data('idx'));
@@ -420,11 +440,23 @@ rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
         rule = rule instanceof rockpool.rule ? rule : new rockpool.rule();
         rule.start();
         rule.setHandler(type,key,idx);
+
         rockpool.closePrompt();
 
     });
 
-    dom_popup.css({'margin-left': -dom_popup.width()/2});
+    dom_popup.css({'margin-left': -(dom_popup.width()/2) + 36});
+
+    if(dom_popup.offset().left < 0){
+        var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
+        margin -= dom_popup.offset().left;
+        dom_popup.css('margin-left', margin);
+    }
+    if(dom_popup.offset().left + dom_popup.width() > $(window).width()){
+        var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
+        margin += ($(window).width() - (dom_popup.offset().left + dom_popup.width()))
+        dom_popup.css('margin-left', margin);
+    }
 
     $('.fancybox-overlay').on('click',function(){
         dom_popup.hide();

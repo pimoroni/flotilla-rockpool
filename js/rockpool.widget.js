@@ -34,6 +34,14 @@ rockpool.widget =  function( type, rule, key ) {
         return (this.options && this.options[option]) ? this.options[option] : this.handler[option];
     }
 
+    this.hasValue = function(){
+        return typeof(this.handler.setValue) == "function"
+    }
+
+    this.getValue = function(){
+        return typeof(this.handler.getValue) == "function" ? this.handler.getValue(this.option_index) : -1;
+    }
+
     this.setOptions = function(index,value) {
         if (!this.hasOptions()) return false;
 
@@ -65,6 +73,10 @@ rockpool.widget =  function( type, rule, key ) {
             this.setIcon(    this.getOption('icon') );
 
             var color = this.getOption('color');
+
+            if(!this.handler.active){
+                color = 'grey';
+            }
 
             if(this.isComparator()){
                 rule.updateDom();
