@@ -24,8 +24,6 @@ rockpool.inputs = {
     state: function() {
         this.name = "Value"
         this.icon = "half"
-        this.bgColor = rockpool.palette.blue
-        this.category = 'Value'
         
         this.options = [
                 {name:'Off',     value: 0.0, icon: "off" },
@@ -188,40 +186,7 @@ rockpool.inputs = {
             return Math.round(rockpool.time/(90/speed)) % 2;
 
         }
-    }/*,
-    pattern: function () {
-        this.name = "Pattern"
-        this.sindex = 0
-        this.icon = "random"
-        this.bgColor = rockpool.palette.blue
-        this.category = 'Pattern'
-
-        this.options = [
-                {category: 'Waveforms', name:'Sine',     sequence: function(){ return (Math.sin(rockpool.time/10) + 1.0) / 2.0 }, icon: "sine"},
-                {category: 'Waveforms', name:'Random',   sequence: function(){ return Math.random() }, icon: "random" },
-                {category: 'Waveforms', name:'Pulse',    sequence: function(){ return 1.0 - (((rockpool.time/10) % 10) / 10.0);}, icon: "pulse"}, // [0, 0.5, 1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1]
-                {category: 'Waveforms', name:'Square',   sequence: function(){ return Math.round(rockpool.time/10) % 2;}, icon: "square"}, // [0, 0, 1, 1]
-                {category: 'Waveforms', name:'Triangle', sequence: function(){ return Math.abs(((rockpool.time/10)%10)-5)/5.0;console.log(r);}, icon: "triangle"}, // [0, 0.5, 1, 0.5]
-                {category: 'Waveforms', name:'Saw',      sequence: function(){ return (((rockpool.time/10) % 5) / 5.0);}, icon: "saw"}//, //[1,0.5,0]
-                //{category: 'Waveforms', name:'Clock',    sequence: function(){ return ((rockpool.time/10) % 2) / 2.0;}, icon: "clock"} // function(){ var d = new Date(); return d.getTime() % 2;}
-            ]
-
-        this.get = function ( options ) {
-            var sequence = ( options && options.sequence ) ? options.sequence : this.sequence;
-
-            if( !sequence ) return 0
-
-            if( typeof( sequence ) === 'function' ){
-                return sequence();
-            }
-            var value =  sequence[this.sindex]
-            this.sindex++
-            if( this.sindex >= sequence.length ){
-                this.sindex = 0
-            }
-            return value;
-        }
-    },*/
+    }
 }
 
 if(window.DeviceMotionEvent) {
