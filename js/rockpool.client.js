@@ -37,12 +37,14 @@ rockpool.host_picker = $('<div>').addClass('host-picker palette')
         e.stopPropagation();
         var host = $(this).parent().find('input').val();
         rockpool.stopScan();
-        rockpool.closePrompt();
-        rockpool.connect(host, rockpool.port);
+        rockpool.addScanTarget(host);
+        rockpool.findHosts();
+        //rockpool.closePrompt();
+        //rockpool.connect(host, rockpool.port);
     })
     .append('<header><h1>' + rockpool.languify('Pick Your Dock') + '</h1></header>')
     .append('<div class="progress"><strong>' + rockpool.languify('Scanning') + '</strong><span></span></div>')
-    .append('<div class="choices"><div class="custom"><h3>Custom</h3><p>Don\'t see your dock? Enter the IP address of your Flotilla host.</p><input type="text" value="127.0.0.1"><a href="#">Connect<a></div></div>');
+    .append('<div class="choices"><div class="custom"><h3>Custom</h3><p>Don\'t see your dock? Enter the IP address of your Flotilla host.</p><input type="text" value="127.0.0.1"><a href="#">Find<a></div></div>');
 
 rockpool.addDaemon = function(host, details){
     if(rockpool.enable_debug){console.log('Adding daemon', host, details);}
