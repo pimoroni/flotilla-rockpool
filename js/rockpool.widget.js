@@ -185,7 +185,7 @@ rockpool.widget =  function( type, rule, key ) {
     }
 
     this.setIcon = function( icon ){
-        this.img.attr('src', icon ? 'css/images/icons/icon-' + icon + '.png' : 'css/images/icon-empty.png');
+        //this.img.attr('src', icon ? 'css/images/icons/icon-' + icon + '.png' : 'css/images/icon-empty.png');
         this.dom.find('i').attr('class','').addClass('icon-' + icon);
         this.dom.find('.icon').append(((this.type != 'converter' && !isNaN(this.handler.channel)) ? ' <span class="channel">' + rockpool.channelToNumber(this.handler.channel) + '</span>' : ''))
     }
@@ -209,7 +209,7 @@ rockpool.widget =  function( type, rule, key ) {
         if( this.isInput() ){
             var raw = Math.round(value*1000).toString();
             if( this.handler.raw ){
-                raw = this.handler.raw(this.options) + '<small>' + raw +  '</small>';
+                raw = this.handler.raw(this.option_index) + '<small>' + raw +  '</small>';
             }
             if( raw != this.last_inspector_value ){
                 this.inspector.html(raw);

@@ -121,10 +121,11 @@ rockpool.refreshVirtualModules = function(obj, type){
             })
             .addClass('active color-navy')
             .appendTo(dom_virtual);
+        dom_item.find('i').addClass('icon-' + item.icon);
         dom_item.find('span').text(item.name);
-        if(item.icon){
+        /*if(item.icon){
             dom_item.find('img').attr('src','css/images/icons/icon-' + item.icon + '.png');
-        }
+        }*/
     }
 
 }
@@ -148,10 +149,11 @@ rockpool.refreshConverters = function(obj){
             })
             .addClass('active')
             .appendTo(dom_converters);
+        dom_item.find('i').addClass('icon-' + converter.icon);
         dom_item.find('span').text(converter.name);
-        if(converter.icon){
+        /*if(converter.icon){
             dom_item.find('img').attr('src','css/images/icons/icon-' + converter.icon + '.png');
-        }
+        }*/
         dom_item.addClass('color-' + converter.color);
 
     }
@@ -316,6 +318,34 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
 
     }
 
+    function update_slider(e,obj){
+
+        var slider_overscale = 1.2; // Ensure the slider reaches the edges of the bounding box before the cursor does
+
+        var left = e.pageX - $(obj).offset().left;
+        var width = $(obj).width();
+        
+        var offset_center = Math.min(left/width,1.0) - 0.5;
+        var percent = Math.max(Math.min((offset_center * slider_overscale) + 0.5,1.0),0.0);
+
+        $(obj).data('value',Math.round(percent*100.0) / 100.0);
+
+        $(obj).find('div').css({width:Math.round(percent*100.0) + '%'});
+        $(obj).find('strong').text(Math.round(percent*100.0) + '%');
+    }
+
+    var slider = dom_popup.find('.slider');
+    slider.find('span').remove();
+
+    for(var x = 1; x < 10; x++){
+        tick = $('<span>');
+        tick.css({
+            left:(slider.width()/10) * x
+        });
+
+        tick.appendTo(slider);
+    }
+
     $('.popup').hide();
     dom_popup
     .off('click')
@@ -328,14 +358,14 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
 
         $(this).data('sliding',true);
 
-        var left = e.pageX - $(this).offset().left;
-        var width = $(this).width();
-        var percent = left/width;
+        update_slider(e,this);
+    })
+    .on('mousemove','.slider',function(e){
+        e.stopPropagation();
 
-        $(this).data('value',percent);
+        if(!$(this).data('sliding')) return;
 
-        $(this).find('div').css({width:(percent*100.0) + '%'});
-        $(this).find('strong').text(Math.round(percent*1000.0));
+        update_slider(e,this);
     })
     .on('mouseup','.slider',function(e){
         e.stopPropagation();
@@ -351,19 +381,6 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
         rule.setHandler(type,key,idx,value);
         rockpool.closePrompt();
 
-    })
-    .on('mousemove','.slider',function(e){
-        e.stopPropagation();
-
-        if(!$(this).data('sliding')) return;
-
-        var left = e.pageX - $(this).offset().left;
-        var width = $(this).width();
-        var percent = left/width;
-        $(this).data('value',percent);
-
-        $(this).find('div').css({width:(percent*100.0) + '%'});
-        $(this).find('strong').text(Math.round(percent*1000.0)); 
     })
     .on('click','.option',function(e){
         e.stopPropagation();

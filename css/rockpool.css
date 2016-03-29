@@ -15,12 +15,12 @@ body {
 
 @font-face {
     font-family: 'flotilla-regular';
-    src:url('fonts/flotilla-regular.eot?-moe4l1');
-    src:url('fonts/flotilla-regular.eot?#iefix-moe4l1') format('embedded-opentype'),
-        url('fonts/flotilla-regular.woff?-moe4l1') format('woff'),
-        url('fonts/flotilla-regular.ttf?-moe4l1') format('truetype'),
-        url('fonts/flotilla-regular.svg?-moe4l1#boo') format('svg'),
-        url('fonts/flotilla-regular.ico') format('otf');
+    src:url('fonts/flotilla-regular-webfont.eot?-moe4l1');
+    src:url('fonts/flotilla-regular-webfont.eot?#iefix-moe4l1') format('embedded-opentype'),
+        url('fonts/flotilla-regular-webfont.woff?-moe4l1') format('woff'),
+        url('fonts/flotilla-regular-webfont.ttf?-moe4l1') format('truetype'),
+        url('fonts/flotilla-regular-webfont.svg?-moe4l1#boo') format('svg'),
+        url('fonts/flotilla-regular-webfont.otf') format('otf');
 
     font-weight: normal;
     font-style: normal;
@@ -285,19 +285,21 @@ i img {max-width:100%;width:100%;height:auto;margin:0 auto;}
     z-index:1;
 }
 
-.block i:after, .palette i:after {
+.block i:after, .palette i:after, .icon-palette i:after, i.toggle:after {
     width:72px;
     height:72px;
-    line-height:61px;
-    font-size:102px;
+    line-height:56px;
+    font-size:87px;
     text-align:center;
     position:absolute;
     left:0;
     top:0;
     font-family:flotilla-regular;
     font-style:normal;
+    color:#FFF;
 }
 
+/*
 .icon-number img,
 .icon-joystick img,
 .icon-dial img,
@@ -309,55 +311,61 @@ i img {max-width:100%;width:100%;height:auto;margin:0 auto;}
 .icon-motion img,
 .icon-weather img,
 .icon-slider img,
-.icon-color img {display:none;}
+.icon-color img,
+.icon-half img,
+.icon-clock img,
+.icon-random img,
+.icon-sine img,
+.icon-keyboard img,
+.icon-variable img {display:none;}
+*/
 
-i.icon-weather:after {
-    content: 'B';
-}
+/* Real Inputs */
+i.icon-weather:after  {content:'B';}
+i.icon-number:after   {content:'N';}
+i.icon-joystick:after {content:'J';}
+i.icon-dial:after     {content:'D';}
+i.icon-slider:after   {content:'S';}
+i.icon-color:after    {content:'C';}
+i.icon-motion:after   {content:'m';}
+i.icon-touch:after    {content:'T';}
+i.icon-light:after    {content:'L';}
+i.icon-motor:after    {content:'M';}
+i.icon-matrix:after   {content:'n';}
+i.icon-rainbow:after  {content:'R';}
 
-i.icon-number:after {
-    content: 'N';
-}
+/* Virtual Inputs */
+i.icon-value:after    {content:'v';}
+i.icon-clock:after    {content:'t';}
+i.icon-random:after   {content:'r';}
+i.icon-sine:after     {content:'s';}
+i.icon-square:after   {content:'q';}
+i.icon-keyboard:after {content:'K';}
+i.icon-variable:after {content:'V';}
 
-i.icon-joystick:after {
-    content:'J';
-}
+/* Converters */
+i.icon-half:after     {content:'h';}
+i.icon-double:after   {content:'h';}
+i.icon-invert:after   {content:'h';}
+i.icon-smooth:after   {content:'h';}
+i.icon-toggle:after   {content:'O';}
+i.icon-add:after      {content:'h';}
+i.icon-subtract:after {content:'h';}
+i.icon-min:after      {content:'h';}
+i.icon-max:after      {content:'h';}
+i.icon-diff:after     {content:'d';}
+i.icon-mix:after      {content:'a';}
+i.icon-gt:after       {content:'g';}
+i.icon-lt:after       {content:'l';}
+i.icon-latch:after    {content:'h';}
 
-i.icon-dial:after {
-    content:'D';
-}
-
-i.icon-slider:after {
-    content:'S';
-}
-
-i.icon-color:after {
-    content:'C';
-}
-
-i.icon-motion:after {
-    content:'m';
-}
-
-i.icon-touch:after {
-    content:'T';
-}
-
-i.icon-light:after {
-    content:'L';
-}
-
-i.icon-motor:after {
-    content:'M';
-}
-
-i.icon-matrix:after {
-    content: 'n';
-}
-
-i.icon-rainbow:after {
-    content: 'R';
-}
+/* Utilities */
+i.icon-peek:after     {content:'P';}
+i.icon-poke:after     {content:'p';}
+i.icon-dock:after     {content:'f';}
+i.icon-flotilla:after {content:'F';}
+i.icon-help:after     {content:'H';}
+i.icon-clear:after    {content:'c';}
 
 .block i {
     margin-left:-36px;
@@ -690,8 +698,16 @@ footer {
 }
 .popup .slider {
     position: relative;
-    width:200px;
+    width:400px;
     height:40px;
+}
+.popup .slider span {
+    position:absolute;
+    display:block;
+    top:-5px;
+    height:38px;
+    width:1px;
+    background:rgba(0,0,0,0.2);
 }
 .popup .slider div {
     background:#95c11f;
@@ -706,6 +722,7 @@ footer {
     top:0;
     width:100%;
     text-align:center;
+    z-index:1;
 }
 .popup li:nth-child(1){
     margin-left:0;

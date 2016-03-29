@@ -23,16 +23,20 @@ rockpool.pressed={
 rockpool.inputs = {
     state: function() {
         this.name = "Value"
-        this.icon = "half"
+        this.icon = "value"
         
         this.options = [
-                {name:'Off',     value: 0.0, icon: "off" },
+                //{name:'Off',     value: 0.0, icon: "off" },
                 {name:'Percentage', value: 0.5, ui: 'slider' },
-                {name:'On',      value: 1.0, icon: "on" }
+                //{name:'On',      value: 1.0, icon: "on" }
             ]
 
         this.setValue = function(option,value){
             this.options[option].value = parseFloat(value);
+        }
+
+        this.raw = function(option){
+            return Math.round(this.options[option].value*100) + '%';
         }
 
         this.getValue = function(option){
@@ -87,7 +91,7 @@ rockpool.inputs = {
             {name:'Slow', speed:15},
             {name:'Medium', speed:10},
             {name:'Fast', speed:5},
-            {name:'Custom', speed:5, ui:'slider'}
+            //{name:'Custom', speed:5, ui:'slider'}
         ];
 
         this.getValue = function(option){
@@ -126,7 +130,7 @@ rockpool.inputs = {
             {name:'Slow', frequency:0.01},
             {name:'Medium', frequency:0.5},
             {name:'Fast', frequency:1.0},
-            {name:'Custom', frequency:9.0, ui:'slider'}
+            //{name:'Custom', frequency:9.0, ui:'slider'}
         ];
 
         this.frequency = 0;
@@ -168,7 +172,7 @@ rockpool.inputs = {
             {name:'Slow', speed:1.0},
             {name:'Medium', speed:5.0},
             {name:'Fast', speed:9.0},
-            {name:'Custom', speed:9.0, ui:'slider'}
+            //{name:'Custom', speed:9.0, ui:'slider'}
         ];
 
         this.getValue = function(option){
