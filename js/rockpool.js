@@ -219,7 +219,7 @@ rockpool.newInactiveModuleFromKey = function(key){
     var channel_idx = parseInt(key[1]);
     var module_code = key[2];
     var module = rockpool.getModule(host_idx, channel_idx, module_code);
-    module.deactivate();
+    if(module !== false) module.deactivate();
     return module;
 }
 
@@ -290,17 +290,34 @@ rockpool.initialize = function(){
                 rockpool.clear();
                 break;
             case 'load':
-                rockpool.clear();
-                rockpool.loadState('test-saveload');
+                //rockpool.clear();
+                //rockpool.loadState('test-saveload');
+                rockpool.loadDialog();
                 break;
             case 'dock':
                 rockpool.discoverHosts();
                 break;
             case 'save':
-                rockpool.saveCurrentState('test-saveload');
+                //rockpool.saveCurrentState('test-saveload');
+                rockpool.saveDialog();
                 break;
         }
+
+
+        $(this).parents('.options').toggleClass('open');
     });
+
+    $('.options .toggle').on('click',function(e){
+        $(this).parents('.options').toggleClass('open');
+
+        if(rockpool.saveListLoad().length > 0){
+            $(this).parents('.options').find('.icon-palette div').filter('[data-action="load"]').attr("class","active color-navy");
+        }
+        else
+        {
+            $(this).parents('.options').find('.icon-palette div').filter('[data-action="load"]').attr("class","disabled color-gray");
+        }
+    })
 
     $('.sprite-icon-load').on('click',function(e){
         e.preventDefault();
