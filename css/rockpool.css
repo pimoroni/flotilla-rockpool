@@ -148,7 +148,7 @@ h2 {
     margin:10px;
 }
 
-.host-picker .custom {
+.host-picker .custom, .save-load .custom {
     float:left;
     display:block;
     width:200px;
@@ -159,17 +159,17 @@ h2 {
     color:#FFF;
 }
 
-.host-picker .custom h3 {
+.host-picker .custom h3, .save-load .custom h3 {
     margin:0;
     padding:10px;
     padding-bottom:0;
 }
-.host-picker .custom p {
+.host-picker .custom p, .save-load .custom p {
     margin:0;
     padding:10px;
     font-size:16px;
 }
-.host-picker .custom a {
+.host-picker .custom a, .save-load .custom a {
     margin:0 10px;
     text-decoration:none;
     line-height:30px;
@@ -178,7 +178,7 @@ h2 {
     color:#FFF;
     background:#95c11f;
 }
-.host-picker .custom input {
+.host-picker .custom input, .save-load .custom input {
     border:none;
     color:#FFF;
     font-weight:bold;
@@ -344,13 +344,13 @@ i.icon-keyboard:after {content:'K';}
 i.icon-variable:after {content:'V';}
 
 /* Converters */
-i.icon-half:after     {content:'h';}
-i.icon-double:after   {content:'h';}
-i.icon-invert:after   {content:'h';}
-i.icon-smooth:after   {content:'h';}
+i.icon-halve:after    {content:'h';}
+i.icon-double:after   {content:'z';}
+i.icon-invert:after   {content:'i';}
+i.icon-smooth:after   {content:'a';}
 i.icon-toggle:after   {content:'O';}
-i.icon-add:after      {content:'h';}
-i.icon-subtract:after {content:'h';}
+i.icon-add:after      {content:'A';}
+i.icon-subtract:after {content:'x';}
 i.icon-min:after      {content:'h';}
 i.icon-max:after      {content:'h';}
 i.icon-diff:after     {content:'d';}
@@ -491,7 +491,8 @@ i .name span {
 
 
 
-.palette.host-picker {
+.palette.host-picker, 
+.palette.save-load {
     border-radius:20px;
     background:#224280;
 }
@@ -501,6 +502,8 @@ i .name span {
 .palette header h1 {
     color:#FFFFFF;
     font-size:24pt;
+    padding:.67em 0;
+    margin:0;
 }
 
 .palette .close {
@@ -729,6 +732,12 @@ footer {
 }
 
 /* Config Slider */
+
+.saves {
+    padding:30px;
+    padding-top:0px;
+    overflow: hidden;
+}
 
 .connected-modules, .virtual-modules, .modifiers {
     display:block;
