@@ -39,6 +39,7 @@ rockpool.converters = {
         this.name = "Empty"
         this.category = rockpool.category.empty
         this.color = 'navy'
+        this.icon = "add"
         this.convert = function (value) { return value }        
     },
     /*

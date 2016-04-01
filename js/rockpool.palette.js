@@ -30,6 +30,7 @@ rockpool.prompt = function(content, close_on_click){
 }
 
 rockpool.closePrompt = function(){
+    $('.active.selected').removeClass('selected');
     $.fancybox.close();
 }
 
@@ -119,7 +120,7 @@ rockpool.refreshVirtualModules = function(obj, type){
                 'type': type,
                 'key':key
             })
-            .addClass('active color-navy')
+            .addClass('active above color-navy')
             .appendTo(dom_virtual);
         dom_item.find('i').addClass('icon-' + item.icon);
         dom_item.find('span').text(item.name);
@@ -139,9 +140,16 @@ rockpool.refreshConverters = function(obj){
     }
     dom_converters.find('div').remove();
 
+    var last_color = null;
+
     for(key in rockpool.converters){
 
         var converter = typeof(rockpool.converters[key]) === "function" ? new rockpool.converters[key] : rockpool.converters[key];
+
+        if( last_color != null && converter.color != last_color ){
+            $('<hr>').appendTo(dom_converters);
+        }
+        last_color = converter.color;
 
         var dom_item = $('<div><i><img></i><span>')
             .data({
