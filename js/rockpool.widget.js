@@ -396,7 +396,6 @@ rockpool.widget =  function( type, rule, key ) {
 
     var widget = this;
 
-
     this.dom
     .on('click', '.inspector', function(e){
         e.preventDefault();
@@ -406,7 +405,37 @@ rockpool.widget =  function( type, rule, key ) {
     })
     .on('click','i',function(e){
         e.preventDefault();
+
+        if(widget.handler.type == 'module'){
+
+            var module = rockpool.getModule(widget.handler.host, widget.handler.channel);
+
+            if(module.needsConfiguration(type)){
+
+                rockpool.moduleConfigureMenu(widget.dom, type, rule, widget.dom.index() - 2, module);
+
+                return false;
+            }
+        }
+        else
+        {
+
+            var collection = rockpool.inputs;
+            if(type == 'output'){
+                collection = rockpool.outputs;
+            }
+
+            var module = typeof(collection[widget.handler_key]) === "function" ? new collection[widget.handler_key] : collection[widget.handler_key];
+
+            if(module.options && module.options.length > 0){
+                rockpool.virtualConfigureMenu(widget.dom, type, rule, widget.handler_key, module);
+                return false;
+            }
+
+        }
+
         rockpool.add(type,rule,widget.dom.index() - 2);
+
 
         /*
         if(widget.hasOptions()){

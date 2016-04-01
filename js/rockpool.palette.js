@@ -227,6 +227,7 @@ rockpool.add = function(type, rule, index){
         var key = $(this).data('key');
         var type = $(this).data('type');
 
+
         var collection = rockpool.inputs;
         if(type == 'output'){
             collection = rockpool.outputs;
@@ -234,7 +235,8 @@ rockpool.add = function(type, rule, index){
 
         var module = typeof(collection[key]) === "function" ? new collection[key] : collection[key];
 
-        if(module.options && module.options.length > 0){
+        if(module.options
+         && module.options.length > 0){
             // Needs configuration
             rockpool.virtualConfigureMenu($(this), type, rule, key, module);
         }
@@ -256,11 +258,10 @@ rockpool.add = function(type, rule, index){
 
         var module = rockpool.getModule(dock_id, channel_index);
 
-        //console.log(type, channel_index, module);
 
         if(module.needsConfiguration(type))
         {
-            rockpool.moduleConfigureMenu($(this), type, rule, index, module);
+            rockpool.moduleConfigureMenu($(this), type, rule, null, module);
         }
         else
         {
@@ -276,10 +277,6 @@ rockpool.add = function(type, rule, index){
 }
 
 rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
-
-    var dom_palette = $('.palette.' + type);
-    dom_palette.addClass('greyout').find('.selected').removeClass('selected');
-    target.addClass('selected');
 
     var dom_popup = target.find('.popup.' + key);
     if(dom_popup.length == 0){
@@ -303,9 +300,16 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
                     .appendTo(dom_menu);
 
                 var dom_slider = $('<div>').appendTo(dom_option);
-                var dom_slider_label = $('<strong>').text(option.name).appendTo(dom_option)
+                var dom_slider_label = $('<strong>').text(option.name).appendTo(dom_option);
 
-
+                if(type == 'input'){
+                   var percent = rule.getInput().handler.options[idx].value;
+                   if(!isNaN(percent)){
+                       dom_option.data('value', percent);
+                       dom_option.find('strong').text(Math.round(percent*100.0) + '%');
+                       dom_option.find('div').css({width:Math.round(percent*100.0) + '%'});
+                    }
+                }
 
             }
             else
@@ -336,10 +340,13 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
         var offset_center = Math.min(left/width,1.0) - 0.5;
         var percent = Math.max(Math.min((offset_center * slider_overscale) + 0.5,1.0),0.0);
 
+        var idx = parseInt($(obj).data('idx'));
         $(obj).data('value',Math.round(percent*100.0) / 100.0);
 
         $(obj).find('div').css({width:Math.round(percent*100.0) + '%'});
         $(obj).find('strong').text(Math.round(percent*100.0) + '%');
+
+        rule.getInput().handler.options[idx].value = percent;
     }
 
     var slider = dom_popup.find('.slider');
@@ -361,6 +368,9 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
     .off('mousemove')
     .off('mousedown')
     .css('display','inline-block')
+    .on('click','.slider',function(e){
+        e.stopPropagation();
+    })
     .on('mousedown','.slider',function(e){
         e.stopPropagation();
 
@@ -388,6 +398,9 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
         rule.start();
         rule.setHandler(type,key,idx,value);
         rockpool.closePrompt();
+        dom_popup.hide();
+        target.removeClass('selected');
+        $('body').removeClass('blackedout');
 
     })
     .on('click','.option',function(e){
@@ -400,36 +413,65 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
         rule.start();
         rule.setHandler(type,key,idx);
         rockpool.closePrompt();
+        dom_popup.hide();
+        target.removeClass('selected');
+        $('body').removeClass('blackedout');
 
     });
 
-    dom_popup.css({'margin-left': -(dom_popup.width()/2) + 36});
+    if(target.hasClass('block')){
+        target.addClass('selected');
 
-    if(dom_popup.offset().left < 0){
-        var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
-        margin -= dom_popup.offset().left;
-        dom_popup.css('margin-left', margin);
-    }
-    if(dom_popup.offset().left + dom_popup.width() > $(window).width()){
-        var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
-        margin += ($(window).width() - (dom_popup.offset().left + dom_popup.width()))
-        dom_popup.css('margin-left', margin);
-    }
+        $('body').addClass('blackedout').on('click',function(){
+            dom_popup.hide();
+            target.removeClass('selected');
+            $('body').off('click').removeClass('blackedout');
+        });
 
-    $('.fancybox-overlay').on('click',function(){
-        dom_popup.hide();
-        dom_palette.removeClass('greyout');
-        target.removeClass('selected');
-        $('.fancybox-overlay').off('click');
-    })
+        $('<li>').text('change').addClass('change').appendTo(dom_menu);
+        dom_popup.on('click','.change',function(){
+
+            dom_popup.hide();
+            target.removeClass('selected');
+            $('body').removeClass('blackedout');
+            rockpool.add(type,rule,target.index() - 2);
+
+        });
+    }
+    else
+    {
+
+        var dom_palette = $('.palette.' + type);
+        dom_palette.addClass('greyout').find('.selected').removeClass('selected');
+        target.addClass('selected');
+
+        dom_popup.css({'margin-left': -(dom_popup.width()/2) + 36});
+
+        if(dom_popup.offset().left < 0){
+            var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
+            margin -= dom_popup.offset().left;
+            dom_popup.css('margin-left', margin);
+        }
+        if(dom_popup.offset().left + dom_popup.width() > $(window).width()){
+            var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
+            margin += ($(window).width() - (dom_popup.offset().left + dom_popup.width()))
+            dom_popup.css('margin-left', margin);
+        }
+
+        $('.fancybox-overlay').on('click',function(){
+            dom_popup.hide();
+            dom_palette.removeClass('greyout');
+            target.removeClass('selected');
+            $('body').removeClass('blackedout');
+            $('.fancybox-overlay').off('click');
+        })
+
+    }
 
 
 }
 
 rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
-    var dom_palette = $('.palette.' + type);
-    dom_palette.addClass('greyout').find('.selected').removeClass('selected');
-    target.addClass('selected');
 
     var options = module.getOptions(type);
 
@@ -456,7 +498,7 @@ rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
     }
 
     $('.popup').hide();
-    dom_popup.off('click').css('display','inline-block').on('click','li',function(e){
+    dom_popup.off('click').css('display','inline-block').on('click','.option',function(e){
         e.stopPropagation();
 
         var key = $(this).data('key');
@@ -467,29 +509,59 @@ rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
         rule.setHandler(type,key,idx);
 
         rockpool.closePrompt();
+        dom_popup.hide();
+        target.removeClass('selected');
+        $('body').removeClass('blackedout');
 
     });
 
-    dom_popup.css({'margin-left': -(dom_popup.width()/2) + 36});
+    if(target.hasClass('block')){
+        target.addClass('selected');
 
-    if(dom_popup.offset().left < 0){
-        var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
-        margin -= dom_popup.offset().left;
-        dom_popup.css('margin-left', margin);
+        $('body')
+        .addClass('blackedout')
+        .on('click',function(){
+            dom_popup.hide();
+            target.removeClass('selected');
+            $('body').off('click').removeClass('blackedout');
+        });
+
+        $('<li>').text('change').addClass('change').appendTo(dom_menu);
+        dom_popup.on('click','.change',function(){
+
+            dom_popup.hide();
+            target.removeClass('selected');
+        $('body').removeClass('blackedout');
+            rockpool.add(type,rule,target.index() - 2);
+
+        });
     }
-    if(dom_popup.offset().left + dom_popup.width() > $(window).width()){
-        var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
-        margin += ($(window).width() - (dom_popup.offset().left + dom_popup.width()))
-        dom_popup.css('margin-left', margin);
+    else
+    {
+        var dom_palette = $('.palette.' + type);
+        dom_palette.addClass('greyout').find('.selected').removeClass('selected');
+        target.addClass('selected');
+
+        dom_popup.css({'margin-left': -(dom_popup.width()/2) + 36});
+
+        if(dom_popup.offset().left < 0){
+            var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
+            margin -= dom_popup.offset().left;
+            dom_popup.css('margin-left', margin);
+        }
+        if(dom_popup.offset().left + dom_popup.width() > $(window).width()){
+            var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
+            margin += ($(window).width() - (dom_popup.offset().left + dom_popup.width()))
+            dom_popup.css('margin-left', margin);
+        }
+
+        $('.fancybox-overlay').on('click',function(){
+            dom_popup.hide();
+            dom_palette.removeClass('greyout');
+            target.removeClass('selected');
+            $('.fancybox-overlay').off('click');
+        })
     }
-
-    $('.fancybox-overlay').on('click',function(){
-        dom_popup.hide();
-        dom_palette.removeClass('greyout');
-        target.removeClass('selected');
-        $('.fancybox-overlay').off('click');
-    })
-
 }
 
 
