@@ -128,7 +128,7 @@ rockpool.converters = {
         this.name = "Subtract"
         this.category = rockpool.category.maths
         this.color = 'purple'
-        this.icon = "add"
+        this.icon = "subtract"
         this.childValue = 0
         this.convert = function (value) { return (value - this.childValue < 0) ? 0 : value - this.childValue}
         this.set     = function (value) { this.childValue = value }
