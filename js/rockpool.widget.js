@@ -427,7 +427,7 @@ rockpool.widget =  function( type, rule, key ) {
 
             var module = typeof(collection[widget.handler_key]) === "function" ? new collection[widget.handler_key] : collection[widget.handler_key];
 
-            if(module.options && module.options.length > 0){
+            if(module && module.options && module.options.length > 0){
                 rockpool.virtualConfigureMenu(widget.dom, type, rule, widget.handler_key, module);
                 return false;
             }
