@@ -464,7 +464,7 @@ rockpool.parseCommand = function(data_in){
 
     switch(command){
         case 'u': // Update
-            var module = rockpool.getModule(host, channel, device);
+            var module = rockpool.getModule(host, channel, device); 
             module.receive(data);
             if( module.active == false ){
                 module.activate();
