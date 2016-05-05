@@ -56,7 +56,7 @@ rockpool.refreshConnectedModules = function(obj, type){
     $('.active-' + type + 's li').removeClass('on');
 
     for(channel_index = 0; channel_index<8; channel_index++){
-        var module = rockpool.getModule(dock_id, channel_index);
+        var module = rockpool.getActiveModule(dock_id, channel_index);
         var dom_module = dom_channels.find('> div:eq(' + channel_index + ')');
         if(module === false || module.active === false){
             dom_module
@@ -256,7 +256,7 @@ rockpool.add = function(type, rule, index){
         var channel_index = $(this).data('channel');
         var type = $(this).data('type');
 
-        var module = rockpool.getModule(dock_id, channel_index);
+        var module = rockpool.getActiveModule(dock_id, channel_index);
 
 
         if(module.needsConfiguration(type))

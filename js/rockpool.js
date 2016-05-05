@@ -223,6 +223,32 @@ rockpool.newInactiveModuleFromKey = function(key){
     return module;
 }
 
+rockpool.getActiveModule = function(host_idx, channel_idx) {
+    var id;
+
+    for(x in rockpool.active_modules){
+        if(x && x.startsWith([host_idx,channel_idx].join('_')) && rockpool.active_modules[x].active){
+            id = x;
+            break;
+        }
+    }
+    if(id == ""){return false;}
+    
+    var module = rockpool.active_modules[id];
+
+    if (!module) {
+        return false;
+    }
+
+    module = rockpool.active_modules[id];
+
+    if( typeof( module ) === 'undefined' ){
+        return false;
+    }
+    
+    return module;
+}
+
 rockpool.getModule = function(host_idx, channel_idx, module_code) {
     var id;
 
