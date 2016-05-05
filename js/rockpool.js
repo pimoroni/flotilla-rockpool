@@ -73,16 +73,6 @@ window.requestAnimationFrame(function(){rockpool.useAnimationFrame = true})
 
 rockpool.channelToNumber = function(channel){
     return channel + 1;
-    /*return [
-        '8',
-        '7',
-        '6',
-        '5',
-        '4',
-        '3',
-        '2',
-        '1'
-    ][channel];*/
 }
 
 rockpool.getGUID = function(){
@@ -195,7 +185,7 @@ rockpool.update = function () {
 }
 
 rockpool.sync = function() {
-    for( module in rockpool.active_modules ){
+    for( var module in rockpool.active_modules ){
         rockpool.active_modules[module].sync();
     }
 }
@@ -214,7 +204,7 @@ rockpool.registerOutput = function( host, channel, code, name, handler ) {
 }
 
 rockpool.newInactiveModuleFromKey = function(key){
-    var key = key.split('_');
+    key = key.split('_');
     var host_idx = parseInt(key[0]);
     var channel_idx = parseInt(key[1]);
     var module_code = key[2];
@@ -303,7 +293,6 @@ rockpool.initialize = function(){
     $('.options').on('click','.active',function(e){
         e.preventDefault();
 
-        var o = $(this);
         var action = $(this).data('action');
 
         switch(action){
@@ -316,15 +305,12 @@ rockpool.initialize = function(){
                 rockpool.clear();
                 break;
             case 'load':
-                //rockpool.clear();
-                //rockpool.loadState('test-saveload');
                 rockpool.loadDialog();
                 break;
             case 'dock':
                 rockpool.discoverHosts();
                 break;
             case 'save':
-                //rockpool.saveCurrentState('test-saveload');
                 rockpool.saveDialog();
                 break;
         }
@@ -334,6 +320,9 @@ rockpool.initialize = function(){
     });
 
     $('.options .toggle').on('click',function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
         $(this).parents('.options').toggleClass('open');
 
         if(rockpool.saveListLoad().length > 0){
@@ -343,31 +332,7 @@ rockpool.initialize = function(){
         {
             $(this).parents('.options').find('.icon-palette div').filter('[data-action="load"]').attr("class","disabled color-gray");
         }
-    })
-
-    $('.sprite-icon-load').on('click',function(e){
-        e.preventDefault();
-
-        var load_save = $('<div>').addClass('palette').addClass('saves');
-        load_save.append('<header><h1>Load</h1></header>');
-
-        var saves = $('<div>').addClass('saves').appendTo(load_save);
-
-        saves.append('<ul>').on('click','li',function(e){
-            var file_name = $(this).data('filename');
-            rockpool.loadFromFile(file_name);
-        });
-
-        for( var x = 0; x < save_list.length; x++ ){
-
-            var file_name = save_list[x];
-            $('<li><span class="icon" style="color: rgb(78, 192, 223);"><img src="css/images/icons/icon-on.png"></span><span class="label">' + file_name + '</span></li>').data('filename',file_name).appendTo(saves.find('ul'));
-
-        }
-
-        rockpool.prompt(load_save);
     });
-
 
     /* resize chart canvases when the window resizes */
     $(window).resize(function () {
