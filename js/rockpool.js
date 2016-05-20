@@ -321,7 +321,8 @@ rockpool.initialize = function(){
                 rockpool.loadDialog();
                 break;
             case 'dock':
-                rockpool.discoverHosts();
+                //rockpool.manageDock();
+                rockpool.startDiscovery();
                 break;
             case 'save':
                 //rockpool.saveCurrentState('test-saveload');
@@ -411,7 +412,7 @@ rockpool.initialize = function(){
     rockpool.addPreviousTargets();
     rockpool.findHosts();
     */
-    rockpool.discoverHosts();
+    rockpool.startDiscovery();
 
     rockpool.on_connect = function(){
         if(rockpool.rules.length == 0){

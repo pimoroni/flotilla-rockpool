@@ -50,144 +50,6 @@ h2 {
     padding-top: 20px;
 }
 
-/*
-############################################ Host Picker ############################################
-*/
-
-.host-picker {
-    overflow:hidden;
-    display: block;
-    height:100%;
-}
-.progress {
-    position:relative;
-    display:block;
-    width:100%;
-    height:40px;
-}
-
-.progress span {
-    display:block;height:100%;
-    -webkit-transition:width 0.2s;
-    background:#95c11f;
-}
-.progress strong {
-    color:#FFF;
-    display:block;
-    position:absolute;left:0;top:0;
-    width:100%;height:100%;
-    line-height:40px;
-    text-align:center;
-    font-size:20px;
-}
-.host-picker .host {
-    width:200px;
-    display:block;
-    line-height:30px;
-    text-align:center;
-    font-size: 30px;
-    color:#FFF;
-    margin-left:10px;
-    position:relative;
-}
-.host-picker .host:after {
-    position:absolute;
-    content:'';
-    float:left;
-    display:block;
-    width:100px;
-    height:100px;
-    border-radius:50px;
-
-    left:50px;
-    top:0px;
-
-    background-image: url('images/flotilla-dock.png');
-    background-size: cover;
-    background-position: center center;
-    background-color: transparent;
-}
-.host-picker .host.update-needed {
-    background:#2F2F2F;
-    color:#DDD;
-}
-.host-picker .host .error {
-    color:#ED1558;   
-}
-
-.host-picker .host p {
-    margin:0;
-    padding:0;
-    padding-top:100px;
-}
-.host-picker .host small {
-    font-size:20px;
-    display:block;
-}
-
-.host-picker .choices {
-    padding:10px;
-    overflow: hidden;
-}
-.host-picker .daemon {
-    display:inline-block;
-    float:left;
-    border-radius:10px;
-    background:rgba(0,0,0,0.5);
-    padding-right:10px;
-    padding-bottom:10px;
-    margin-left:10px;
-    margin-bottom:10px;
-}
-.host-picker .daemon > h3,
-.host-picker .daemon > p {
-    color:#FFF;
-    font-size:20px;
-    text-align:center;
-    display: block;
-    margin:10px;
-}
-
-.host-picker .custom, .save-load .custom {
-    float:left;
-    display:block;
-    width:200px;
-    height:200px;
-    font-size: 20px;
-    border-radius:10px;
-    background:rgba(0,0,0,0.5);
-    color:#FFF;
-}
-
-.host-picker .custom h3, .save-load .custom h3 {
-    margin:0;
-    padding:10px;
-    padding-bottom:0;
-}
-.host-picker .custom p, .save-load .custom p {
-    margin:0;
-    padding:10px;
-    font-size:16px;
-}
-.host-picker .custom a, .save-load .custom a {
-    margin:0 10px;
-    text-decoration:none;
-    line-height:30px;
-    display:block;
-    text-align:center;
-    color:#FFF;
-    background:#95c11f;
-}
-.host-picker .custom input, .save-load .custom input {
-    border:none;
-    color:#FFF;
-    font-weight:bold;
-    text-align:left;
-    padding:10px;
-    width:160px;
-    margin:0 10px;
-    color:#333;
-}
 
 .center { text-align: center; }
 .right { text-align: right; }
@@ -281,7 +143,7 @@ i img {max-width:100%;width:100%;height:auto;margin:0 auto;}
     border-top:2px solid rgba(255,255,255,0.5);
 }
 
-.block i, .toggle i, .delete i, .icon-palette i, .palette i {
+.block i, .toggle i, .delete i, .icon-palette i, .palette i, .add-manual i {
     position: relative;
     display: block;
     width: 72px;
@@ -296,7 +158,25 @@ i img {max-width:100%;width:100%;height:auto;margin:0 auto;}
     z-index:1;
 }
 
-.block i:after, .palette i:after, .icon-palette i:after, i.toggle:after {
+.add-manual {
+    position:absolute;
+    right:15px;
+    bottom:-34px;
+    height:28px;
+    font-size:;
+    color:#FFFFFF;
+    font-size:18px;
+    padding-right:82px;
+}
+
+.add-manual i {
+    background-color: #ED1558;
+    position:absolute;
+    right:0;
+    bottom:0;
+}
+
+.block i:after, .palette i:after, .icon-palette i:after, i.toggle:after, .add-manual i:after {
     width:72px;
     height:72px;
     line-height:56px;
@@ -481,6 +361,323 @@ i .name span {
     background:#224280;*/
 }
 
+
+/*
+############################################ Host Picker ############################################
+*/
+
+.host-picker {
+    display: block;
+    height:100%;
+    min-height:300px;
+    margin-bottom:40px;
+    padding-bottom:40px;
+}
+.progress {
+    position:relative;
+    display:block;
+    width:100%;
+    height:40px;
+}
+
+.progress span {
+    display:block;height:100%;
+    -webkit-transition:width 0.2s;
+    background:#95c11f;
+}
+.progress strong {
+    color:#FFF;
+    display:block;
+    position:absolute;left:0;top:0;
+    width:100%;height:100%;
+    line-height:40px;
+    text-align:center;
+    font-size:20px;
+}
+.host-picker .host {
+    width:172px;
+    display:inline-block;
+    line-height:30px;
+    text-align:center;
+    font-size: 30px;
+    color:#FFF;
+    margin-left:10px;
+    position:relative;
+    cursor:pointer;
+    padding-bottom:40px;
+}
+.host-picker .host:after {
+    content:'';
+    display:block;
+    width:140px;
+    height:140px;
+    border-radius:70px;
+
+    margin:0 auto;
+    margin-top:10px;
+
+    background-image: url('images/flotilla-dock.png');
+    background-size: cover;
+    background-position: center center;
+    background-color: transparent;
+}
+.host-picker .host.update-needed {
+    color:rgba(255,255,255,0.6);
+}
+.host-picker .host .error {
+    color:#ffffff;   
+    font-size: 12px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    text-align: center;
+}
+.host-picker .host .error:after {
+    content: '!';
+    border-radius: 50%;
+    background: #ED1558;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 50%;
+    margin-left: -20px;
+    top: -35px;
+    font-size: 36px;
+    line-height: 40px;
+}
+.host-picker .host .error em {
+    font-style:normal;
+    text-decoration:underline;
+}
+
+.host-picker .host p {
+    margin:0;
+    padding:0;
+    padding-top:0px;
+}
+.host-picker .host small {
+    font-size:20px;
+    display:block;
+}
+
+.host-picker .choices {
+    padding:10px;
+    overflow: hidden;
+}
+.host-picker .daemon {
+    display:inline-block;
+    float:left;
+}
+.host-picker .daemon > h3,
+.host-picker .daemon > p {
+    color:#FFF;
+    font-size:20px;
+    text-align:center;
+    display: block;
+    margin:10px;
+}
+
+.host-picker .none-found {
+    margin:0 auto;
+    width:247px;
+    height:72px;
+    background:#182B54;
+    color:#FFFFFF;
+    text-align:center;
+    line-height:72px;
+    border-radius:46px;
+    font-size:18px;
+    position:relative;
+}
+
+.host-picker .none-found:after {
+    content:'';
+  color: rgba(255,255,255,0.6);
+  font-size: 20px;
+  margin: 100px auto;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  position: absolute;
+  top:50px;
+  left:50%;
+  text-indent: -9999em;
+  -webkit-animation: load4 1.3s infinite linear;
+  animation: load4 1.3s infinite linear;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+@-webkit-keyframes load4 {
+  0%,
+  100% {
+    box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+  }
+  12.5% {
+    box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  25% {
+    box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  37.5% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  50% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  62.5% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+  }
+  75% {
+    box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+  }
+  87.5% {
+    box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+  }
+}
+@keyframes load4 {
+  0%,
+  100% {
+    box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+  }
+  12.5% {
+    box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  25% {
+    box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  37.5% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  50% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  62.5% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+  }
+  75% {
+    box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+  }
+  87.5% {
+    box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+  }
+}
+
+.host-picker .custom, .save-load .custom {
+    float:left;
+    display:block;
+    width:200px;
+    height:200px;
+    font-size: 20px;
+    border-radius:10px;
+    background:rgba(0,0,0,0.5);
+    color:#FFF;
+}
+
+.host-picker .custom {
+    position:absolute;
+    bottom:0;
+    right:15px;
+    border-bottom-left-radius:0;
+    border-bottom-right-radius:0;
+}
+
+.host-picker .custom h3, .save-load .custom h3 {
+    margin:0;
+    padding:10px;
+    padding-bottom:0;
+}
+.host-picker .custom h3 {
+    margin-bottom:5px;
+    font-size:18px;
+}
+
+.host-picker .custom p, .save-load .custom p {
+    margin:0;
+    padding:10px;
+    font-size:16px;
+}
+.host-picker .custom a, .save-load .custom a {
+    margin:0 10px;
+    text-decoration:none;
+    line-height:30px;
+    display:block;
+    text-align:center;
+    color:#FFF;
+    background:#95c11f;
+}
+.host-picker .custom input, .save-load .custom input {
+    border:none;
+    color:#FFF;
+    font-weight:bold;
+    text-align:left;
+    padding:10px;
+    width:160px;
+    margin:0 10px;
+    color:#333;
+}
+
+
+
+.saves {
+    padding:0px;
+    padding-top:0px;
+    padding-bottom:30px;
+    overflow: hidden;
+    overflow:hidden;
+}
+
+
+.saves ul, .saves li {
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+
+.saves li {
+    padding:10px 0px 10px 10px;
+}
+
+.saves i {
+    display:inline-block;}
+
+.saves span {
+    color:#FFFFFF;
+    height:72px;
+    line-height:72px;
+    font-size:22px;
+    vertical-align:top;
+    padding-left:10px;
+}
+
+.save-load .add {
+    position: absolute;
+    left: 50%;
+    bottom:-36px;
+    margin-left: -36px;
+    background-color:#00AB9B;
+}
+.save-load input {
+    width: 480px;
+    height: 50px;
+    line-height: 50px;
+    border: 3px solid #00B0D2;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 22px;
+    color: #00B0D2;
+    margin: 0px auto;
+    display: block;
+    margin-bottom: 30px;
+}
+.save-load p {
+    color:#00B0D2;
+    text-align:center;
+    margin-top:0;
+    padding-top:0;
+}
+
 /*
     Dock picture at top of inputs and outputs menus
 */
@@ -505,8 +702,23 @@ i .name span {
 .palette.host-picker, 
 .palette.save-load {
     border-radius:20px;
-    background:#224280;
+    background:#00B0D2;
 }
+.palette.save-load {
+    border-radius:20px;
+    background:#224280;
+    margin-bottom:36px;
+}
+.palette.save-load li {
+    position:relative;
+}
+.palette.save-load li:nth-child(odd) {
+    background: #195E95;
+}
+.palette.save-load .delete {
+    background-color:#ED1457;
+}
+
 .palette header {
     text-align:center;
 }
@@ -526,8 +738,13 @@ i .name span {
     height:60px;
     border-radius: 30px;
 }
+
 .palette .close:before,
 .palette .close:after,
+i.confirm:before,
+i.confirm:after,
+i.delete:before,
+i.delete:after,
 .delete i:before,
 .delete i:after {
     width:40px;
@@ -543,14 +760,41 @@ i .name span {
     transform:rotate(46deg);
     -webkit-transform:rotate(45deg);
 }
-.palette .close:before,
-.delete i:before {
-    transform:rotate(46deg);
-    -webkit-transform:rotate(-45deg);
-}
+
+i.confirm:before,
+i.confirm:after,
+i.delete:before,
+i.delete:after,
 .delete i:before,
 .delete i:after {
     top:32px;
+}
+
+i.confirm:after {
+    width: 15px;
+    top: 48px;
+    left: 5px;
+}
+
+i.confirm {
+    -webkit-transition:background-color 0.1s ease-in;
+    transition:background-color 0.1s ease-in;
+}
+
+.save-load i.delete, .save-load i.confirm {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    position:absolute;
+    right:-15px;
+    top:12px;
+}
+
+.palette .close:before,
+i.delete:before,
+i.confirm:before,
+.delete i:before {
+    transform:rotate(46deg);
+    -webkit-transform:rotate(-45deg);
 }
 
 .fancybox-overlay {}
@@ -572,8 +816,9 @@ canvas {
     background:#091224;
 }
 
-.block .add-input:before, .block .add-output:before,
-.block .add-input:after, .block .add-output:after {
+.block .add-input:before, .block .add-output:before, .add-manual i:before,
+.save-load .add:before, .save-load .add:after,
+.block .add-input:after, .block .add-output:after, .add-manual i:after  {
     width:52px;
     height:14px;
     background:#FFFFFF;
@@ -586,7 +831,7 @@ canvas {
     -webkit-transform-origin:26px 7px;
 }
 
-.block .add-input:before, .block .add-output:before {
+.block .add-input:before, .block .add-output:before, .add-manual i:before, .save-load .add:before {
     transform:rotate(90deg);
     -webkit-transform:rotate(90deg);
 }
@@ -828,12 +1073,6 @@ body .above.active.selected i:before {
 #rules .block.selected i .inspector {display:none;}
 
 /* Config Slider */
-
-.saves {
-    padding:30px;
-    padding-top:0px;
-    overflow: hidden;
-}
 
 .connected-modules, .virtual-modules, .modifiers {
     display:block;

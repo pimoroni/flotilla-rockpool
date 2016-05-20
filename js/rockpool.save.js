@@ -4,17 +4,17 @@ rockpool.currentSaveName = "Untitled"
 
 rockpool.saveDialog = function(){
 
-	var dom_container = $('<div class="save-load palette"><i class="close"></i><header><h1>Save</h1></header><div class="saves">');
+	var dom_container = $('<div class="save-load palette"><i class="close"></i><header><h1>save your pool</h1></header><div class="saves">');
 	
-	dom_container.find('.saves').append('<div class="choices"><div class="custom"><p>Enter a name for your save below.</p><input type="text" value="' + rockpool.currentSaveName + '"><a href="#">Save<a></div></div>');
+	dom_container.find('.saves').append('<div class="choices"><p>give it a name</p><input type="text" value="' + rockpool.currentSaveName + '"><i class="add"></i></div>');
 
 	rockpool.prompt(dom_container,false);
 
-	dom_container.on('click','.custom a',function(e){
+	dom_container.on('click','.choices i',function(e){
 		e.preventDefault();
 		e.stopPropagation();
 
-		var name = dom_container.find('.custom input').val();
+		var name = dom_container.find('.choices input').val();
 
 		rockpool.saveCurrentState(name);
 
@@ -26,12 +26,12 @@ rockpool.saveDialog = function(){
 
 rockpool.loadDialog = function(){
 
-	var dom_container = $('<div class="save-load palette"><i class="close"></i><header><h1>Load</h1></header><div class="saves"><div class="icon-palette pure-g">');
-	var dom_saves = dom_container.find('.icon-palette');
+	var dom_container = $('<div class="save-load palette"><i class="close"></i><header><h1>load a pool</h1></header><div class="saves"><ul class="save-list">');
+	var dom_saves = dom_container.find('.save-list');
 	var saves = rockpool.saveListLoad();
 	for(idx in saves){
 		var save = saves[idx];
-		var dom_save = $('<div class="active"><i class="icon-peek"></i><span>').data('save',save);
+		var dom_save = $('<li class="active"><i class="icon-peek"></i><span></span><i class="delete"></i>').data('save',save);
 		dom_save.find('span').text(save.replace('_',' '));
 		dom_save.appendTo(dom_saves);
 	}
@@ -42,12 +42,28 @@ rockpool.loadDialog = function(){
 		e.preventDefault();
 		e.stopPropagation();
 		var save = $(this).data('save');
-		console.log('Loading',save);
         rockpool.clear();
         rockpool.loadState(save);
         rockpool.closePrompt();
         dom_container.remove();
-	});
+	})
+	.on('click','.delete',function(e){
+		e.preventDefault();
+		e.stopPropagation();
+
+		$(this).removeClass('delete').addClass('confirm');
+
+	})
+	.on('click','.confirm',function(e){
+		e.preventDefault();
+		e.stopPropagation();
+
+		var save = $(this).parents('li').data('save');
+        rockpool.saveDelete(save);
+		$(this).parents('li').remove();
+
+	})
+	;
 
 }
 
