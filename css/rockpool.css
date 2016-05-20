@@ -217,7 +217,7 @@ i.icon-number:after   {content:'N';}
 i.icon-joystick:after {content:'J';}
 i.icon-dial:after     {content:'D';}
 i.icon-slider:after   {content:'S';}
-i.icon-color:after    {content:'C';}
+i.icon-color:after, i.icon-colour:after    {content:'C';}
 i.icon-motion:after   {content:'m';}
 i.icon-touch:after    {content:'T';}
 i.icon-light:after    {content:'L';}
