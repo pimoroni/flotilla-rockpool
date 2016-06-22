@@ -2,7 +2,7 @@ var rockpool = rockpool || {};
 
 rockpool.currentSaveName = "Untitled"
 
-rockpool.fileAPISupport = window.File && window.FileReader && window.FileList && window.Blob;
+rockpool.fileAPISupport = (window.File && window.FileReader && window.FileList && window.Blob) ? true : false;
 
 rockpool.getFile = function(element){
 
@@ -37,6 +37,9 @@ rockpool.loadDialog = function(){
 	var dom_container = $('<div class="save-load palette"><i class="close"></i><header><h1>load a pool</h1></header><div class="saves"><div class="file-drop-zone">Drag &amp; Drop Save File Here</div><ul class="save-list">');
 	var dom_saves = dom_container.find('.save-list');
 	var dom_files = dom_container.find('.file-drop-zone');
+
+	if(!rockpool.fileAPISupport) dom_files.hide();
+	
 	var saves = rockpool.saveListLoad();
 	for(idx in saves){
 		var save = saves[idx];
