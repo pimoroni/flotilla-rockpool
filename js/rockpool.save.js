@@ -2,6 +2,14 @@ var rockpool = rockpool || {};
 
 rockpool.currentSaveName = "Untitled"
 
+rockpool.fileAPISupport = window.File && window.FileReader && window.FileList && window.Blob;
+
+rockpool.getFile = function(element){
+
+	if(!rockpool.fileAPISupport) return;
+
+}
+
 rockpool.saveDialog = function(){
 
 	var dom_container = $('<div class="save-load palette"><i class="close"></i><header><h1>save your pool</h1></header><div class="saves">');
@@ -26,8 +34,9 @@ rockpool.saveDialog = function(){
 
 rockpool.loadDialog = function(){
 
-	var dom_container = $('<div class="save-load palette"><i class="close"></i><header><h1>load a pool</h1></header><div class="saves"><ul class="save-list">');
+	var dom_container = $('<div class="save-load palette"><i class="close"></i><header><h1>load a pool</h1></header><div class="saves"><div class="file-drop-zone">Drag &amp; Drop Save File Here</div><ul class="save-list">');
 	var dom_saves = dom_container.find('.save-list');
+	var dom_files = dom_container.find('.file-drop-zone');
 	var saves = rockpool.saveListLoad();
 	for(idx in saves){
 		var save = saves[idx];
@@ -62,6 +71,51 @@ rockpool.loadDialog = function(){
         rockpool.saveDelete(save);
 		$(this).parents('li').remove();
 
+	})
+	.on('dragover','.file-drop-zone',function(evt){
+		evt.stopPropagation();
+		evt.preventDefault();
+		evt.originalEvent.dataTransfer.dropEffect = 'copy';
+	})
+	.on('drop','.file-drop-zone',function(evt){
+		evt.stopPropagation();
+		evt.preventDefault();
+
+		var files = evt.originalEvent.dataTransfer.files;
+
+		//for(var i = 0, f; f = files[i]; i++){
+		f = files[0];
+
+			if(f.name.endsWith('.rpl')){
+				var reader = new FileReader();
+
+				reader.onload = (function(theFile){
+					return function(e){
+						var data = e.target.result;
+						console.log("Read file:", e, data);
+						if(data.startsWith('_rockpool_save(') && data.endsWith(');')){
+							data = data.slice(15,data.length-2);
+							rockpool.clear();
+							rockpool.deserialize(data);
+
+					        rockpool.closePrompt();
+					        dom_container.remove();
+						}
+						else
+						{
+							// Invalid Save File
+							dom_files.addClass('invalid');
+						}
+					}
+				})(f);
+
+				reader.readAsBinaryString(f);
+			}
+			else
+			{
+				dom_files.addClass('invalid');
+			}
+		//}
 	})
 	;
 
