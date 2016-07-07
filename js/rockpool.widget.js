@@ -4,9 +4,11 @@ rockpool.widget =  function( type, rule, key ) {
 
     this.setHandler = function(key){
         this.handler_key = key;
+        this.options = null;
         switch(this.type){
             case 'converter':
                 this.handler = (typeof(rockpool.converters[key]) === 'function') ? new rockpool.converters[key] : rockpool.converters[key];
+                rule.updateDom();
                 break;
             case 'input':
                 this.handler = (typeof(rockpool.inputs[key]) === 'function') ? new rockpool.inputs[key] : rockpool.inputs[key];
@@ -15,12 +17,13 @@ rockpool.widget =  function( type, rule, key ) {
                 this.handler = (typeof(rockpool.outputs[key]) === 'function') ? new rockpool.outputs[key] : rockpool.outputs[key];
                 break;
         }
+        this.dom_update_needed = true;
     }
 
     this.killChild = function(){
         if(!this.child) return false;
-        this.child.kill()
-        this.child = null
+        this.child.kill();
+        this.child = null;
     }
 
     this.hasOptions = function(){
@@ -31,8 +34,26 @@ rockpool.widget =  function( type, rule, key ) {
         return (this.options && this.options[option]) ? this.options[option] : this.handler[option];
     }
 
-    this.setOptions = function(index) {
+    this.hasValue = function(){
+        return typeof(this.handler.setValue) == "function"
+    }
+
+    this.getValue = function(){
+        return typeof(this.handler.getValue) == "function" ? this.handler.getValue(this.option_index) : -1;
+    }
+
+    this.setOptions = function(index,value) {
+        if (!this.hasOptions()) return false;
+
         this.option_index = index;
+
+        if(typeof(value) != "undefined" && this.handler.setValue){
+            this.handler.setValue(index,value);
+        }
+
+        if(this.options != this.handler.options[index]){
+            this.dom_update_needed = true;
+        }
         this.options = this.handler.options[index];
     }
 
@@ -43,64 +64,71 @@ rockpool.widget =  function( type, rule, key ) {
         rockpool.modal(tip);
     }
 
-    this.update = function(){
-        this.setLabel(   this.getOption('name') )
-        this.setSubType( this.getOption('type') )
-        this.setBgColor( this.getOption('bgColor') )
-        this.setIcon(    this.getOption('icon') )
+    this.update = function(force){
+        if(this.dom_update_needed || force == true){
+            this.dom_update_needed = false;
 
-        if(this.child){
-            this.child.updateLabels();
-        }
+            this.setLabel(   this.getOption('name') );
+            this.setSubType( this.getOption('type') );
+            this.setIcon(    this.getOption('icon') );
 
-        var row_height = this.dom.height();
-        var group_offset = this.dom.parents('.rulegroup').offset().top + 32;
+            var color = this.getOption('color');
 
-        this.dom.css({
-                top: 0
-        })
-
-        var current_top = this.dom.offset().top - group_offset;
-
-        var offset_top = 0;
-        var pipe = this.dom.find('.pipe').length ? this.dom.find('.pipe') : $('<div><span>').addClass('pipe').appendTo(this.dom);
-        pipe.hide();
-
-        // There's something behind us!
-        if( this.dom.prev('.block').length ){
-            
-            var parent_offset = this.dom.prev('.block').offset().top - group_offset;
-            offset_top = parent_offset - current_top;
-
-            if( this.isComparator() ){
-
-                var child_index = this.child.widget_index-1;
-                var child_offset;
-                //console.log(child_index);
-
-                if( child_index > -1 ){
-                    child_offset = this.child.converters[child_index].dom.offset().top - group_offset;
-                }
-                else
-                {
-                    child_offset = this.child.input.dom.offset().top - group_offset;
-                }
-
-                //console.log('Is comparator', parent_offset, child_offset);
-
-                offset_top += ((child_offset - parent_offset) / 2);
-                
-                //this.dom.find('.name').text('p:' + parent_offset + ' c:' + child_offset + ' h:' + (child_offset-parent_offset+row_height));
-
-                pipe.css({
-                    height: child_offset-parent_offset+row_height,
-                    top: -(child_offset-parent_offset)/2
-                }).show();
+            if(!this.handler.active){
+                color = 'grey';
             }
 
-        }
+            if(this.isComparator()){
+                rule.updateDom();
+            }
+
+            if(this.child){
+                //this.child.updateDom();
+                this.child.updateLabels();
+            }
+
+            var row_height = this.dom.height();
+            var group_offset = this.dom.parents('.rulegroup').offset().top + 32;
+
+            this.dom.css({
+                    top: 0
+            })
+
+            var current_top = this.dom.offset().top - group_offset;
+
+            var offset_top = 0;
+            var pipe = this.dom.find('.pipe').length ? this.dom.find('.pipe') : $('<div><span>').addClass('pipe').appendTo(this.dom);
+            pipe.hide();
+
+            // There's something behind us!
+            if( this.dom.prev('.block').length ){
+                
+                var parent_offset = this.dom.prev('.block').offset().top - group_offset;
+                offset_top = parent_offset - current_top;
+
+                if( this.isComparator() ){
+
+                    var child_index = this.child.widget_index-1;
+                    var child_offset;
+
+                    if( child_index > -1 ){
+                        child_offset = this.child.converters[child_index].dom.offset().top - group_offset;
+                    }
+                    else
+                    {
+                        child_offset = this.child.input.dom.offset().top - group_offset;
+                    }
 
 
+                    offset_top += ((child_offset - parent_offset) / 2);
+
+                    pipe.css({
+                        height: child_offset-parent_offset+row_height,
+                        top: -(child_offset-parent_offset)/2
+                    }).show();
+                }
+
+            }
 
             this.dom.css({
                 top: offset_top
@@ -112,61 +140,53 @@ rockpool.widget =  function( type, rule, key ) {
                 })
             }
 
+            this.dom.attr('class','pure-u-1-5 center block');
 
-        this.icon.removeClass(function(index, css){
-            return (css.match (/(^|\s)sprite-\S+/g) || []).join(' ');
-        })
+            this.dom.addClass('color-' + color);
+            this.dom.addClass(type + ' ' + (this.subtype?this.subtype:''));
+            this.dom.addClass('name-' + this.getOption('name').toLowerCase().replace(' ','-'));
 
+            if ( this.handler.name == "Empty" ){
+                this.dom.addClass('empty');
+            }
+            else if( this.isComparator() ){
+                this.dom.addClass('decider');
+            }
+            else if( this.isConverter() ){
+                this.dom.addClass('converter');
+            }
+            else
+            {
+                this.dom.addClass('type-' + this.type);
+            }
 
-        this.dom.removeClass('converter decider');
+            if(this.getOption('category')){
+                this.dom.addClass(this.getOption('category').toLowerCase())
+            }
 
-        if ( this.handler.name == "Empty" ){
-            this.dom.addClassdecider
-            this.icon.addClass('sprite-block-add');
+            if(this.handler.type == 'module' && !this.handler.active){
+                this.dom.addClass('disconnected')
+            }
         }
-        else if( this.isComparator() ){
-            this.dom.addClass('decider');
-            this.icon.addClass('sprite-block-decider');
-        }
-        else if( this.isConverter() ){
-            this.dom.addClass('converter');
-            this.icon.addClass('sprite-block-converter');
-        }
-        else
-        {
-            this.icon.addClass('sprite-block-' + this.type);
-        }
-
-        if(this.getOption('category')){
-            this.dom.addClass(this.getOption('category').toLowerCase())
-        }
-        if( this.isOutput() && this.handler.name == 'Inspect' ){
-            this.dom.find('.icon').append('<span class="state"></span>')
-        }
-
-        if(this.handler.type == 'module' && !this.handler.active){
-            this.dom.addClass('disconnected')
-        }
-
         this.updateCanvas();
     }
 
     this.setLabel = function( label ){
-        var channel = typeof(this.handler.channel) !== 'undefined' ? ' (' + rockpool.channelToNumber(this.handler.channel) + ')' : '';
-        this.dom.find('.name').html( rockpool.languify(label) + channel )
+        if( (this.isConverter() && this.handler.name == 'Empty') || (this.isOutput() && this.handler.name == 'None') ){
+            this.dom.find('.name').hide();
+            return;
+        }
+        var channel = typeof(this.handler.channel) !== 'undefined' ? ' <span>' + rockpool.channelToNumber(this.handler.channel) + '</span>' : '';
+        this.dom.find('.name').show().html( rockpool.languify(label) + channel )
     }
 
     this.setSubType = function( subtype ){
-        this.dom.addClass(type + ' ' + (subtype?subtype:''));
-    }
-
-    this.setBgColor = function( bgColor ){
-        if(!bgColor) return;
-        this.dom.find('.icon').css({color:bgColor})
+        this.subtype = subtype;
     }
 
     this.setIcon = function( icon ){
-        this.img.attr('src', icon ? icon : 'css/images/icon-empty.png');
+        //this.img.attr('src', icon ? 'css/images/icons/icon-' + icon + '.png' : 'css/images/icon-empty.png');
+        this.dom.find('i').attr('class','').addClass('icon-' + icon);
         this.dom.find('.icon').append(((this.type != 'converter' && !isNaN(this.handler.channel)) ? ' <span class="channel">' + rockpool.channelToNumber(this.handler.channel) + '</span>' : ''))
     }
 
@@ -184,10 +204,17 @@ rockpool.widget =  function( type, rule, key ) {
     this.get = function(){
         var value = this.handler.get ? this.handler.get(this.options) : 0
         this.history.push(value)
-        this.history = this.history.slice(Math.max(this.history.length - 50, 0))
+        this.history = this.history.slice(-200)
 
         if( this.isInput() ){
-            this.inspector.text(Math.round(value*1000).toString());
+            var raw = Math.round(value*1000).toString();
+            if( this.handler.raw ){
+                raw = this.handler.raw(this.option_index) + '<small>' + raw +  '</small>';
+            }
+            if( raw != this.last_inspector_value ){
+                this.inspector.html(raw);
+                this.last_inspector_value = raw;
+            }
         }
 
         return value
@@ -197,7 +224,7 @@ rockpool.widget =  function( type, rule, key ) {
 
         var output =  this.handler.convert ? this.handler.convert(value) : 0
         this.history.push(output)
-        this.history = this.history.slice(Math.max(this.history.length - 50, 0))
+        this.history = this.history.slice(-200)
 
         return output
     }
@@ -208,7 +235,11 @@ rockpool.widget =  function( type, rule, key ) {
         }
 
         if( this.isOutput() ){
-            this.inspector.text(Math.round(value*1000).toString());
+            var raw = Math.round(value*1000).toString();
+            if( raw != this.last_inspector_value ){
+                this.inspector.html(raw);
+                this.last_inspector_value = raw;
+            }
         }
 
         if(this.handler.set){
@@ -257,73 +288,6 @@ rockpool.widget =  function( type, rule, key ) {
         context.stroke();
     }
 
-    this.drawChartQuadratic = function (width, height, context, values) {
-        var max = Math.round((width) / this.dotSpacing) + 1;
-
-        values = values.slice(-max);
-        while(values.length < max){
-            values.push(0);
-        }
-
-        var points = [];
-
-        for(var i = 0; i < max; i++) {
-            var value = values[i] * (height - (this.verticalMargin*2));
-            points.push({
-                x: width  - ( i * this.dotSpacing ),
-                y: height - ( value ) - this.verticalMargin
-            })
-        }
-
-        context.globalCompositeOperation = "source-over"
-        context.beginPath(); 
-
-        context.moveTo(points[0].x, points[0].y);
-        for (i = 1; i < points.length - 2; i ++)
-        {
-            var xc = (points[i].x + points[i + 1].x) / 2;
-            var yc = (points[i].y + points[i + 1].y) / 2;
-            context.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
-        }
-        context.quadraticCurveTo(points[i].x, points[i].y, points[i+1].x,points[i+1].y);
-        context.stroke();
-
-        context.lineTo(-10,height+10);
-        context.lineTo(width+10,height+10);
-        context.fill();
-
-    }
-
-    this.drawChartDots = function (width, height, context, values) {
-        var max = Math.round((width - this.rightMargin) / this.dotSpacing)
-        for(var i = 0; i < max; i++) {
-            /* Scale value to fit canvas heigth */
-            var value = values[values.length - 1 - i] * (height - (this.verticalMargin*2) - this.dotRadius - this.dotRadius)
-
-            var x = width - this.rightMargin - (i * this.dotSpacing);
-            var y = height - value - this.dotRadius - this.verticalMargin;
-
-            context.beginPath()
-            context.arc(x, y, this.dotRadius, 0, Math.PI * 2, false)
-            context.closePath()                       
-            context.fillStyle = i == 0 ? "rgba(235, 230, 220, 1)" : "rgba(235, 230, 220, " + ((1 - (i / max)) / 2) + ")"
-            context.fill()
-
-            if(i == 0 && this.rightMargin > 0) {
-                var y = height - ((0.5+value)|0) - (this.dotRadius*2) - this.verticalMargin;
-                var w = this.rightMargin+this.dotRadius;
-                var h = this.dotRadius*2;
-
-                var gradient=context.createLinearGradient(x, y, x+w, y+h);
-                gradient.addColorStop(0.1,"rgba(235, 230, 220, 1)");
-                gradient.addColorStop(0.8,"rgba(235, 230, 220, 0)");
-                context.fillStyle = gradient;
-
-                context.fillRect(x, y, w, h);
-            }
-        }
-    }
-
     this.drawChart = function(){
         if( this.type == 'output' ) return false;
 
@@ -342,24 +306,24 @@ rockpool.widget =  function( type, rule, key ) {
                 return false;
             }
 
-            //this.drawChartQuadratic(canvas.width, canvas.height, context, values);
             this.drawChartLines(canvas.width, canvas.height, context, values);
 
             /*
             This blends the right-hand edge of the graph into the pipe so it doesn't
             end abruptly on converters. It looks nice, but it probably doesn't do much
             for performance. Remove, or add conditional logic, to optimise.
-            */
+                */
             context.save();
             context.globalCompositeOperation = "destination-in"
             gradient = context.createLinearGradient(0, 0, canvas.width, 0)
             gradient.addColorStop(0.0, "rgba(255, 255, 255, 0.0)");
             gradient.addColorStop(0.1, "rgba(255, 255, 255, 1.0)");
-            gradient.addColorStop(0.5, "rgba(255, 255, 255, 1.0)");
+            gradient.addColorStop(0.9, "rgba(255, 255, 255, 1.0)");
             gradient.addColorStop(1.0, "rgba(255, 255, 255, 0.0)");
             context.fillStyle = gradient;
             context.fillRect(0, 0, canvas.width, canvas.height);
             context.restore();
+            
 
         }
     }
@@ -369,7 +333,7 @@ rockpool.widget =  function( type, rule, key ) {
 
         this.canvas.attr({
             'height': this.graph.height() + 'px',
-            'width':  this.graph.width()  + 'px'
+            'width':  (this.graph.width() - 36)  + 'px'
         });
 
         if(this.canvas[0].getContext) {
@@ -389,8 +353,10 @@ rockpool.widget =  function( type, rule, key ) {
     }
 
     this.option_index = -1;
+    this.last_inspector_value = 0;
 
     this.type        = type;
+    this.subtype     = null;
     this.handler_key = null;
     this.handler     = null;
     this.setHandler(key);
@@ -402,19 +368,22 @@ rockpool.widget =  function( type, rule, key ) {
     this.history = [];
 
     this.rightMargin    = 22; // was 50
-    this.dotSpacing     = 22; // was 14
+    this.dotSpacing     = 3; // was 14
     this.verticalMargin = 2;
     this.dotRadius      = 4; // Was 5
 
     this.previous_canvas = null;
 
-    this.dom       = $('<div class="pure-u-1-6 center block">');
-    this.icon      = $('<i class="sprite sprite-block-input">').appendTo(this.dom);
-    this.graph     = $('<div class="graph">').appendTo(this.dom);
+    this.dom_update_needed = true;
+
+    this.dom       = $('<div class="pure-u-1-5 center block">');
+    this.icon      = $('<i>').appendTo(this.dom);
+    this.grah      = null;
 
     this.inspector = $('<div class="inspector">0</div>').appendTo(this.icon);
 
     if( type != 'output' ){
+        this.graph  = $('<div class="graph">').appendTo(this.dom);
         this.canvas = $('<canvas>').appendTo(this.graph);
         this.updateCanvas();
     }
@@ -427,9 +396,68 @@ rockpool.widget =  function( type, rule, key ) {
 
     var widget = this;
 
-    this.dom.on('click',function(e){
+    this.dom
+    .on('click', '.inspector', function(e){
         e.preventDefault();
-        rockpool.add(type,rule,widget.dom.index());
+        e.stopPropagation();
+
+        $(this).toggleClass('detail');
+    })
+    .on('click','i',function(e){
+        e.preventDefault();
+
+        if(widget.handler.type == 'module'){
+
+            var module = rockpool.getModule(widget.handler.host, widget.handler.channel);
+
+            if(module.needsConfiguration(type)){
+
+                rockpool.moduleConfigureMenu(widget.dom, type, rule, widget.dom.index() - 2, module);
+
+                return false;
+            }
+        }
+        else
+        {
+
+            var collection = rockpool.inputs;
+            if(type == 'output'){
+                collection = rockpool.outputs;
+            }
+
+            var module = typeof(collection[widget.handler_key]) === "function" ? new collection[widget.handler_key] : collection[widget.handler_key];
+
+            if(module && module.options && module.options.length > 0){
+                rockpool.virtualConfigureMenu(widget.dom, type, rule, widget.handler_key, module);
+                return false;
+            }
+
+        }
+
+        rockpool.add(type,rule,widget.dom.index() - 2);
+
+
+        /*
+        if(widget.hasOptions()){
+            if(rockpool.isModalOpen()){
+                rockpool.closeModal();
+                rockpool.add(type,rule,widget.dom.index());
+            }
+            else
+            {
+                rockpool.modal_activator = $(this).find('img');
+                rockpool.configureWidget(widget.handler_key, rule, widget.type);
+            }
+        }
+        else
+        {
+            rockpool.add(type,rule,widget.dom.index());
+        }
+        */
         return false;
     })
+
+    if(this.hasOptions()){
+        this.setOptions(0);
+    }
 }

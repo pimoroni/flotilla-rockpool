@@ -4,63 +4,93 @@
         <title>Rockpool - Flotilla</title>
         <link rel="stylesheet" href="css/jquery.fancybox.min.css">
         <link rel="stylesheet" href="css/pure-min.css">
+        <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="css/rockpool.css">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="viewport" content="width = device-width, user-scalable = no, initial-scale = 1.0">
     </head>
     <body>
+        <div class="blackout"></div>
         <div class="main">
-            <div style="margin: 0px auto;width:100%;">
-                <div id="header" class="pure-g">
-                    <!--div class="pure-u-1-12 center logo"><i class="sprite sprite-icon-flotilla"></i></div-->
-                    <div class="pure-u-1-3 center add-input"><h2>Inputs</h2></div>
-                    <div class="pure-u-1-3 center add-converter"><h2>Converters</h2></div>
-                    <div class="pure-u-1-3 center add-output"><h2>Outputs</h2></div>
-                </div>
+            <div class="container">
+                <header class="pure-g">
+                    <div class="pure-u-1-5 center"><h2>input</h2></div>
+                    <div class="pure-u-3-5 center"><h2>modify</h2></div>
+                    <div class="pure-u-1-5 center"><h2>output</h2></div>
+                </header>
                 <div id="rules">
+                </div>
+                <footer>
+                    <span class="rulegroup">
+                        <div class="rule pure-g">
+                            <div class="block toggle"></div>
+
+                            <div class="pure-u-1-5 center block input off type-input generators" style="top: 0px;"><i class="add-input"></i>
+                                <div class="active-inputs">
+                                    <ul>
+                                        <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="pure-u-1-5 block"></div>
+
+                            <div class="pure-u-1-5 center block converter empty"></div>
+
+                            <div class="pure-u-1-5 block"></div>
+
+                            <div class="pure-u-1-5 center block output none type-output general"><i class="add-output"></i>
+                                <div class="active-outputs">
+                                    <ul>
+                                        <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+                                    </ul>
+                                </div></div>
+                        </div>
+                    </span>
+                </footer>
+            </div>
+        </div>
+        <div class="options closed">
+            <div class="container">
+                <i class="toggle icon-flotilla"></i>
+                <div class="icon-palette pure-g">
+                    <div class="active color-navy" data-action="save"><i class="icon-poke"></i><span>Save</span></div>
+                    <div class="active color-navy" data-action="load"><i class="icon-peek"></i><span>Load</span></div>
+                    <div></div>
+                    <div class="active color-navy" data-action="clear"><i class="icon-clear"></i><span>Clear</span></div>
+                    <div></div>
+                    <div class="active color-navy" data-action="dock"><i class="icon-dock"></i><span>Dock</span></div>
+                    <div></div>
+                    <div class="active color-navy" data-action="help"><i class="icon-help"></i><span>Help</span></div>
                 </div>
             </div>
         </div>
         <div style="display:none;" class="palettes"></div>
-        <div style="display:none;" class="help-content">
-            <header><h1 data-translate="true">Help</h1></header>
-            <ul>
-                <li>There are three concepts in Rockpool:
-                    <ul>
-                        <li>Inputs get a value from somewhere, usually a button on a module or a sensor value</li>
-                        <li>Outputs send a value somewhere, like a motor, a light, or a display</li>
-                        <li>Converters change a value, either by tweaking it directly or comparing it to another value</li>
-                    </ul>
-                </li>
-                <li>To add a rule, click Inputs, Converters or Outputs and pick a starting point</li>
-                <li>Next, click one of the slots on the rule to change what it does!</li>
-                <li>Some converters want a comparison value, this will automatically create a new rule which you can tweak like any other.</li>
-            </ul>
-        </div>
-    <script src="js/lib/jquery-2.1.1.min.js"></script>
-    <script src="js/lib/fastclick.js"></script>
-    <script src="js/rockpool.js"></script>
-    <script src="js/rockpool.languify.js"></script>
-    <script src="js/socket.io.min.js"></script>
-    <script src="js/rockpool.widget.js"></script>
-    <script src="js/rockpool.rule.js"></script>
-    <script src="js/rockpool.inputs.js"></script>
-    <script src="js/rockpool.outputs.js"></script>
-    <script src="js/rockpool.converters.js"></script>
-    <script src="js/rockpool.palette.js"></script>
-    <script src="js/rockpool.module.js"></script>
-    <script src="js/rockpool.modules.js"></script>
-    <script src="js/rockpool.client.js"></script>
-    <script src="js/rockpool.save.js"></script>
-    <script src="js/rockpool.variables.js"></script>
-    <script src="js/rockpool.find-hosts.worker.js"></script>
 
-    <script src="js/lib/jquery.fancybox.min.js"></script>
+        <script src="js/lib/jquery-2.1.1.min.js"></script>
+        <script src="js/lib/fastclick.js"></script>
+        <script src="js/rockpool.js"></script>
+        <script src="js/rockpool.languify.js"></script>
+        <script src="js/socket.io.min.js"></script>
+        <script src="js/rockpool.widget.js"></script>
+        <script src="js/rockpool.rule.js"></script>
+        <script src="js/rockpool.inputs.js"></script>
+        <script src="js/rockpool.outputs.js"></script>
+        <script src="js/rockpool.converters.js"></script>
+        <script src="js/rockpool.palette.js"></script>
+        <script src="js/rockpool.module.js"></script>
+        <script src="js/rockpool.modules.js"></script>
+        <script src="js/rockpool.client.js"></script>
+        <script src="js/rockpool.save.js"></script>
+        <script src="js/rockpool.variables.js"></script>
+        <script src="js/rockpool.find-hosts.worker.js"></script>
 
-    <script>
-        "use strict";
-        $(function () {rockpool.initialize()});
-    </script>
+        <script src="js/lib/jquery.fancybox.min.js"></script>
+
+        <script>
+            "use strict";
+            $(function () {rockpool.initialize()});
+        </script>
     </body>
 </html>
