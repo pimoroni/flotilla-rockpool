@@ -297,6 +297,7 @@ rockpool.initialize = function(){
 
         switch(action){
             case 'help':
+                window.open('http://flotil.la');
                 break;
             case 'new':
                 new rockpool.rule().start();
