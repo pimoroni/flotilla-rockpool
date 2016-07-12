@@ -367,7 +367,8 @@ rockpool.module_handlers['weather'] = {
                 var lowest = options ? options.lowest : -40.00;
                 var temp = this.data.temperature / 100.00;
 
-                if(temp > temp) {temp = highest}
+                temp = Math.min(temp, highest);
+                temp = Math.max(temp, lowest);
 
                 var output_temp = (temp - lowest) / (highest-lowest);
 
