@@ -508,7 +508,7 @@ rockpool.module_handlers['number'] = {
     'icon': 'number',
     'send': function(data){
         // Input should look like "XXXX" or "X.XXX" or "XX.XX" or "XX:XX" or "XX:X'"
-        console.log(data);
+        //console.log(data);
         var display = [0,0,0,0,0,0,0]; // 7 bytes, char 1-4, colon, apostrophe and brightness
 
         for(var x = 0; x<data.number.toString().length; x++){
