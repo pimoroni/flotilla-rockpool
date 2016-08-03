@@ -736,6 +736,23 @@ i .name span {
 .palette.save-load .delete {
     background-color:#ED1457;
 }
+.palette.save-load .download {
+    background-color:#02B186;
+    position:absolute;
+    right:67px;
+}
+.palette.save-load .download:before {
+    content: '';
+    display:block;
+    background:transparent;
+    width:0;
+    height:0;
+    border: 21px solid transparent;
+    border-top-color: #FFF;
+    position: absolute;
+    left: 15px;
+    top: 31px;
+}
 
 .palette header {
     text-align:center;
