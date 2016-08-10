@@ -487,18 +487,40 @@ rockpool.module_handlers['matrix'] = {
         }
     }
 }
+/*
+    128
+    --
+ 4 |  | 64
+ 2  --
+ 8 |  | 32
+    --   . 1
+    16
+*/
 
 var number_digit_map = [
- 252,//0b11111100,
- 96, //0b01100000,
- 218,//0b11011010,
- 242,//0b11110010,
- 102,//0b01100110,
- 182,//0b10110110,
- 190,//0b10111110,
- 224,//0b11100000,
- 254,//0b11111110,
- 230 //0b11100110
+ 252,//0b11111100, 0
+ 96, //0b01100000, 1
+ 218,//0b11011010, 2
+ 242,//0b11110010, 3
+ 102,//0b01100110, 4
+ 182,//0b10110110, 5
+ 190,//0b10111110, 6
+ 224,//0b11100000, 7
+ 254,//0b11111110, 8
+ 230, //0b11100110 9
+ 0,   // :
+ 0,   // ;
+ 0,   // <
+ 0,   // =
+ 0,   // >
+ 0,   // ?
+ 0,   // @
+ 0,   // A
+ 0,   // B
+ 128+16+8+4,       // C
+ 128+64+32+16+8+4, // D
+ 128+16+8+4+2,     // E
+ 128+8+4+2,        // F
 ]
 
 rockpool.module_handlers['number'] = {
@@ -520,14 +542,14 @@ rockpool.module_handlers['number'] = {
                 display[x] = number_digit_map[ord];
             }
 
+            display[x] += (data.period[x]) ? 1 : 0;
+
         }
 
         display[4] = data.colon; // Colon
         display[5] = data.apostrophe; // Apostrophe
 
         display[6] = data.brightness; // Brightness
-
-        console.log(data.number, display);
 
         return [ display ];
     },
@@ -537,11 +559,25 @@ rockpool.module_handlers['number'] = {
                 return this.data.number;
             },
 			this.name = "Number"
-			this.data = {number:"0000", brightness:50, colon: 0, apostrophe: 0}
+			this.data = {number:"0000", brightness:50, colon: 0, apostrophe: 0, period: [0,0,0,0]}
 
             this.options = [
                 {name: 'Number', fn: function(value,t){
                     t.data.number = t.pad( Math.ceil(value * 1000).toString(), 4 );
+                }},
+                {name: 'Temperature', fn: function(value,t){
+                    t.data.apostrophe = 1;
+                    t.data.period = [0,1,0,0];
+
+                    var temp = Math.round((value - 0.5) * 1000) / 10;
+
+                    temp = temp.toFixed(1).replace('.','');
+
+                    if (temp.length < 3){
+                        temp  = " " + temp;
+                    }
+
+                    t.data.number = temp + "C";
                 }},
                 {name: 'Hour', fn: function(value,t){
                     t.data.number = t.pad( Math.ceil(value * 23).toString(), 2) + t.data.number.slice(2,4);
