@@ -9,8 +9,8 @@ rockpool.connection_timeout = 500; // seems stable at (250 * number of ranges to
 
 rockpool.valid_hosts = [];
 rockpool.attempt_list = [];
-rockpool.minimum_dock_version = 1.4;
-rockpool.current_dock_version = 1.4;
+rockpool.minimum_dock_version = 1.14;
+rockpool.current_dock_version = 1.14;
 
 // attach the .equals method to Array's prototype to call it on any array
 Array.prototype.equals = function (array) {
