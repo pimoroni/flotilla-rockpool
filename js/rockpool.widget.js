@@ -207,10 +207,7 @@ rockpool.widget =  function( type, rule, key ) {
         this.history = this.history.slice(-200)
 
         if( this.isInput() ){
-            var raw = Math.round(value*1000).toString();
-            if( this.handler.raw ){
-                raw = this.handler.raw(this.option_index) + '<small>' + raw +  '</small>';
-            }
+            var raw = this.getFormattedValue(value)
             if( raw != this.last_inspector_value ){
                 this.inspector.html(raw);
                 this.last_inspector_value = raw;
@@ -218,6 +215,18 @@ rockpool.widget =  function( type, rule, key ) {
         }
 
         return value
+    }
+
+    this.getFormattedValue = function(value) {
+        if(this.inheritFromModule && !this.handler.raw){
+            return this.inheritFromModule.getFormattedValue(value);
+        }
+
+        var raw = Math.round(value*1000).toString();
+        if(this.handler.raw){
+            return this.handler.raw(this.option_index, value) + '<small>' + raw + '</small>';
+        }
+        return raw;
     }
 
     this.convert = function(value){
@@ -235,10 +244,11 @@ rockpool.widget =  function( type, rule, key ) {
         }
 
         if( this.isOutput() ){
-            var raw = Math.round(value*1000).toString();
-            if(this.handler.raw){
-                raw = this.handler.raw(this.option_index, value);
+            var raw = this.getFormattedValue(value);
+            if(this.inheritFromModule){
+                raw = this.inheritFromModule.getFormattedValue(value);
             }
+
             if( raw != this.last_inspector_value ){
                 this.inspector.html(raw);
                 this.last_inspector_value = raw;

@@ -220,7 +220,17 @@ rockpool.rule = function (parent, widget_index) {
     this.updateLabels = function(module_key) {
         // module_key is the module which has triggered the update
         module_key = module_key || "NONE";
+
+        if(this.isChild() && this.getOutput().handler.inheritFormatting){
+            this.getInput().inheritFromModule = this.parent.getInput();
+        }
+        else
+        {
+            this.getInput().inheritFromModule = null;
+        }
+
         this.getInput().update(this.getInput().handler_key.substr(0,module_key.length) === module_key);
+
         this.converters.forEach(function(converter, idx){
                 converter.update();
             }
@@ -278,6 +288,12 @@ rockpool.rule = function (parent, widget_index) {
 
                 var potential_position = this.parent.dom;
                 var skip = this.widget_index;
+
+                // Fix for correct placement of widget 3 (index 2) child rules
+                // when we already have 4 rules merging into one.
+                if(this.widget_index == 2){
+                    skip = 3;
+                }
 
                 while(skip-- && potential_position.next('.rule').length > 0){
                     if( potential_position.next('.rule').data('obj').widget_index > widget_index ){

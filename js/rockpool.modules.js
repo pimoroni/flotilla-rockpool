@@ -355,11 +355,8 @@ rockpool.module_handlers['weather'] = {
             this.options = [
                 {name: "Temperature",  highest: 50,  lowest: -50},
             ]
-            this.convertRaw = function(value){
-                return ((value - 0.5) * 10).toFixed(2) + 'c';
-            }
-            this.raw = function(){
-                return (this.data.temperature / 100.00).toFixed(2) + 'c';
+            this.raw = function(option, value){
+                return ((value - 0.5) * 100).toFixed(2) + 'c';
             }
             this.get = function(options){
 
@@ -574,7 +571,8 @@ rockpool.module_handlers['number'] = {
                     t.data.period = [0,0,0,0];
                     t.data.number = t.pad( Math.ceil(value * 1000).toString(), 4 );
                 }},
-                {name: 'Temperature', raw: function(value, t){
+                {name: 'Temperature', 
+                raw: function(value, t){
 
                     var temp = Math.round((value - 0.5) * 1000) / 10;
 
@@ -586,7 +584,8 @@ rockpool.module_handlers['number'] = {
 
                     return temp + "c";
 
-                },fn: function(value,t){
+                },
+                fn: function(value,t){
 
                     var temp = Math.round((value - 0.5) * 1000) / 10;
 
