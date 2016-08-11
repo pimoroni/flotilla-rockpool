@@ -481,6 +481,8 @@ rockpool.connect = function(host, port, details){
 
         rockpool.addToConnectionHistory(host);
 
+        rockpool.enumerateHost(0);
+
         if(typeof(rockpool.on_connect) === "function"){
             rockpool.on_connect();
         }
@@ -496,6 +498,13 @@ rockpool.connect = function(host, port, details){
         rockpool.findHosts();
      };
     rockpool.run();
+}
+
+rockpool.enumerateHost = function(host){
+
+    var packet = 'dock:' + host + ' data:e\r';
+    rockpool.socket.send(packet);
+
 }
 
 rockpool.sendHostUpdate = function(host, channel, code, data){
