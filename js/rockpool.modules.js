@@ -268,6 +268,22 @@ rockpool.module_handlers['motion'] = {
                 return this.steer.avg();
             }
 
+        },
+        'drive': function(){
+            this.name = "Drive"
+            this.icon = "motion"
+            this.data = {x:0,y:0,z:0,m_x:0,m_y:0,m_z:0,d:0}
+            this.drive = [];
+            this.get = function(){
+                var val = ((this.data['x'] - 0.5) * 2.5) + 0.5
+                val = Math.max(Math.min(val,1.0),0.0);
+
+                this.drive.push(val);
+                this.drive = this.drive.slice(-4);
+                this.drive.avg = rockpool.helpers.avg;
+                return this.drive.avg();
+            }
+
         }/*,
         'axis': function(){
 
@@ -356,7 +372,8 @@ rockpool.module_handlers['weather'] = {
                 {name: "Temperature",  highest: 50,  lowest: -50},
             ]
             this.raw = function(option, value){
-                return ((value - 0.5) * 100).toFixed(2) + 'c';
+                var v = Math.round((value - 0.5) * 1000) / 10
+                return (v).toFixed(1) + 'c';
             }
             this.get = function(options){
 
@@ -563,7 +580,7 @@ rockpool.module_handlers['number'] = {
                 return this.data.number;
             },
 			this.name = "Number"
-			this.data = {number:"0000", brightness:50, colon: 0, apostrophe: 0, period: [0,0,0,0]}
+			this.data = {number:"0000", brightness:80, colon: 0, apostrophe: 0, period: [0,0,0,0]}
 
             this.options = [
                 {name: 'Number', fn: function(value,t){

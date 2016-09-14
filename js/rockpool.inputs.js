@@ -35,8 +35,8 @@ rockpool.inputs = {
             this.options[option].value = parseFloat(value);
         }
 
-        this.raw = function(option){
-            return Math.round(this.options[option].value*100) + '%';
+        this.raw = function(option, value){
+            return (Math.round(value*100)) + '%';
         }
 
         this.getValue = function(option){
@@ -91,7 +91,7 @@ rockpool.inputs = {
             {name:'Slow', speed:15},
             {name:'Medium', speed:10},
             {name:'Fast', speed:5},
-            //{name:'Custom', speed:5, ui:'slider'}
+            {name:'Custom', speed:5, ui:'slider'}
         ];
 
         this.getValue = function(option){
@@ -127,10 +127,10 @@ rockpool.inputs = {
         this.frequency = 0;
 
         this.options = [
-            {name:'Slow', frequency:0.01},
-            {name:'Medium', frequency:0.5},
-            {name:'Fast', frequency:1.0},
-            //{name:'Custom', frequency:9.0, ui:'slider'}
+            {name:'Slow', frequency:0.06},
+            {name:'Medium', frequency:0.12},
+            {name:'Fast', frequency:0.24},
+            {name:'Custom', frequency:9.0, ui:'slider'}
         ];
 
         this.frequency = 0;
@@ -172,7 +172,7 @@ rockpool.inputs = {
             {name:'Slow', speed:1.0},
             {name:'Medium', speed:5.0},
             {name:'Fast', speed:9.0},
-            //{name:'Custom', speed:9.0, ui:'slider'}
+            {name:'Custom', speed:9.0, ui:'slider'}
         ];
 
         this.getValue = function(option){

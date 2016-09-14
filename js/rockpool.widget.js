@@ -218,7 +218,7 @@ rockpool.widget =  function( type, rule, key ) {
     }
 
     this.getFormattedValue = function(value) {
-        if(this.inheritFromModule && !this.handler.raw){
+        if(this.inheritFromModule && (!this.handler.raw || this.handler_key == "state" )){
             return this.inheritFromModule.getFormattedValue(value);
         }
 

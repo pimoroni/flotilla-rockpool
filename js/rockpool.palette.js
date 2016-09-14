@@ -268,6 +268,7 @@ rockpool.add = function(type, rule, index){
             rule = rule instanceof rockpool.rule ? rule : new rockpool.rule();
             rule.start();
             var io_key =  type == 'input' ? module.firstInput().key : module.firstOutput().key;
+
             rule.setHandler(type,[module.key,io_key].join('_'));
             rockpool.closePrompt();
         }
@@ -346,12 +347,18 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
         var percent = Math.max(Math.min((offset_center * slider_overscale) + 0.5,1.0),0.0);
 
         var idx = parseInt($(obj).data('idx'));
-        $(obj).data('value',Math.round(percent*100.0) / 100.0);
+        $(obj).data('value',Math.round(percent*1000.0) / 1000.0);
 
         $(obj).find('div').css({width:Math.round(percent*100.0) + '%'});
-        $(obj).find('strong').text(Math.round(percent*100.0) + '%');
 
-        rule.getInput().handler.options[idx].value = percent;
+        var text = Math.round(percent*100.0) + '%';
+
+        if(rule){
+            text = rule.getInput().getFormattedValue(percent).split('<small>')[0];
+            rule.getInput().handler.options[idx].value = percent;
+        }
+
+        $(obj).find('strong').html(text);
     }
 
     var slider = dom_popup.find('.slider');
@@ -372,6 +379,7 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
     .off('mouseup')
     .off('mousemove')
     .off('mousedown')
+    .off('mousewheel')
     .css('display','inline-block')
     .on('click','.slider',function(e){
         e.stopPropagation();
