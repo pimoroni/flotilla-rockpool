@@ -555,7 +555,7 @@ rockpool.addressLookup = function(module_addr){
 rockpool.setDockName = function(host, name){
     name = name.substring(0,8);
 
-    if(dockpool.dock_name != name){
+    if(rockpool.dock_name != name){
 
         rockpool.sendHostCommand(host, "n d " + name);
         rockpool.dock_name = name;
@@ -566,7 +566,7 @@ rockpool.setDockName = function(host, name){
 rockpool.setDockUser = function(host, user){
     user = user.substring(0,8);
 
-    if(dockpool.dock_user != user){
+    if(rockpool.dock_user != user){
 
         rockpool.sendHostCommand(host, "n u " + user);
         rockpool.dock_user = user;
