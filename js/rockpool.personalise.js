@@ -2,11 +2,17 @@ var rockpool = rockpool || {};
 
 rockpool.personalise = function(host){
 
-	var dom_ui = $("<div>");
+	var dom_ui = $("<div>").addClass("personalise palette");
 
-	var dom_name = $("<input>").attr({maxlength:8}).addClass("dockName").appendTo(dom_ui);
-	var dom_user = $("<input>").attr({maxlength:8}).addClass("dockUser").appendTo(dom_ui);
-	var submit = $("<div>").addClass("dockSubmit").appendTo(dom_ui);
+	$("<header><h1>name your dock</h1></header>").appendTo(dom_ui);
+
+	var dom_user_label = $("<p>").text("Your name:").appendTo(dom_ui);
+	var dom_user = $("<input>").attr({maxlength:8}).addClass("dockUser").val(rockpool.dock_user).appendTo(dom_ui);
+
+	var dom_name_label = $("<p>").text("Dock name:").appendTo(dom_ui);
+	var dom_name = $("<input>").attr({maxlength:8}).addClass("dockName").val(rockpool.dock_name).appendTo(dom_ui);
+
+	var submit = $("<i>").addClass("dockSubmit").appendTo(dom_ui);
 
 	submit.on('click',function(){
 		var dock_name = dom_name.val();
@@ -23,6 +29,10 @@ rockpool.personalise = function(host){
 
 		rockpool.setDockName(host, dock_name);
 		rockpool.setDockUser(host, dock_user);
+
+		rockpool.closePrompt();
 	});
+
+	rockpool.prompt(dom_ui, false);
 
 }

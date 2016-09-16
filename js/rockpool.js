@@ -309,8 +309,9 @@ rockpool.initialize = function(){
                 rockpool.loadDialog();
                 break;
             case 'dock':
+                rockpool.personalise(rockpool.subscribed_to);
                 //rockpool.manageDock();
-                rockpool.startDiscovery();
+                //rockpool.startDiscovery();
                 break;
             case 'save':
                 rockpool.saveDialog();

@@ -335,6 +335,39 @@ rockpool.widget =  function( type, rule, key ) {
         context.stroke();
     }
 
+    this.drawChartHybrid = function(width, height, context, values) {
+
+        var dotSpacing = width / values.length;
+
+        var max = Math.round((width) / dotSpacing) + 1;
+        var points = [];
+
+        for(var i = 0; i < max; i++) {
+            var value = values[values.length - 1 - i] * (height - (this.verticalMargin*2));
+
+            points.push({
+                x: width  - ( i * dotSpacing ),
+                y: height - ( value ) - this.verticalMargin
+            })
+        }
+
+
+        context.globalAlpha = 0.2;
+
+        context.beginPath(); 
+        context.moveTo(points[0].x, points[0].y);
+        for (i = 1; i < points.length; i ++){context.lineTo(points[i].x, points[i].y);}
+        context.stroke();
+
+        context.globalAlpha = 1.0;
+
+        context.beginPath();
+        context.moveTo(0, points[0].y);
+        context.lineTo(width, points[0].y);
+        context.stroke();
+
+    }
+
     this.drawChart = function(){
         if( this.type == 'output' ) return false;
 
@@ -360,7 +393,7 @@ rockpool.widget =  function( type, rule, key ) {
             This blends the right-hand edge of the graph into the pipe so it doesn't
             end abruptly on converters. It looks nice, but it probably doesn't do much
             for performance. Remove, or add conditional logic, to optimise.
-                */
+            */
             context.save();
             context.globalCompositeOperation = "destination-in"
             gradient = context.createLinearGradient(0, 0, canvas.width, 0)
@@ -400,7 +433,7 @@ rockpool.widget =  function( type, rule, key ) {
         }
     }
 
-    this.history_length = 10;
+    this.history_length = 100;
 
     this.option_index = -1;
     this.last_inspector_value = 0;

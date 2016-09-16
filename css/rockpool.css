@@ -669,14 +669,14 @@ i .name span {
     padding-left:10px;
 }
 
-.save-load .add {
+.save-load .add, .personalise .dockSubmit {
     position: absolute;
     left: 50%;
     bottom:-36px;
     margin-left: -36px;
     background-color:#00AB9B;
 }
-.save-load input {
+.save-load input, .personalise input {
     width: 480px;
     height: 50px;
     line-height: 50px;
@@ -689,7 +689,7 @@ i .name span {
     display: block;
     margin-bottom: 30px;
 }
-.save-load p {
+.save-load p, .personalise p {
     color:#00B0D2;
     text-align:center;
     margin-top:0;
@@ -718,14 +718,19 @@ i .name span {
 
 
 .palette.host-picker, 
-.palette.save-load {
+.palette.save-load,
+.palette.personalise {
     border-radius:20px;
     background:#00B0D2;
 }
-.palette.save-load {
+.palette.save-load,
+.palette.personalise {
     border-radius:20px;
     background:#224280;
     margin-bottom:36px;
+}
+.palette.personalise {
+    padding-bottom:30px;
 }
 .palette.save-load li {
     position:relative;

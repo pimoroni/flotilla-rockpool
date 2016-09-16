@@ -414,8 +414,8 @@ rockpool.findHosts = function(){
         }
 
         if(progress == 0 && rockpool._discover && rockpool._discover_retries < 4){
-                rockpool._discover_retries += 1;
-                setTimeout(rockpool.discoverHosts,rockpool._discover_retry_time);
+            rockpool._discover_retries += 1;
+            setTimeout(rockpool.discoverHosts,rockpool._discover_retry_time);
         }
     }
 }
@@ -509,8 +509,6 @@ rockpool.connect = function(host, port, details){
 
 rockpool.enumerateHost = function(host){
 
-    //var packet = 'dock:' + host + ' data:e\r';
-    //rockpool.socket.send(packet);
     rockpool.sendHostCommand(host,'e');
 
 }
@@ -540,7 +538,7 @@ rockpool.sendHostCommand = function(host, cmd){
     }
     else
     {
-        if(dockpool.debug_enabled) console.log('Unable to send ( No connection to host ):', packet)
+        if(rockpool.debug_enabled) console.log('Unable to send ( No connection to host ):', packet)
     }
 
 }
@@ -557,13 +555,23 @@ rockpool.addressLookup = function(module_addr){
 rockpool.setDockName = function(host, name){
     name = name.substring(0,8);
 
-    rockpool.sendHostCommand(host, "n d " + name);
+    if(dockpool.dock_name != name){
+
+        rockpool.sendHostCommand(host, "n d " + name);
+        rockpool.dock_name = name;
+
+    }
 }
 
 rockpool.setDockUser = function(host, user){
     user = user.substring(0,8);
 
-    rockpool.sendHostCommand(host, "n u " + user);
+    if(dockpool.dock_user != user){
+
+        rockpool.sendHostCommand(host, "n u " + user);
+        rockpool.dock_user = user;
+
+    }
 }
 
 rockpool.parseCommand = function(data_in){
@@ -583,20 +591,6 @@ rockpool.parseCommand = function(data_in){
     data_in = packet[1].trim();
 
     if(data_in[0] == '#'){
-
-        /*var id_version = "Version:";
-        var id_serial = "Serial:";
-
-        if(data_in.substring(0,id_version.length) == id_version){
-            rockpool.dockVersion = data_in.substring(id_version.length);
-            return true;
-        }
-
-        if(data_in.substring(0,id_serial.length) == id_serial){
-            rockpool.dockSerial = data_in.substring(id_serial.length);
-            return true;
-        }*/
-
         if(rockpool.debug_enabled)console.log('Debug: ', data_in);
         return false;
     }
