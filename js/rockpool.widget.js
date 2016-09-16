@@ -433,7 +433,7 @@ rockpool.widget =  function( type, rule, key ) {
         }
     }
 
-    this.history_length = 100;
+    this.history_length = 10;
 
     this.option_index = -1;
     this.last_inspector_value = 0;
