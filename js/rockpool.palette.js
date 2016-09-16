@@ -10,7 +10,7 @@ rockpool.prompt = function(content, close_on_click){
         modal       : true,
         content     : content,
         width       : '100%',
-        margin      : [10, 10, 10, 10],
+        margin      : [0, 0, 0, 0],
         beforeClose : function(){
             $('.greyout').removeClass('greyout');
         },
@@ -30,6 +30,7 @@ rockpool.prompt = function(content, close_on_click){
 }
 
 rockpool.closePrompt = function(){
+    $('.active.selected').removeClass('selected');
     $.fancybox.close();
 }
 
@@ -52,8 +53,10 @@ rockpool.refreshConnectedModules = function(obj, type){
         }
     }
 
+    $('.active-' + type + 's li').removeClass('on');
+
     for(channel_index = 0; channel_index<8; channel_index++){
-        var module = rockpool.getModule(dock_id, channel_index);
+        var module = rockpool.getActiveModule(dock_id, channel_index);
         var dom_module = dom_channels.find('> div:eq(' + channel_index + ')');
         if(module === false || module.active === false){
             dom_module
@@ -81,6 +84,8 @@ rockpool.refreshConnectedModules = function(obj, type){
 
                 dom_module
                     .attr('class','color-' + module.color + ' active');
+                    
+                $('.active-' + type + 's').find(' li:eq(' + channel_index + ')').addClass('on');
 
             }
         }
@@ -115,12 +120,13 @@ rockpool.refreshVirtualModules = function(obj, type){
                 'type': type,
                 'key':key
             })
-            .addClass('active color-grey')
+            .addClass('active above color-navy')
             .appendTo(dom_virtual);
+        dom_item.find('i').addClass('icon-' + item.icon);
         dom_item.find('span').text(item.name);
-        if(item.icon){
+        /*if(item.icon){
             dom_item.find('img').attr('src','css/images/icons/icon-' + item.icon + '.png');
-        }
+        }*/
     }
 
 }
@@ -134,9 +140,16 @@ rockpool.refreshConverters = function(obj){
     }
     dom_converters.find('div').remove();
 
+    var last_color = null;
+
     for(key in rockpool.converters){
 
         var converter = typeof(rockpool.converters[key]) === "function" ? new rockpool.converters[key] : rockpool.converters[key];
+
+        if( last_color != null && converter.color != last_color ){
+            $('<hr>').appendTo(dom_converters);
+        }
+        last_color = converter.color;
 
         var dom_item = $('<div><i><img></i><span>')
             .data({
@@ -144,10 +157,12 @@ rockpool.refreshConverters = function(obj){
             })
             .addClass('active')
             .appendTo(dom_converters);
+        dom_item.find('i').addClass('icon-' + converter.icon);
         dom_item.find('span').text(converter.name);
-        if(converter.icon){
+        /*if(converter.icon){
             dom_item.find('img').attr('src','css/images/icons/icon-' + converter.icon + '.png');
-        }
+        }*/
+        dom_item.addClass('color-' + converter.color);
 
     }
 
@@ -212,6 +227,7 @@ rockpool.add = function(type, rule, index){
         var key = $(this).data('key');
         var type = $(this).data('type');
 
+
         var collection = rockpool.inputs;
         if(type == 'output'){
             collection = rockpool.outputs;
@@ -219,7 +235,8 @@ rockpool.add = function(type, rule, index){
 
         var module = typeof(collection[key]) === "function" ? new collection[key] : collection[key];
 
-        if(module.options && module.options.length > 0){
+        if(module.options
+         && module.options.length > 0){
             // Needs configuration
             rockpool.virtualConfigureMenu($(this), type, rule, key, module);
         }
@@ -239,19 +256,19 @@ rockpool.add = function(type, rule, index){
         var channel_index = $(this).data('channel');
         var type = $(this).data('type');
 
-        var module = rockpool.getModule(dock_id, channel_index);
+        var module = rockpool.getActiveModule(dock_id, channel_index);
 
-        //console.log(type, channel_index, module);
 
         if(module.needsConfiguration(type))
         {
-            rockpool.moduleConfigureMenu($(this), type, rule, index, module);
+            rockpool.moduleConfigureMenu($(this), type, rule, null, module);
         }
         else
         {
             rule = rule instanceof rockpool.rule ? rule : new rockpool.rule();
             rule.start();
             var io_key =  type == 'input' ? module.firstInput().key : module.firstOutput().key;
+
             rule.setHandler(type,[module.key,io_key].join('_'));
             rockpool.closePrompt();
         }
@@ -261,10 +278,6 @@ rockpool.add = function(type, rule, index){
 }
 
 rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
-
-    var dom_palette = $('.palette.' + type);
-    dom_palette.addClass('greyout').find('.selected').removeClass('selected');
-    target.addClass('selected');
 
     var dom_popup = target.find('.popup.' + key);
     if(dom_popup.length == 0){
@@ -288,9 +301,21 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
                     .appendTo(dom_menu);
 
                 var dom_slider = $('<div>').appendTo(dom_option);
-                var dom_slider_label = $('<strong>').text(option.name).appendTo(dom_option)
+                var dom_slider_label = $('<strong>').text(option.name).appendTo(dom_option);
 
+                if(type == 'input'){
+                    var percent = NaN;
 
+                    if(rule && rule.getInput().handler.options[idx]){
+                        percent = rule.getInput().handler.options[idx].value;
+                    }
+                    
+                    if(!isNaN(percent)){
+                       dom_option.data('value', percent);
+                       dom_option.find('strong').text(Math.round(percent*100.0) + '%');
+                       dom_option.find('div').css({width:Math.round(percent*100.0) + '%'});
+                    }
+                }
 
             }
             else
@@ -311,26 +336,67 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
 
     }
 
+    function update_slider(e,obj){
+
+        var slider_overscale = 1.2; // Ensure the slider reaches the edges of the bounding box before the cursor does
+
+        var left = e.pageX - $(obj).offset().left;
+        var width = $(obj).width();
+        
+        var offset_center = Math.min(left/width,1.0) - 0.5;
+        var percent = Math.max(Math.min((offset_center * slider_overscale) + 0.5,1.0),0.0);
+
+        var idx = parseInt($(obj).data('idx'));
+        $(obj).data('value',Math.round(percent*1000.0) / 1000.0);
+
+        $(obj).find('div').css({width:Math.round(percent*100.0) + '%'});
+
+        var text = Math.round(percent*100.0) + '%';
+
+        if(rule){
+            text = rule.getInput().getFormattedValue(percent).split('<small>')[0];
+            rule.getInput().handler.options[idx].value = percent;
+        }
+
+        $(obj).find('strong').html(text);
+    }
+
+    var slider = dom_popup.find('.slider');
+    slider.find('span').remove();
+
+    for(var x = 1; x < 10; x++){
+        tick = $('<span>');
+        tick.css({
+            left:(slider.width()/10) * x
+        });
+
+        tick.appendTo(slider);
+    }
+
     $('.popup').hide();
     dom_popup
     .off('click')
     .off('mouseup')
     .off('mousemove')
     .off('mousedown')
+    .off('mousewheel')
     .css('display','inline-block')
+    .on('click','.slider',function(e){
+        e.stopPropagation();
+    })
     .on('mousedown','.slider',function(e){
         e.stopPropagation();
 
         $(this).data('sliding',true);
 
-        var left = e.pageX - $(this).offset().left;
-        var width = $(this).width();
-        var percent = left/width;
+        update_slider(e,this);
+    })
+    .on('mousemove','.slider',function(e){
+        e.stopPropagation();
 
-        $(this).data('value',percent);
+        if(!$(this).data('sliding')) return;
 
-        $(this).find('div').css({width:(percent*100.0) + '%'});
-        $(this).find('strong').text(Math.round(percent*1000.0));
+        update_slider(e,this);
     })
     .on('mouseup','.slider',function(e){
         e.stopPropagation();
@@ -345,20 +411,10 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
         rule.start();
         rule.setHandler(type,key,idx,value);
         rockpool.closePrompt();
+        dom_popup.hide();
+        target.removeClass('selected');
+        $('body').removeClass('blackedout');
 
-    })
-    .on('mousemove','.slider',function(e){
-        e.stopPropagation();
-
-        if(!$(this).data('sliding')) return;
-
-        var left = e.pageX - $(this).offset().left;
-        var width = $(this).width();
-        var percent = left/width;
-        $(this).data('value',percent);
-
-        $(this).find('div').css({width:(percent*100.0) + '%'});
-        $(this).find('strong').text(Math.round(percent*1000.0)); 
     })
     .on('click','.option',function(e){
         e.stopPropagation();
@@ -370,25 +426,65 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
         rule.start();
         rule.setHandler(type,key,idx);
         rockpool.closePrompt();
+        dom_popup.hide();
+        target.removeClass('selected');
+        $('body').removeClass('blackedout');
 
     });
 
-    dom_popup.css({'margin-left': -dom_popup.width()/2});
+    if(target.hasClass('block')){
+        target.addClass('selected');
 
-    $('.fancybox-overlay').on('click',function(){
-        dom_popup.hide();
-        dom_palette.removeClass('greyout');
-        target.removeClass('selected');
-        $('.fancybox-overlay').off('click');
-    })
+        $('body').addClass('blackedout').on('click',function(){
+            dom_popup.hide();
+            target.removeClass('selected');
+            $('body').off('click').removeClass('blackedout');
+        });
+
+        $('<li>').text('change').addClass('change').appendTo(dom_menu);
+        dom_popup.on('click','.change',function(){
+
+            dom_popup.hide();
+            target.removeClass('selected');
+            $('body').removeClass('blackedout');
+            rockpool.add(type,rule,target.index() - 2);
+
+        });
+    }
+    else
+    {
+
+        var dom_palette = $('.palette.' + type);
+        dom_palette.addClass('greyout').find('.selected').removeClass('selected');
+        target.addClass('selected');
+
+        dom_popup.css({'margin-left': -(dom_popup.width()/2) + 36});
+
+        if(dom_popup.offset().left < 0){
+            var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
+            margin -= dom_popup.offset().left;
+            dom_popup.css('margin-left', margin);
+        }
+        if(dom_popup.offset().left + dom_popup.width() > $(window).width()){
+            var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
+            margin += ($(window).width() - (dom_popup.offset().left + dom_popup.width()))
+            dom_popup.css('margin-left', margin);
+        }
+
+        $('.fancybox-overlay').on('click',function(){
+            dom_popup.hide();
+            dom_palette.removeClass('greyout');
+            target.removeClass('selected');
+            $('body').removeClass('blackedout');
+            $('.fancybox-overlay').off('click');
+        })
+
+    }
 
 
 }
 
 rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
-    var dom_palette = $('.palette.' + type);
-    dom_palette.addClass('greyout').find('.selected').removeClass('selected');
-    target.addClass('selected');
 
     var options = module.getOptions(type);
 
@@ -415,7 +511,7 @@ rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
     }
 
     $('.popup').hide();
-    dom_popup.off('click').css('display','inline-block').on('click','li',function(e){
+    dom_popup.off('click').css('display','inline-block').on('click','.option',function(e){
         e.stopPropagation();
 
         var key = $(this).data('key');
@@ -426,18 +522,59 @@ rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
         rule.setHandler(type,key,idx);
 
         rockpool.closePrompt();
+        dom_popup.hide();
+        target.removeClass('selected');
+        $('body').removeClass('blackedout');
 
     });
 
-    dom_popup.css({'margin-left': -dom_popup.width()/2});
+    if(target.hasClass('block')){
+        target.addClass('selected');
 
-    $('.fancybox-overlay').on('click',function(){
-        dom_popup.hide();
-        dom_palette.removeClass('greyout');
-        target.removeClass('selected');
-        $('.fancybox-overlay').off('click');
-    })
+        $('body')
+        .addClass('blackedout')
+        .on('click',function(){
+            dom_popup.hide();
+            target.removeClass('selected');
+            $('body').off('click').removeClass('blackedout');
+        });
 
+        $('<li>').text('change').addClass('change').appendTo(dom_menu);
+        dom_popup.on('click','.change',function(){
+
+            dom_popup.hide();
+            target.removeClass('selected');
+        $('body').removeClass('blackedout');
+            rockpool.add(type,rule,target.index() - 2);
+
+        });
+    }
+    else
+    {
+        var dom_palette = $('.palette.' + type);
+        dom_palette.addClass('greyout').find('.selected').removeClass('selected');
+        target.addClass('selected');
+
+        dom_popup.css({'margin-left': -(dom_popup.width()/2) + 36});
+
+        if(dom_popup.offset().left < 0){
+            var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
+            margin -= dom_popup.offset().left;
+            dom_popup.css('margin-left', margin);
+        }
+        if(dom_popup.offset().left + dom_popup.width() > $(window).width()){
+            var margin = parseFloat(dom_popup.css('margin-left').replace('px',''));
+            margin += ($(window).width() - (dom_popup.offset().left + dom_popup.width()))
+            dom_popup.css('margin-left', margin);
+        }
+
+        $('.fancybox-overlay').on('click',function(){
+            dom_popup.hide();
+            dom_palette.removeClass('greyout');
+            target.removeClass('selected');
+            $('.fancybox-overlay').off('click');
+        })
+    }
 }
 
 

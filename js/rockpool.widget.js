@@ -34,6 +34,14 @@ rockpool.widget =  function( type, rule, key ) {
         return (this.options && this.options[option]) ? this.options[option] : this.handler[option];
     }
 
+    this.hasValue = function(){
+        return typeof(this.handler.setValue) == "function"
+    }
+
+    this.getValue = function(){
+        return typeof(this.handler.getValue) == "function" ? this.handler.getValue(this.option_index) : -1;
+    }
+
     this.setOptions = function(index,value) {
         if (!this.hasOptions()) return false;
 
@@ -65,6 +73,10 @@ rockpool.widget =  function( type, rule, key ) {
             this.setIcon(    this.getOption('icon') );
 
             var color = this.getOption('color');
+
+            if(!this.handler.active){
+                color = 'grey';
+            }
 
             if(this.isComparator()){
                 rule.updateDom();
@@ -173,7 +185,7 @@ rockpool.widget =  function( type, rule, key ) {
     }
 
     this.setIcon = function( icon ){
-        this.img.attr('src', icon ? 'css/images/icons/icon-' + icon + '.png' : 'css/images/icon-empty.png');
+        //this.img.attr('src', icon ? 'css/images/icons/icon-' + icon + '.png' : 'css/images/icon-empty.png');
         this.dom.find('i').attr('class','').addClass('icon-' + icon);
         this.dom.find('.icon').append(((this.type != 'converter' && !isNaN(this.handler.channel)) ? ' <span class="channel">' + rockpool.channelToNumber(this.handler.channel) + '</span>' : ''))
     }
@@ -192,13 +204,10 @@ rockpool.widget =  function( type, rule, key ) {
     this.get = function(){
         var value = this.handler.get ? this.handler.get(this.options) : 0
         this.history.push(value)
-        this.history = this.history.slice(-200)
+        this.history = this.history.slice(-this.history_length)
 
         if( this.isInput() ){
-            var raw = Math.round(value*1000).toString();
-            if( this.handler.raw ){
-                raw = this.handler.raw(this.options) + '<small>' + raw +  '</small>';
-            }
+            var raw = this.getFormattedValue(value)
             if( raw != this.last_inspector_value ){
                 this.inspector.html(raw);
                 this.last_inspector_value = raw;
@@ -208,11 +217,23 @@ rockpool.widget =  function( type, rule, key ) {
         return value
     }
 
+    this.getFormattedValue = function(value) {
+        if(this.inheritFromModule && (!this.handler.raw || this.handler_key == "state" )){
+            return this.inheritFromModule.getFormattedValue(value);
+        }
+
+        var raw = Math.round(value*1000).toString();
+        if(this.handler.raw){
+            return this.handler.raw(this.options[this.option_index], value) + '<small>' + raw + '</small>';
+        }
+        return raw;
+    }
+
     this.convert = function(value){
 
-        var output =  this.handler.convert ? this.handler.convert(value) : 0
+        var output = this.handler.convert ? this.handler.convert(value) : 0
         this.history.push(output)
-        this.history = this.history.slice(-200)
+        this.history = this.history.slice(-this.history_length)
 
         return output
     }
@@ -223,7 +244,11 @@ rockpool.widget =  function( type, rule, key ) {
         }
 
         if( this.isOutput() ){
-            var raw = Math.round(value*1000).toString();
+            var raw = this.getFormattedValue(value);
+            if(this.inheritFromModule){
+                raw = this.inheritFromModule.getFormattedValue(value);
+            }
+
             if( raw != this.last_inspector_value ){
                 this.inspector.html(raw);
                 this.last_inspector_value = raw;
@@ -257,15 +282,49 @@ rockpool.widget =  function( type, rule, key ) {
         this.updateCanvas();
     }
 
+    this.drawChartLine  = function(width, height, context, values) {
+        var dotSpacing = width / values.length;
+
+        var max = Math.round((width) / dotSpacing) + 1;
+        var points = [];
+
+        for(var i = 0; i < max; i++) {
+            var value = values[values.length - 1 - i] * (height - (this.verticalMargin*2));
+
+            points.unshift({
+                x: width  - ( i * dotSpacing ),
+                y: height - ( value ) - this.verticalMargin
+            })
+        }
+
+        for (i = 0; i < points.length; i ++){
+            context.beginPath();
+            context.moveTo(0, points[i].y);
+            context.lineTo(width, points[i].y);
+            if(i == points.length - 1){
+                context.globalAlpha = 1.0;
+            }
+            else
+            {
+                context.globalAlpha = ((0.4/points.length) * i);
+            }
+            context.stroke();
+        }
+
+
+    }
+
     this.drawChartLines = function(width, height, context, values) {
-        var max = Math.round((width) / this.dotSpacing) + 1;
+        var dotSpacing = width / values.length;
+
+        var max = Math.round((width) / dotSpacing) + 1;
         var points = [];
 
         for(var i = 0; i < max; i++) {
             var value = values[values.length - 1 - i] * (height - (this.verticalMargin*2));
 
             points.push({
-                x: width  - ( i * this.dotSpacing ),
+                x: width  - ( i * dotSpacing ),
                 y: height - ( value ) - this.verticalMargin
             })
         }
@@ -286,6 +345,7 @@ rockpool.widget =  function( type, rule, key ) {
 
             var context = canvas.getContext('2d');
 
+            context.globalAlpha = 1.0;
             context.clearRect(0, 0, canvas.width, canvas.height);
 
             if( this.type != 'input' && this.handler.name == 'Empty' ){
@@ -294,7 +354,7 @@ rockpool.widget =  function( type, rule, key ) {
                 return false;
             }
 
-            this.drawChartLines(canvas.width, canvas.height, context, values);
+            this.drawChartLine(canvas.width, canvas.height, context, values);
 
             /*
             This blends the right-hand edge of the graph into the pipe so it doesn't
@@ -340,6 +400,8 @@ rockpool.widget =  function( type, rule, key ) {
         }
     }
 
+    this.history_length = 10;
+
     this.option_index = -1;
     this.last_inspector_value = 0;
 
@@ -356,7 +418,7 @@ rockpool.widget =  function( type, rule, key ) {
     this.history = [];
 
     this.rightMargin    = 22; // was 50
-    this.dotSpacing     = 3; // was 14
+    //this.dotSpacing     = 3; // was 14
     this.verticalMargin = 2;
     this.dotRadius      = 4; // Was 5
 
@@ -384,7 +446,6 @@ rockpool.widget =  function( type, rule, key ) {
 
     var widget = this;
 
-
     this.dom
     .on('click', '.inspector', function(e){
         e.preventDefault();
@@ -394,7 +455,39 @@ rockpool.widget =  function( type, rule, key ) {
     })
     .on('click','i',function(e){
         e.preventDefault();
+
+        if(widget.handler.type == 'module'){
+
+            var code = widget.handler_key.split('_')[2];
+
+            var module = rockpool.getModule(widget.handler.host, widget.handler.channel, code);
+
+            if(module.needsConfiguration(type)){
+
+                rockpool.moduleConfigureMenu(widget.dom, type, rule, widget.dom.index() - 2, module);
+
+                return false;
+            }
+        }
+        else
+        {
+
+            var collection = rockpool.inputs;
+            if(type == 'output'){
+                collection = rockpool.outputs;
+            }
+
+            var module = typeof(collection[widget.handler_key]) === "function" ? new collection[widget.handler_key] : collection[widget.handler_key];
+
+            if(module && module.options && module.options.length > 0){
+                rockpool.virtualConfigureMenu(widget.dom, type, rule, widget.handler_key, module);
+                return false;
+            }
+
+        }
+
         rockpool.add(type,rule,widget.dom.index() - 2);
+
 
         /*
         if(widget.hasOptions()){
