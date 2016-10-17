@@ -6,6 +6,7 @@ rockpool.guid = 0;
 rockpool.last_time = 0;
 rockpool.tick_length = 100; // 100ms per tick
 rockpool.debug_enabled = false;
+rockpool.enable_advanced = false;
 
 rockpool.palette = {
     red: '#D94D15',

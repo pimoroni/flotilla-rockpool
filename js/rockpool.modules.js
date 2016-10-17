@@ -85,7 +85,7 @@ rockpool.module_handlers['rainbow'] = {
                 {name: "Green",     channel: 'g', color: 'green'},
                 {name: "Blue",      channel: 'b', color: 'blue'},
                 {name: "Brightness",channel: 'brightness'},
-                {name: "Hue",       channel: 'hue', color: 'purple'}
+                {name: "Colour",    channel: 'hue', color: 'purple'}
             ]
 
             this.set = function(value, id, options){
@@ -360,7 +360,7 @@ rockpool.module_handlers['colour'] = {
                         h /= 6;
                     }
 
-                    return h.toString();
+                    return Math.round(h * 360);
 
                 }
 
@@ -371,7 +371,7 @@ rockpool.module_handlers['colour'] = {
                 {name:'Red', channel:'r', color: 'red'},
                 {name:'Green', channel:'g', color: 'green'},
                 {name:'Blue', channel:'b', color: 'blue'},
-                {name:'Hue', channel:'hue', color: 'purple'},
+                {name:'Colour', channel:'hue', color: 'purple'},
                 {name:'Brightness', channel:'brightness', color: 'yellow'}
             ]
             this.get = function(option){
@@ -627,9 +627,9 @@ rockpool.module_handlers['number'] = {
     },
 	'outputs': {
 		'number': function() {
-            this.raw = function(option_index, value){
-                if( this.options[option_index].raw ){
-                    return this.options[option_index].raw(value, this);
+            this.raw = function(option, value){
+                if( option && option.raw ){
+                    return option.raw(value, this);
                 }
 
                 return this.data.number;

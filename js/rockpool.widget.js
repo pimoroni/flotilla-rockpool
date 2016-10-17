@@ -224,7 +224,7 @@ rockpool.widget =  function( type, rule, key ) {
 
         var raw = Math.round(value*1000).toString();
         if(this.handler.raw){
-            return this.handler.raw(this.options[this.option_index], value) + '<small>' + raw + '</small>';
+            return this.handler.raw(this.options, value) + '<small>' + raw + '</small>';
         }
         return raw;
     }
@@ -489,6 +489,23 @@ rockpool.widget =  function( type, rule, key ) {
     .on('click','i',function(e){
         e.preventDefault();
 
+        var dom_index = widget.dom.index() - 2;
+
+        if(type == 'converter'){
+
+            if(widget.handler_key == 'noop'){
+                rockpool.add('converter',rule,dom_index);
+            }
+            else
+            {
+                rockpool.converterConfigureMenu(widget.dom,rule,dom_index);
+            }
+
+            return false;
+        }
+
+        // Inputs / Outputs
+
         if(widget.handler.type == 'module'){
 
             var code = widget.handler_key.split('_')[2];
@@ -497,7 +514,7 @@ rockpool.widget =  function( type, rule, key ) {
 
             if(module.needsConfiguration(type)){
 
-                rockpool.moduleConfigureMenu(widget.dom, type, rule, widget.dom.index() - 2, module);
+                rockpool.moduleConfigureMenu(widget.dom, type, rule, dom_index, module);
 
                 return false;
             }
@@ -519,7 +536,7 @@ rockpool.widget =  function( type, rule, key ) {
 
         }
 
-        rockpool.add(type,rule,widget.dom.index() - 2);
+        rockpool.add(type,rule,dom_index);
 
 
         /*
