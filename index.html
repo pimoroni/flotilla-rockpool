@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="css/jquery.fancybox.min.css">
         <link rel="stylesheet" href="css/pure-min.css">
         <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="css/rockpool.css">
+        <link rel="stylesheet" href="css/rockpool.scss.css">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="viewport" content="width = device-width, user-scalable = no, initial-scale = 1.0">
@@ -14,6 +14,16 @@
     <body>
         <div class="blackout"></div>
         <div class="main">
+            <div class="container">
+                <nav class="pure-g mainnav">
+                    <ul class="pure-u-1-1">
+                        <li class="active color-navy" data-action="load">load</li>
+                        <li class="active color-navy" data-action="save">save</li>
+                        <li class="active color-green" data-action="help">help</li>
+                        <li class="active color-red pull-right" data-action="clear">clear</li>
+                    </ul>
+                </nav>
+            </div>
             <div class="container">
                 <header class="pure-g">
                     <div class="pure-u-1-5 center"><h2>sense</h2></div>
