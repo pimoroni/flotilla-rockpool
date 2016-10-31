@@ -471,7 +471,7 @@ rockpool.widget =  function( type, rule, key ) {
         this.updateCanvas();
     }
 
-    this.img = $('<img src="css/images/icon-empty.png">').appendTo(this.icon);
+    //this.img = $('<img src="css/images/icon-empty.png">').appendTo(this.icon);
 
     $('<div class="name">').appendTo(this.icon);
 
