@@ -425,6 +425,13 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
         dom_popup.hide();
         target.removeClass('selected');
         $('body').off('click').removeClass('blackedout');
+
+        if(!target.hasClass('block')){
+            $('body').on('click', function(){
+                $.fancybox.close();
+                $('body').off('click');
+            });
+        }
     }
 
     $('.popup').hide();
@@ -518,12 +525,21 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
             dom_popup.css('margin-left', margin);
         }
 
-        $('.fancybox-overlay').off('click').on('click',function(e){
+        /*$('.fancybox-overlay').off('click').on('click',function(e){
             e.stopPropagation();
             e.preventDefault();
             popup_close();
             dom_palette.removeClass('greyout');
             $('.fancybox-overlay').off('click');
+        })*/
+
+
+
+        $('body').off('click').on('click',function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            popup_close();
+            dom_palette.removeClass('greyout');
         })
 
     }
@@ -536,10 +552,17 @@ rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
     var options = module.getOptions(type);
     var dom_popup = target.find('.popup.' + module.key);
 
-    var close_popup = function(){
+    var popup_close = function(){
         dom_popup.hide();
         target.removeClass('selected');
         $('body').off('click').removeClass('blackedout');
+
+        if(!target.hasClass('block')){
+            $('body').on('click', function(){
+                $.fancybox.close();
+                $('body').off('click');
+            });
+        }
     }
 
     if(dom_popup.length == 0){
@@ -575,7 +598,7 @@ rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
         rule.setHandler(type,key,idx);
 
         rockpool.closePrompt();
-        close_popup();
+        popup_close();
 
     });
 
@@ -585,14 +608,13 @@ rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
         $('body')
         .addClass('blackedout')
         .on('click',function(){
-            
-        close_popup();
+            popup_close();
         });
 
         $('<li>').text('change').addClass('change button').appendTo(dom_menu);
             dom_popup.on('click','.change',function(e){
             e.stopPropagation();
-            close_popup();
+            popup_close();
             rockpool.add(type,rule,target.index() - 2);
         });
     }
@@ -615,9 +637,10 @@ rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
             dom_popup.css('margin-left', margin);
         }
 
-        $('body').on('click',function(e){
+        $('body').off('click').on('click',function(e){
+            e.preventDefault();
             e.stopPropagation();
-            close_popup();
+            popup_close();
             dom_palette.removeClass('greyout');
         })
     }
