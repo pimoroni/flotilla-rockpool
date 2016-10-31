@@ -88,11 +88,14 @@
         <script src="js/rockpool.save.js"></script>
         <script src="js/rockpool.variables.js"></script>
         <script src="js/rockpool.find-hosts.worker.js"></script>
+        <script src="js/rockpool.mock.js"></script>
         <script src="js/lib/jquery.fancybox.min.js"></script>
 
         <script>
             "use strict";
-            $(function () {rockpool.initialize()});
+            $(function () {rockpool.initialize();
+                rockpool.mock();
+            });
         </script>
     </body>
 </html>
