@@ -278,20 +278,26 @@ rockpool.getModule = function(host_idx, channel_idx, module_code) {
 rockpool.initialize = function(){
     $(window).trigger('resize');
 
-    $('.add-input').on('click',function(){
+    $('.add-input').on('click',function(e){
+        e.preventDefault();
+        e.stopPropagation();
         rockpool.add('input')
     }).find('h2');
 
-    $('.add-output').on('click',function(){
+    $('.add-output').on('click',function(e){
+        e.preventDefault();
+        e.stopPropagation();
         rockpool.add('output')
     }).find('h2');
 
-    $('.add-converter').on('click',function(){
+    $('.add-converter').on('click',function(e){
+        e.preventDefault();
+        e.stopPropagation();
         rockpool.add('converter')
     }).find('h2');
 
 
-    $('.options').on('click','.active',function(e){
+    $('.options,.mainnav').on('click','.active',function(e){
         e.preventDefault();
 
         var action = $(this).data('action');
@@ -323,7 +329,7 @@ rockpool.initialize = function(){
         $(this).parents('.options').toggleClass('open');
     });
 
-    $('.options .toggle').on('click',function(e){
+    /*$('.options .toggle').on('click',function(e){
         e.preventDefault();
         e.stopPropagation();
 
@@ -336,7 +342,7 @@ rockpool.initialize = function(){
         {
             $(this).parents('.options').find('.icon-palette div').filter('[data-action="load"]').attr("class","disabled color-gray");
         }
-    });
+    });*/
 
     /* resize chart canvases when the window resizes */
     $(window).resize(function () {
