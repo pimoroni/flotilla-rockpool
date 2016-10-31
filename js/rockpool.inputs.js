@@ -52,6 +52,7 @@ rockpool.inputs = {
         this.sindex = 0;
         this.icon = "clock"
         this.color = "navy"
+        this.advanced = true
 
         this.options = [
             {name:'Seconds'},

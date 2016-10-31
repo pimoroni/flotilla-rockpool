@@ -293,6 +293,7 @@ i .name span {
     line-height:17px;
     font-size: 13px;
     font-weight: 700;
+    display:none;
 }
 
 .inspector small {
@@ -1017,6 +1018,30 @@ body .above.active.selected i:before {
     text-transform: lowercase;
     font-size:16px;
 }
+.popup li.button {
+    border-radius:10px;
+    position:relative;
+}
+
+.popup li.button:before {
+    width: 100%;
+    height: 100%;
+    content: '';
+    display: block;
+    background: #FFF;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+    margin: 0;
+
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+13,ffffff+100&0+1,1+13,0+100 */
+background: -moz-linear-gradient(top,  rgba(255,255,255,0) 1%, rgba(255,255,255,0.5) 13%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 1%,rgba(255,255,255,0.5) 13%,rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(255,255,255,0) 1%,rgba(255,255,255,0.5) 13%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+
+}
 .above .popup li {
     margin-top:0;
     margin-bottom:5px;
@@ -1415,7 +1440,7 @@ body .above.active.selected i:before {
 .color-grey.block .popup:before {border-right-color:#787980;border-left-color:#787980;}
 
 #rules .block.output .popup:before {border-right-color:transparent;}
-#rules .block.input .popup:before {border-left-color:transparent;}
+#rules .block.input .popup:before, #rules .block.converter .popup:before {border-left-color:transparent;}
 
 .color-navy.active.selected i:before {border-bottom-color:#4566AD;}
 .color-purple.active.selected i:before {border-bottom-color:#9879D3;}

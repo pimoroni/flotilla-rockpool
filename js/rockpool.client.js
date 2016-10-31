@@ -158,7 +158,7 @@ rockpool.addDaemon = function(host, details){
 
     if(daemon.length) return;
 
-    $('<div class="daemon"><h3 style="display:none;">' + host + ' (v' + details.daemon_version + ')</h3><p>No docks connected!</p></div>')
+    $('<div class="daemon"></div>')
     .attr({
         'data-host':host
     })
@@ -169,14 +169,18 @@ rockpool.addHost = function(host, details){
     if(rockpool.enable_debug){console.log('Adding valid host', host, details);}
 
         var daemon = rockpool.host_picker.find('.daemon').filter('[data-host="' + host + '"]');
-        daemon.find('> p').hide();
 
         var h = daemon.find('.host').filter('[data-serial="' + details.dock_serial + '"]');
 
         if(h.length) return;
 
         //rockpool.valid_hosts.push(details.dock_serial);
-        h = $('<div><p>' + details.dock_name + '</p></div>') //<small>' + details.dock_user + '</small></div>')
+        var name = "&nbsp;";
+        if (details.dock_name != "Unnamed") {
+            name = details.dock_name;
+        }
+
+        h = $('<div><p>' + name + '</p></div>')
             .data({
                 'host':host,
                 'details':details
