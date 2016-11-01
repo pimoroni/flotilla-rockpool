@@ -37,9 +37,9 @@ body {
 .mainnav i:after {
   font-family: flotilla-regular;
   font-style: normal;
-  font-size: 50px;
   position: relative;
-  top: 7px;
+  font-size: 30px;
+  top: 3px;
   line-height: 0; }
 .mainnav ul, .mainnav li {
   margin: 0;
@@ -49,16 +49,22 @@ body {
 .mainnav ul {
   font-size: 0; }
 .mainnav li {
-  margin: 2px 0 2px 2px;
+  margin: 2px 2px 2px 0px;
   font-size: 14px;
-  padding: 10px;
+  padding: 14px;
   color: #FFF;
   cursor: pointer;
   border-radius: 5px; }
+  .mainnav li:hover i, .mainnav li i {
+    background: transparent; }
   .mainnav li.pull-right {
     float: right; }
   .mainnav li.logo {
+    margin-left: 2px;
     padding: 0; }
+    .mainnav li.logo i:after {
+      font-size: 50px;
+      top: 7px; }
 
 .center {
   text-align: center; }
@@ -164,124 +170,127 @@ body {
 */
 /* Real Inputs */
 i.icon-weather:after {
-  content: 'B'; }
+  content: "B"; }
 
 i.icon-number:after {
-  content: 'N'; }
+  content: "N"; }
 
 i.icon-joystick:after {
-  content: 'J'; }
+  content: "J"; }
 
 i.icon-dial:after {
-  content: 'D'; }
+  content: "D"; }
 
 i.icon-slider:after {
-  content: 'S'; }
+  content: "S"; }
 
-i.icon-color:after, i.icon-colour:after {
-  content: 'C'; }
+i.icon-color:after {
+  content: "C"; }
+
+i.icon-colour:after {
+  content: "C"; }
 
 i.icon-motion:after {
-  content: 'm'; }
+  content: "m"; }
 
 i.icon-touch:after {
-  content: 'T'; }
+  content: "T"; }
 
 i.icon-light:after {
-  content: 'L'; }
+  content: "L"; }
 
 i.icon-motor:after {
-  content: 'M'; }
+  content: "M"; }
 
 i.icon-matrix:after {
-  content: 'n'; }
+  content: "n"; }
 
 i.icon-rainbow:after {
-  content: 'R'; }
+  content: "R"; }
 
 /* Virtual Inputs */
 i.icon-value:after {
-  content: 'v'; }
+  content: "v"; }
 
 i.icon-clock:after {
-  content: 't'; }
+  content: "t"; }
 
 i.icon-random:after {
-  content: 'r'; }
+  content: "r"; }
 
 i.icon-sine:after {
-  content: 's'; }
+  content: "s"; }
 
 i.icon-square:after {
-  content: 'q'; }
+  content: "q"; }
 
 i.icon-keyboard:after {
-  content: 'K'; }
+  content: "K"; }
 
 i.icon-variable:after {
-  content: 'V'; }
+  content: "V"; }
 
 /* Converters */
 i.icon-halve:after {
-  content: 'h'; }
+  content: "h"; }
 
 i.icon-double:after {
-  content: 'z'; }
+  content: "z"; }
 
 i.icon-invert:after {
-  content: 'i'; }
+  content: "i"; }
 
 i.icon-smooth:after {
-  content: 'a'; }
+  content: "a"; }
 
 i.icon-toggle:after {
-  content: 'O'; }
+  content: "O"; }
 
 i.icon-add:after {
-  content: 'A'; }
+  content: "A"; }
 
 i.icon-subtract:after {
-  content: 'x'; }
+  content: "x"; }
 
 i.icon-min:after {
-  content: 'W'; }
+  content: "W"; }
 
 i.icon-max:after {
-  content: 'w'; }
+  content: "w"; }
 
 i.icon-diff:after {
-  content: 'd'; }
+  content: "d"; }
 
 i.icon-mix:after {
-  content: 'a'; }
+  content: "a"; }
 
 i.icon-gt:after {
-  content: 'g'; }
+  content: "g"; }
 
 i.icon-lt:after {
-  content: 'l'; }
+  content: "l"; }
 
 i.icon-latch:after {
-  content: 'h'; }
+  content: "h"; }
 
 /* Utilities */
 i.icon-peek:after {
-  content: 'P'; }
+  content: "P"; }
 
 i.icon-poke:after {
-  content: 'p'; }
+  content: "p"; }
 
 i.icon-dock:after {
-  content: 'f'; }
+  content: "f"; }
 
 i.icon-flotilla:after {
-  content: 'F'; }
+  content: "F"; }
 
 i.icon-help:after {
-  content: 'H'; }
+  content: "H"; }
 
 i.icon-clear:after {
-  content: 'c'; }
+  content: "c"; }
 
 .block i {
   margin-left: -36px;
@@ -395,10 +404,10 @@ footer {
     z-index: 2; }
   .palette.input .connected-modules, .palette.output .connected-modules {
     padding-top: 140px; }
-  .palette.host-picker, .palette.save-load, .palette.personalise {
+  .palette.host-picker, .palette.save-load, .palette.personalise, .palette.confirm {
     border-radius: 20px;
     background: #00B0D2; }
-  .palette.save-load, .palette.personalise {
+  .palette.save-load, .palette.personalise, .palette.confirm {
     border-radius: 20px;
     background: #224280;
     margin-bottom: 36px; }
@@ -440,6 +449,8 @@ i.confirm:before,
 i.confirm:after,
 i.delete:before,
 i.delete:after,
+i.cancel:before,
+i.cancel:after,
 .delete i:before,
 .delete i:after {
   width: 40px;
@@ -459,6 +470,8 @@ i.confirm:before,
 i.confirm:after,
 i.delete:before,
 i.delete:after,
+i.cancel:before,
+i.cancel:after,
 .delete i:before,
 .delete i:after {
   top: 32px; }
@@ -481,7 +494,8 @@ i.confirm {
 .palette .close:before,
 i.delete:before,
 i.confirm:before,
-.delete i:before {
+.delete i:before,
+i.cancel:before {
   transform: rotate(46deg);
   -webkit-transform: rotate(-45deg); }
 
@@ -612,7 +626,31 @@ i.confirm:before,
       -ms-transform: translateZ(0);
       transform: translateZ(0); }
 
-.host-picker .custom, .save-load .custom {
+/*
+############################################ Confirm Dialog ############################################
+*/
+.confirm .choices {
+  text-align: center;
+  margin-bottom: -46px; }
+.confirm i {
+  display: inline-block;
+  margin: 10px; }
+  .confirm i.confirm {
+    background: #ED1558; }
+    .confirm i.confirm:hover {
+      background: #ef2d69; }
+    .confirm i.confirm:before {
+      left: 18px; }
+    .confirm i.confirm:after {
+      left: 13px; }
+  .confirm i.cancel {
+    background: #02B186; }
+    .confirm i.cancel:hover {
+      background: #02ca99; }
+    .confirm i.cancel:before, .confirm i.cancel:after {
+      left: 16px; }
+
+.host-picker .custom, .save-load .custom, .confirm .custom {
   float: left;
   display: block;
   width: 200px;
@@ -621,15 +659,15 @@ i.confirm:before,
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.5);
   color: #FFF; }
-  .host-picker .custom h3, .save-load .custom h3 {
+  .host-picker .custom h3, .save-load .custom h3, .confirm .custom h3 {
     margin: 0;
     padding: 10px;
     padding-bottom: 0; }
-  .host-picker .custom p, .save-load .custom p {
+  .host-picker .custom p, .save-load .custom p, .confirm .custom p {
     margin: 0;
     padding: 10px;
     font-size: 16px; }
-  .host-picker .custom a, .save-load .custom a {
+  .host-picker .custom a, .save-load .custom a, .confirm .custom a {
     margin: 0 10px;
     text-decoration: none;
     line-height: 30px;
@@ -637,7 +675,7 @@ i.confirm:before,
     text-align: center;
     color: #FFF;
     background: #95c11f; }
-  .host-picker .custom input, .save-load .custom input {
+  .host-picker .custom input, .save-load .custom input, .confirm .custom input {
     border: none;
     color: #FFF;
     font-weight: bold;
@@ -739,7 +777,7 @@ i.confirm:before,
   margin-left: -36px;
   background-color: #00AB9B; }
 
-.save-load input, .personalise input {
+.save-load input, .personalise input, .confirm input {
   width: 480px;
   height: 50px;
   line-height: 50px;
@@ -751,7 +789,7 @@ i.confirm:before,
   margin: 0px auto;
   display: block;
   margin-bottom: 30px; }
-.save-load p, .personalise p {
+.save-load p, .personalise p, .confirm p {
   color: #00B0D2;
   text-align: center;
   margin-top: 0;

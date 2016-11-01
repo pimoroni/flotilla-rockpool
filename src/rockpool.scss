@@ -66,9 +66,9 @@ body {
     i:after {
         font-family: flotilla-regular;
         font-style: normal;
-        font-size: 50px;
         position: relative;
-        top: 7px;
+        font-size: 30px;
+        top: 3px;
         line-height: 0;
     }
     ul, li {
@@ -81,18 +81,26 @@ body {
         font-size:0;
     }
     li {
-        margin:2px 0 2px 2px;
+        margin:2px 2px 2px 0px;
         font-size:14px;
-        padding:10px;
+        padding:14px;
         color:#FFF;
         cursor:pointer;
         border-radius:5px;
+
+        &:hover i, i {background:transparent;}
+
 
         &.pull-right {
             float:right;
         }
         &.logo {
+            margin-left:2px;
             padding:0;
+            i:after {
+                font-size: 50px;
+                top: 7px;
+            }
         }
     }
 }
@@ -220,52 +228,57 @@ body {
 ############################################ Icons ############################################
 */
 
+@mixin icon($name, $char){
+    i.icon-#{$name}:after {content:$char;}
+}
+
 /* Real Inputs */
-i.icon-weather:after  {content:'B';}
-i.icon-number:after   {content:'N';}
-i.icon-joystick:after {content:'J';}
-i.icon-dial:after     {content:'D';}
-i.icon-slider:after   {content:'S';}
-i.icon-color:after, i.icon-colour:after    {content:'C';}
-i.icon-motion:after   {content:'m';}
-i.icon-touch:after    {content:'T';}
-i.icon-light:after    {content:'L';}
-i.icon-motor:after    {content:'M';}
-i.icon-matrix:after   {content:'n';}
-i.icon-rainbow:after  {content:'R';}
+@include icon("weather","B");
+@include icon("number","N");
+@include icon("joystick","J");
+@include icon("dial","D");
+@include icon("slider","S");
+@include icon("color","C");
+@include icon("colour","C");
+@include icon("motion","m");
+@include icon("touch","T");
+@include icon("light","L");
+@include icon("motor","M");
+@include icon("matrix","n");
+@include icon("rainbow","R");
 
 /* Virtual Inputs */
-i.icon-value:after    {content:'v';}
-i.icon-clock:after    {content:'t';}
-i.icon-random:after   {content:'r';}
-i.icon-sine:after     {content:'s';}
-i.icon-square:after   {content:'q';}
-i.icon-keyboard:after {content:'K';}
-i.icon-variable:after {content:'V';}
+@include icon("value","v");
+@include icon("clock","t");
+@include icon("random","r");
+@include icon("sine","s");
+@include icon("square","q");
+@include icon("keyboard","K");
+@include icon("variable","V");
 
 /* Converters */
-i.icon-halve:after    {content:'h';}
-i.icon-double:after   {content:'z';}
-i.icon-invert:after   {content:'i';}
-i.icon-smooth:after   {content:'a';}
-i.icon-toggle:after   {content:'O';}
-i.icon-add:after      {content:'A';}
-i.icon-subtract:after {content:'x';}
-i.icon-min:after      {content:'W';}
-i.icon-max:after      {content:'w';}
-i.icon-diff:after     {content:'d';}
-i.icon-mix:after      {content:'a';}
-i.icon-gt:after       {content:'g';}
-i.icon-lt:after       {content:'l';}
-i.icon-latch:after    {content:'h';}
+@include icon("halve","h");
+@include icon("double","z");
+@include icon("invert","i");
+@include icon("smooth","a");
+@include icon("toggle","O");
+@include icon("add","A");
+@include icon("subtract","x");
+@include icon("min","W");
+@include icon("max","w");
+@include icon("diff","d");
+@include icon("mix","a");
+@include icon("gt","g");
+@include icon("lt","l");
+@include icon("latch","h");
 
 /* Utilities */
-i.icon-peek:after     {content:'P';}
-i.icon-poke:after     {content:'p';}
-i.icon-dock:after     {content:'f';}
-i.icon-flotilla:after {content:'F';}
-i.icon-help:after     {content:'H';}
-i.icon-clear:after    {content:'c';}
+@include icon("peek","P");
+@include icon("poke","p");
+@include icon("dock","f");
+@include icon("flotilla","F");
+@include icon("help","H");
+@include icon("clear","c");
 
 .block i {
     margin-left:-36px;
@@ -406,13 +419,15 @@ footer {
 
     &.host-picker, 
     &.save-load,
-    &.personalise {
+    &.personalise,
+    &.confirm {
         border-radius:20px;
         background:#00B0D2;
     }
 
     &.save-load,
-    &.personalise {
+    &.personalise,
+    &.confirm {
         border-radius:20px;
         background:#224280;
         margin-bottom:36px;
@@ -469,6 +484,8 @@ i.confirm:before,
 i.confirm:after,
 i.delete:before,
 i.delete:after,
+i.cancel:before,
+i.cancel:after,
 .delete i:before,
 .delete i:after {
     width:40px;
@@ -489,6 +506,8 @@ i.confirm:before,
 i.confirm:after,
 i.delete:before,
 i.delete:after,
+i.cancel:before,
+i.cancel:after,
 .delete i:before,
 .delete i:after {
     top:32px;
@@ -518,7 +537,8 @@ i.confirm {
 .palette .close:before,
 i.delete:before,
 i.confirm:before,
-.delete i:before {
+.delete i:before,
+i.cancel:before {
     transform:rotate(46deg);
     -webkit-transform:rotate(-45deg);
 }
@@ -681,7 +701,46 @@ i.confirm:before,
     }
 }
 
-.host-picker, .save-load {
+
+/*
+############################################ Confirm Dialog ############################################
+*/
+
+
+.confirm {
+    .choices {
+        text-align:center;
+        margin-bottom:-46px;
+    }
+    i {
+        display:inline-block;
+        margin:10px;
+        &.confirm {
+            background:$color-red;
+            &:hover {
+                background:lighten($color-red,5%);
+            }
+            &:before {
+                left:18px;
+            }
+            &:after {
+                left:13px;
+            }
+        }
+        &.cancel {
+            background:$color-green;
+            &:hover {
+                background:lighten($color-green,5%);
+            }
+            &:before, 
+            &:after {
+                left:16px;
+            }
+        }
+    }
+}
+
+.host-picker, .save-load, .confirm {
     .custom {
         float:left;
         display:block;
@@ -852,7 +911,7 @@ i.confirm:before,
     background-color:#00AB9B;
 }
 
-.save-load, .personalise {
+.save-load, .personalise, .confirm {
     input {
         width: 480px;
         height: 50px;

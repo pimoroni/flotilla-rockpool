@@ -298,6 +298,7 @@ rockpool.initialize = function(){
 
     $('.options,.mainnav').on('click','.active',function(e){
         e.preventDefault();
+        e.stopPropagation();
 
         var action = $(this).data('action');
 
@@ -309,7 +310,13 @@ rockpool.initialize = function(){
                 new rockpool.rule().start();
                 break;
             case 'clear':
-                rockpool.clear();
+                var dom_container = $('<div class="confirm palette"><i class="close"></i><header><h1>are you sure?</h1></header><div class="choices"><p>this will delete all your rules!</p></div>');
+    
+                $('<i class="cancel"></i>').appendTo(dom_container.find('.choices'));
+                $('<i class="confirm"></i>').appendTo(dom_container.find('.choices'));
+
+                rockpool.prompt(dom_container);
+                //rockpool.clear();
                 break;
             case 'load':
                 rockpool.loadDialog();
