@@ -198,7 +198,7 @@ body {
     position:absolute;
     right:15px;
     bottom:-34px;
-    height:28px;
+    height:72px;
     color:#FFFFFF;
     font-size:18px;
     padding-right:82px;
@@ -208,6 +208,11 @@ body {
         position:absolute;
         right:0;
         bottom:0;
+    }
+
+    span {
+        position: relative;
+        top: 44px;
     }
 }
 
@@ -356,6 +361,166 @@ i .name, .icon-palette span {
 footer {
     background-color:$color-darkest-navy;
     padding-bottom:60px;
+}
+
+
+.palette {
+    z-index: 9000;
+    display:block;
+    width:auto;
+    height:100%;
+    max-width:760px;
+    margin:20px auto;
+    position:relative;
+    margin-top:40px;
+
+    header {
+        text-align:center;
+
+        h1 {
+            color:#FFFFFF;
+            font-size:24pt;
+            padding:.67em 0;
+            margin:0;
+        }
+    }
+
+    &.input:before, &.output:before {
+        content:'';
+        width:240px;
+        height:240px;
+        position:absolute;
+        left:50%;
+        margin-left:-120px;
+        background:url('images/flotilla-dock.png') no-repeat center center;
+        background-size:cover;
+        top:-160px;
+        z-index:2;
+    }
+
+    &.input, &.output {
+        .connected-modules {
+            padding-top: 140px;
+        }
+    }
+
+    &.host-picker, 
+    &.save-load,
+    &.personalise {
+        border-radius:20px;
+        background:#00B0D2;
+    }
+
+    &.save-load,
+    &.personalise {
+        border-radius:20px;
+        background:#224280;
+        margin-bottom:36px;
+    }
+
+    &.personalise {
+        padding-bottom:30px;
+    }
+
+    &.save-load {
+        li {
+            position:relative;
+            &:nth-child(odd) {
+                background: #195E95;
+            }
+        }
+        .delete {
+            background-color:#ED1457;
+        }
+        .download {
+            background-color:#02B186;
+            position:absolute;
+            right:67px;
+
+            &:before {
+                content: '';
+                display:block;
+                background:transparent;
+                width:0;
+                height:0;
+                border: 21px solid transparent;
+                border-top-color: #FFF;
+                position: absolute;
+                left: 15px;
+                top: 31px;
+            }
+        }
+    }
+
+    .close {
+        position:absolute;
+        right:-30px;
+        top:-30px;
+        background:#787980;
+        width:60px;
+        height:60px;
+        border-radius: 30px;
+    }
+}
+
+.palette .close:before,
+.palette .close:after,
+i.confirm:before,
+i.confirm:after,
+i.delete:before,
+i.delete:after,
+.delete i:before,
+.delete i:after {
+    width:40px;
+    height:10px;
+    background:#FFFFFF;
+    content:'';
+    display:block;
+    position:absolute;
+    top:25px;
+    left:10px;
+    transform-origin:20px 5px;
+    -webkit-transform-origin:20px 5px;
+    transform:rotate(46deg);
+    -webkit-transform:rotate(45deg);
+}
+
+i.confirm:before,
+i.confirm:after,
+i.delete:before,
+i.delete:after,
+.delete i:before,
+.delete i:after {
+    top:32px;
+}
+
+i.confirm {
+    -webkit-transition:background-color 0.1s ease-in;
+    transition:background-color 0.1s ease-in;
+
+    &:after {
+        width: 15px;
+        top: 48px;
+        left: 5px;
+    }
+}
+
+.save-load {
+    i.delete, i.confirm {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        position:absolute;
+        right:-15px;
+        top:12px;
+    }
+}
+
+.palette .close:before,
+i.delete:before,
+i.confirm:before,
+.delete i:before {
+    transform:rotate(46deg);
+    -webkit-transform:rotate(-45deg);
 }
 
 
@@ -711,164 +876,6 @@ footer {
 }
 
 
-.palette {
-    z-index: 9000;
-    display:block;
-    width:auto;
-    height:100%;
-    max-width:760px;
-    margin:20px auto;
-    position:relative;
-    margin-top:40px;
-
-    header {
-        text-align:center;
-
-        h1 {
-            color:#FFFFFF;
-            font-size:24pt;
-            padding:.67em 0;
-            margin:0;
-        }
-    }
-
-    &.input:before, &.output:before {
-        content:'';
-        width:240px;
-        height:240px;
-        position:absolute;
-        left:50%;
-        margin-left:-120px;
-        background:url('images/flotilla-dock.png') no-repeat center center;
-        background-size:cover;
-        top:-160px;
-        z-index:2;
-    }
-
-    &.input, &.output {
-        .connected-modules {
-            padding-top: 140px;
-        }
-    }
-
-    &.host-picker, 
-    &.save-load,
-    &.personalise {
-        border-radius:20px;
-        background:#00B0D2;
-    }
-
-    &.save-load,
-    &.personalise {
-        border-radius:20px;
-        background:#224280;
-        margin-bottom:36px;
-    }
-
-    &.personalise {
-        padding-bottom:30px;
-    }
-
-    &.save-load {
-        li {
-            position:relative;
-            &:nth-child(odd) {
-                background: #195E95;
-            }
-        }
-        .delete {
-            background-color:#ED1457;
-        }
-        .download {
-            background-color:#02B186;
-            position:absolute;
-            right:67px;
-
-            &:before {
-                content: '';
-                display:block;
-                background:transparent;
-                width:0;
-                height:0;
-                border: 21px solid transparent;
-                border-top-color: #FFF;
-                position: absolute;
-                left: 15px;
-                top: 31px;
-            }
-        }
-    }
-
-    .close {
-        position:absolute;
-        right:-30px;
-        top:-30px;
-        background:#787980;
-        width:60px;
-        height:60px;
-        border-radius: 30px;
-    }
-}
-
-.palette .close:before,
-.palette .close:after,
-i.confirm:before,
-i.confirm:after,
-i.delete:before,
-i.delete:after,
-.delete i:before,
-.delete i:after {
-    width:40px;
-    height:10px;
-    background:#FFFFFF;
-    content:'';
-    display:block;
-    position:absolute;
-    top:25px;
-    left:10px;
-    transform-origin:20px 5px;
-    -webkit-transform-origin:20px 5px;
-    transform:rotate(46deg);
-    -webkit-transform:rotate(45deg);
-}
-
-i.confirm:before,
-i.confirm:after,
-i.delete:before,
-i.delete:after,
-.delete i:before,
-.delete i:after {
-    top:32px;
-}
-
-i.confirm {
-    -webkit-transition:background-color 0.1s ease-in;
-    transition:background-color 0.1s ease-in;
-
-    &:after {
-        width: 15px;
-        top: 48px;
-        left: 5px;
-    }
-}
-
-.save-load {
-    i.delete, i.confirm {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        position:absolute;
-        right:-15px;
-        top:12px;
-    }
-}
-
-.palette .close:before,
-i.delete:before,
-i.confirm:before,
-.delete i:before {
-    transform:rotate(46deg);
-    -webkit-transform:rotate(-45deg);
-}
 
 .fancybox-overlay {}
 .fancybox-outer, .fancybox-wrap, .fancybox-skin, .fancybox-inner {background:transparent;}

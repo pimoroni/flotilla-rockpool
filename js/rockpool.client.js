@@ -139,12 +139,14 @@ rockpool.host_picker = $('<div>').addClass('host-picker palette')
         //rockpool.connect(host, rockpool.port);
     })
     .on('click','.add-manual',function(e){
-        rockpool.host_picker.find('.custom').show();
+        e.preventDefault();
+        e.stopPropagation();
+        rockpool.host_picker.find('.custom').toggle();
     })
     .append('<header><h1>' + rockpool.languify('searching for docks') + '</h1></header>')
     .append('<div class="none-found">no docks found, yet! =(</div>')
     .append('<div class="choices"></div>')
-    .append('<div class="add-manual">Find a dock manually<i class="add-input"></i></div>')
+    .append('<div class="add-manual"><span>Find a dock manually</span><i class="add-input"></i></div>')
     .append('<div style="display:none;" class="custom"><h3>Don\'t see your dock? Enter the IP address of your Flotilla host.</h3><input type="text" value="127.0.0.1"><a href="#">Find<a></div>');
     //.append('<div class="progress"><strong>' + rockpool.languify('Scanning') + '</strong><span></span></div>')
 

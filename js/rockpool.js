@@ -278,23 +278,22 @@ rockpool.getModule = function(host_idx, channel_idx, module_code) {
 rockpool.initialize = function(){
     $(window).trigger('resize');
 
-    $('.add-input').on('click',function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        rockpool.add('input')
-    }).find('h2');
-
-    $('.add-output').on('click',function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        rockpool.add('output')
-    }).find('h2');
-
-    $('.add-converter').on('click',function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        rockpool.add('converter')
-    }).find('h2');
+    $('.controls')
+        .on('click','.add-input',function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            rockpool.add('input')
+        })
+            .on('click','.add-output',function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            rockpool.add('output')
+        })
+        .on('click','.add-conveter',function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            rockpool.add('converter')
+        });
 
 
     $('.options,.mainnav').on('click','.active',function(e){

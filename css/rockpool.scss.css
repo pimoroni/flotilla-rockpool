@@ -146,7 +146,7 @@ body {
   position: absolute;
   right: 15px;
   bottom: -34px;
-  height: 28px;
+  height: 72px;
   color: #FFFFFF;
   font-size: 18px;
   padding-right: 82px; }
@@ -155,6 +155,9 @@ body {
     position: absolute;
     right: 0;
     bottom: 0; }
+  .add-manual span {
+    position: relative;
+    top: 44px; }
 
 /*
 ############################################ Icons ############################################
@@ -362,6 +365,125 @@ i .name, .icon-palette span {
 footer {
   background-color: #132240;
   padding-bottom: 60px; }
+
+.palette {
+  z-index: 9000;
+  display: block;
+  width: auto;
+  height: 100%;
+  max-width: 760px;
+  margin: 20px auto;
+  position: relative;
+  margin-top: 40px; }
+  .palette header {
+    text-align: center; }
+    .palette header h1 {
+      color: #FFFFFF;
+      font-size: 24pt;
+      padding: .67em 0;
+      margin: 0; }
+  .palette.input:before, .palette.output:before {
+    content: '';
+    width: 240px;
+    height: 240px;
+    position: absolute;
+    left: 50%;
+    margin-left: -120px;
+    background: url("images/flotilla-dock.png") no-repeat center center;
+    background-size: cover;
+    top: -160px;
+    z-index: 2; }
+  .palette.input .connected-modules, .palette.output .connected-modules {
+    padding-top: 140px; }
+  .palette.host-picker, .palette.save-load, .palette.personalise {
+    border-radius: 20px;
+    background: #00B0D2; }
+  .palette.save-load, .palette.personalise {
+    border-radius: 20px;
+    background: #224280;
+    margin-bottom: 36px; }
+  .palette.personalise {
+    padding-bottom: 30px; }
+  .palette.save-load li {
+    position: relative; }
+    .palette.save-load li:nth-child(odd) {
+      background: #195E95; }
+  .palette.save-load .delete {
+    background-color: #ED1457; }
+  .palette.save-load .download {
+    background-color: #02B186;
+    position: absolute;
+    right: 67px; }
+    .palette.save-load .download:before {
+      content: '';
+      display: block;
+      background: transparent;
+      width: 0;
+      height: 0;
+      border: 21px solid transparent;
+      border-top-color: #FFF;
+      position: absolute;
+      left: 15px;
+      top: 31px; }
+  .palette .close {
+    position: absolute;
+    right: -30px;
+    top: -30px;
+    background: #787980;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px; }
+
+.palette .close:before,
+.palette .close:after,
+i.confirm:before,
+i.confirm:after,
+i.delete:before,
+i.delete:after,
+.delete i:before,
+.delete i:after {
+  width: 40px;
+  height: 10px;
+  background: #FFFFFF;
+  content: '';
+  display: block;
+  position: absolute;
+  top: 25px;
+  left: 10px;
+  transform-origin: 20px 5px;
+  -webkit-transform-origin: 20px 5px;
+  transform: rotate(46deg);
+  -webkit-transform: rotate(45deg); }
+
+i.confirm:before,
+i.confirm:after,
+i.delete:before,
+i.delete:after,
+.delete i:before,
+.delete i:after {
+  top: 32px; }
+
+i.confirm {
+  -webkit-transition: background-color 0.1s ease-in;
+  transition: background-color 0.1s ease-in; }
+  i.confirm:after {
+    width: 15px;
+    top: 48px;
+    left: 5px; }
+
+.save-load i.delete, .save-load i.confirm {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  position: absolute;
+  right: -15px;
+  top: 12px; }
+
+.palette .close:before,
+i.delete:before,
+i.confirm:before,
+.delete i:before {
+  transform: rotate(46deg);
+  -webkit-transform: rotate(-45deg); }
 
 /*
 ############################################ Host Picker ############################################
@@ -634,125 +756,6 @@ footer {
   text-align: center;
   margin-top: 0;
   padding-top: 0; }
-
-.palette {
-  z-index: 9000;
-  display: block;
-  width: auto;
-  height: 100%;
-  max-width: 760px;
-  margin: 20px auto;
-  position: relative;
-  margin-top: 40px; }
-  .palette header {
-    text-align: center; }
-    .palette header h1 {
-      color: #FFFFFF;
-      font-size: 24pt;
-      padding: .67em 0;
-      margin: 0; }
-  .palette.input:before, .palette.output:before {
-    content: '';
-    width: 240px;
-    height: 240px;
-    position: absolute;
-    left: 50%;
-    margin-left: -120px;
-    background: url("images/flotilla-dock.png") no-repeat center center;
-    background-size: cover;
-    top: -160px;
-    z-index: 2; }
-  .palette.input .connected-modules, .palette.output .connected-modules {
-    padding-top: 140px; }
-  .palette.host-picker, .palette.save-load, .palette.personalise {
-    border-radius: 20px;
-    background: #00B0D2; }
-  .palette.save-load, .palette.personalise {
-    border-radius: 20px;
-    background: #224280;
-    margin-bottom: 36px; }
-  .palette.personalise {
-    padding-bottom: 30px; }
-  .palette.save-load li {
-    position: relative; }
-    .palette.save-load li:nth-child(odd) {
-      background: #195E95; }
-  .palette.save-load .delete {
-    background-color: #ED1457; }
-  .palette.save-load .download {
-    background-color: #02B186;
-    position: absolute;
-    right: 67px; }
-    .palette.save-load .download:before {
-      content: '';
-      display: block;
-      background: transparent;
-      width: 0;
-      height: 0;
-      border: 21px solid transparent;
-      border-top-color: #FFF;
-      position: absolute;
-      left: 15px;
-      top: 31px; }
-  .palette .close {
-    position: absolute;
-    right: -30px;
-    top: -30px;
-    background: #787980;
-    width: 60px;
-    height: 60px;
-    border-radius: 30px; }
-
-.palette .close:before,
-.palette .close:after,
-i.confirm:before,
-i.confirm:after,
-i.delete:before,
-i.delete:after,
-.delete i:before,
-.delete i:after {
-  width: 40px;
-  height: 10px;
-  background: #FFFFFF;
-  content: '';
-  display: block;
-  position: absolute;
-  top: 25px;
-  left: 10px;
-  transform-origin: 20px 5px;
-  -webkit-transform-origin: 20px 5px;
-  transform: rotate(46deg);
-  -webkit-transform: rotate(45deg); }
-
-i.confirm:before,
-i.confirm:after,
-i.delete:before,
-i.delete:after,
-.delete i:before,
-.delete i:after {
-  top: 32px; }
-
-i.confirm {
-  -webkit-transition: background-color 0.1s ease-in;
-  transition: background-color 0.1s ease-in; }
-  i.confirm:after {
-    width: 15px;
-    top: 48px;
-    left: 5px; }
-
-.save-load i.delete, .save-load i.confirm {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  position: absolute;
-  right: -15px;
-  top: 12px; }
-
-.palette .close:before,
-i.delete:before,
-i.confirm:before,
-.delete i:before {
-  transform: rotate(46deg);
-  -webkit-transform: rotate(-45deg); }
 
 .fancybox-outer, .fancybox-wrap, .fancybox-skin, .fancybox-inner {
   background: transparent; }
