@@ -280,7 +280,7 @@ rockpool.rule = function (parent, widget_index) {
 
             if( !this.isChild() ){
                 this.dom_delete =  $('<div class="delete"></div>').appendTo(this.dom)
-                $('<i><span class="on">on</span><span class="off">off</span></i>').appendTo(this.dom_enabled);
+                $('<i></i>').appendTo(this.dom_enabled);
                 $('<i></i>').appendTo(this.dom_delete);
             }
 

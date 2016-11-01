@@ -1540,18 +1540,55 @@ canvas {
             user-select: none;   
         }
 
+        .toggle i .on,
         .toggle i .off {display:none;}
 
         .delete {
             -webkit-transition: right linear 0.1s;
         }
 
+        // Pause button
+        .toggle i {
+            position:relative;
+            &:before, &:after {
+                content:'';
+                display:block;
+                width:10px;
+                height:36px;
+                background:#FFF;
+                display:block;
+                position:absolute;
+                left: 24px;
+                top: 18px;
+           }
+           &:after {
+                left: 44px;
+           }
+        }
+
         &.off {
-            .toggle i .off {display:block;}
+            /*.toggle i .off {
+                display:block;
+            }*/
 
             .delete {
                 right:-16px;
                 -webkit-transition: right linear 0.1s;
+            }
+
+            // Play Button
+            .toggle i {
+                &:before, &:after {
+                    width:0;
+                    height:0;
+                    border:36px solid transparent;
+                    border: 18px solid transparent;
+                    border-left-color: #FFF;
+                    background: transparent;
+                    left: 30px;
+                    border-left-width: 24px;
+               }
+               &:after {display:none;}
             }
 
             canvas {display:none;}
@@ -1568,7 +1605,8 @@ canvas {
 
             i:after, i .name {color:mix($color-darkest-navy,#FFFFFF,50%);}
 
-            .toggle i .on,
+            i .name {display:none;}
+
             .block .inspector,
             .empty .name,
             .none .name {display:none;}
