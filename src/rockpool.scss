@@ -11,7 +11,6 @@ $color-grey: #787980;
 $color-darkest-navy: #132240;
 $color-dark-navy: #182B54;
 
-
 @font-face {
     font-family: 'flotilla-regular';
     src:url('fonts/flotilla-regular-webfont.eot?-moe4l1');
@@ -48,7 +47,7 @@ body {
     background-color:$color-darkest-navy;
 }
 
-.container > header, #rules {
+.container > header {
     background-color:$color-dark-navy;
     overflow:hidden;
 }
@@ -57,12 +56,8 @@ body {
     margin-bottom: -15px;
     padding-top: 20px;
 }
-
-#rules {
-    padding-bottom:20px;
-}
-
 .mainnav {
+
     i:after {
         font-family: flotilla-regular;
         font-style: normal;
@@ -81,7 +76,7 @@ body {
         font-size:0;
     }
     li {
-        margin:2px 2px 2px 0px;
+        margin:5px 5px 5px 0px;
         font-size:14px;
         padding:14px;
         color:#FFF;
@@ -95,7 +90,7 @@ body {
             float:right;
         }
         &.logo {
-            margin-left:2px;
+            margin-left:5px;
             padding:0;
             i:after {
                 font-size: 50px;
@@ -314,6 +309,7 @@ i .name, .icon-palette span {
     font-weight: 300;
     font-size: 16px;
     line-height:22px;
+    text-shadow:0px 2px rgba(0,0,0,0.4);
 }
 
 .inspector {
@@ -710,11 +706,13 @@ i.cancel:before {
 .confirm {
     .choices {
         text-align:center;
-        margin-bottom:-46px;
+        margin-bottom:-36px;
+        i {
+            margin:0 20px;
+        }
     }
     i {
         display:inline-block;
-        margin:10px;
         &.confirm {
             background:$color-red;
             &:hover {
@@ -1042,19 +1040,20 @@ canvas {
 */
 
 .controls {
-    padding-top:10px;
+    padding-top:20px;
+    text-align: center;
 
     .add-rule {
-        height:72px;
-        border-radius:36px;
-        width:200px;
-        background:$color-green;
-        font-size:25px;
-        line-height:72px;
-        text-align:center;
-        margin:0 auto;
-        color:#FFF;
-        cursor:pointer;
+        height: 44px;
+        border-radius: 22px;
+        display: inline-block;
+        background: #02B186;
+        font-size: 25px;
+        line-height: 44px;
+        margin: 0 auto;
+        color: #FFF;
+        cursor: pointer;
+        padding: 0 15px;
 
         &:hover {
             background:lighten($color-green,5%);
@@ -1274,7 +1273,7 @@ canvas {
     background: rgba(0,0,0,0.8);
     left:0;
     top:0;
-    position:absolute;
+    position:fixed;
     z-index:100;
     display:none;
 }
@@ -1601,6 +1600,17 @@ canvas {
 */
 
 #rules {
+
+    padding-bottom: 30px;
+    overflow: hidden;
+
+    background-color:$color-dark-navy;
+
+    background-image: url(images/tiny-waves.png);
+    background-position: bottom center;
+    background-repeat: repeat-x;
+    background-size: 48.5px 10px;
+
     .block.output .popup:before {border-right-color:transparent;}
     .block.input .popup:before, .block.converter .popup:before {border-left-color:transparent;}
 
@@ -1635,12 +1645,12 @@ canvas {
                 content:'';
                 display:block;
                 width:10px;
-                height:36px;
+                height:30px;
                 background:#FFF;
                 display:block;
                 position:absolute;
                 left: 24px;
-                top: 18px;
+                top: 21px;
            }
            &:after {
                 left: 44px;
@@ -1662,9 +1672,8 @@ canvas {
                 &:before, &:after {
                     width:0;
                     height:0;
-                    border:36px solid transparent;
-                    border: 18px solid transparent;
-                    border-left-color: #FFF;
+                    border:15px solid transparent;
+                    border-left-color: mix($color-darkest-navy,#FFF,50%);
                     background: transparent;
                     left: 30px;
                     border-left-width: 24px;
@@ -1682,6 +1691,12 @@ canvas {
                 background-color:$color-darkest-navy;
                 -webkit-transition: background-color linear 0.1s;
                 transition: background-color linear 0.1s;
+            }
+
+            .toggle i:hover {
+                &:before, &:after {
+                    border-left-color: #FFF;
+                }
             }
 
             i:after, i .name {color:mix($color-darkest-navy,#FFFFFF,50%);}

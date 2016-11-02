@@ -23,16 +23,13 @@ h2 {
 body {
   background-color: #132240; }
 
-.container > header, #rules {
+.container > header {
   background-color: #182B54;
   overflow: hidden; }
 
 .container > header {
   margin-bottom: -15px;
   padding-top: 20px; }
-
-#rules {
-  padding-bottom: 20px; }
 
 .mainnav i:after {
   font-family: flotilla-regular;
@@ -49,7 +46,7 @@ body {
 .mainnav ul {
   font-size: 0; }
 .mainnav li {
-  margin: 2px 2px 2px 0px;
+  margin: 5px 5px 5px 0px;
   font-size: 14px;
   padding: 14px;
   color: #FFF;
@@ -60,7 +57,7 @@ body {
   .mainnav li.pull-right {
     float: right; }
   .mainnav li.logo {
-    margin-left: 2px;
+    margin-left: 5px;
     padding: 0; }
     .mainnav li.logo i:after {
       font-size: 50px;
@@ -322,7 +319,8 @@ i .name, .icon-palette span {
   text-transform: lowercase;
   font-weight: 300;
   font-size: 16px;
-  line-height: 22px; }
+  line-height: 22px;
+  text-shadow: 0px 2px rgba(0, 0, 0, 0.4); }
 
 .inspector {
   display: none;
@@ -631,10 +629,11 @@ i.cancel:before {
 */
 .confirm .choices {
   text-align: center;
-  margin-bottom: -46px; }
+  margin-bottom: -36px; }
+  .confirm .choices i {
+    margin: 0 20px; }
 .confirm i {
-  display: inline-block;
-  margin: 10px; }
+  display: inline-block; }
   .confirm i.confirm {
     background: #ED1558; }
     .confirm i.confirm:hover {
@@ -888,18 +887,19 @@ canvas {
 ############################################ IO Indicators ############################################
 */
 .controls {
-  padding-top: 10px; }
+  padding-top: 20px;
+  text-align: center; }
   .controls .add-rule {
-    height: 72px;
-    border-radius: 36px;
-    width: 200px;
+    height: 44px;
+    border-radius: 22px;
+    display: inline-block;
     background: #02B186;
     font-size: 25px;
-    line-height: 72px;
-    text-align: center;
+    line-height: 44px;
     margin: 0 auto;
     color: #FFF;
-    cursor: pointer; }
+    cursor: pointer;
+    padding: 0 15px; }
     .controls .add-rule:hover {
       background: #02ca99; }
 
@@ -1083,7 +1083,7 @@ canvas {
   background: rgba(0, 0, 0, 0.8);
   left: 0;
   top: 0;
-  position: absolute;
+  position: fixed;
   z-index: 100;
   display: none; }
 
@@ -1508,80 +1508,89 @@ canvas {
 /*
 ############################################ Disabled Rules ############################################
 */
-#rules .block.output .popup:before {
-  border-right-color: transparent; }
-#rules .block.input .popup:before, #rules .block.converter .popup:before {
-  border-left-color: transparent; }
-#rules .rulegroup .block i,
-#rules .rulegroup .toggle i,
-#rules .rulegroup .graph,
-#rules .rulegroup .pipe span,
-#rules .rulegroup .pipe span:before,
-#rules .rulegroup .pipe span:after {
-  -webkit-transition: background-color linear 0.1s;
-  transition: background-color linear 0.1s;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none; }
-#rules .rulegroup .toggle i .on,
-#rules .rulegroup .toggle i .off {
-  display: none; }
-#rules .rulegroup .delete {
-  -webkit-transition: right linear 0.1s; }
-#rules .rulegroup .toggle i {
-  position: relative; }
-  #rules .rulegroup .toggle i:before, #rules .rulegroup .toggle i:after {
-    content: '';
-    display: block;
-    width: 10px;
-    height: 36px;
-    background: #FFF;
-    display: block;
-    position: absolute;
-    left: 24px;
-    top: 18px; }
-  #rules .rulegroup .toggle i:after {
-    left: 44px; }
-#rules .rulegroup.off {
-  /*.toggle i .off {
-      display:block;
-  }*/ }
-  #rules .rulegroup.off .delete {
-    right: -16px;
-    -webkit-transition: right linear 0.1s; }
-  #rules .rulegroup.off .toggle i:before, #rules .rulegroup.off .toggle i:after {
-    width: 0;
-    height: 0;
-    border: 36px solid transparent;
-    border: 18px solid transparent;
-    border-left-color: #FFF;
-    background: transparent;
-    left: 30px;
-    border-left-width: 24px; }
-  #rules .rulegroup.off .toggle i:after {
-    display: none; }
-  #rules .rulegroup.off canvas {
-    display: none; }
-  #rules .rulegroup.off .block i,
-  #rules .rulegroup.off .toggle i,
-  #rules .rulegroup.off .graph,
-  #rules .rulegroup.off .pipe span,
-  #rules .rulegroup.off .pipe span:before,
-  #rules .rulegroup.off .pipe span:after {
-    background-color: #132240;
+#rules {
+  padding-bottom: 30px;
+  overflow: hidden;
+  background-color: #182B54;
+  background-image: url(images/tiny-waves.png);
+  background-position: bottom center;
+  background-repeat: repeat-x;
+  background-size: 48.5px 10px; }
+  #rules .block.output .popup:before {
+    border-right-color: transparent; }
+  #rules .block.input .popup:before, #rules .block.converter .popup:before {
+    border-left-color: transparent; }
+  #rules .rulegroup .block i,
+  #rules .rulegroup .toggle i,
+  #rules .rulegroup .graph,
+  #rules .rulegroup .pipe span,
+  #rules .rulegroup .pipe span:before,
+  #rules .rulegroup .pipe span:after {
     -webkit-transition: background-color linear 0.1s;
-    transition: background-color linear 0.1s; }
-  #rules .rulegroup.off i:after, #rules .rulegroup.off i .name {
-    color: #8991a0; }
-  #rules .rulegroup.off i .name {
+    transition: background-color linear 0.1s;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
+  #rules .rulegroup .toggle i .on,
+  #rules .rulegroup .toggle i .off {
     display: none; }
-  #rules .rulegroup.off .block .inspector,
-  #rules .rulegroup.off .empty .name,
-  #rules .rulegroup.off .none .name {
-    display: none; }
+  #rules .rulegroup .delete {
+    -webkit-transition: right linear 0.1s; }
+  #rules .rulegroup .toggle i {
+    position: relative; }
+    #rules .rulegroup .toggle i:before, #rules .rulegroup .toggle i:after {
+      content: '';
+      display: block;
+      width: 10px;
+      height: 30px;
+      background: #FFF;
+      display: block;
+      position: absolute;
+      left: 24px;
+      top: 21px; }
+    #rules .rulegroup .toggle i:after {
+      left: 44px; }
+  #rules .rulegroup.off {
+    /*.toggle i .off {
+        display:block;
+    }*/ }
+    #rules .rulegroup.off .delete {
+      right: -16px;
+      -webkit-transition: right linear 0.1s; }
+    #rules .rulegroup.off .toggle i:before, #rules .rulegroup.off .toggle i:after {
+      width: 0;
+      height: 0;
+      border: 15px solid transparent;
+      border-left-color: #8991a0;
+      background: transparent;
+      left: 30px;
+      border-left-width: 24px; }
+    #rules .rulegroup.off .toggle i:after {
+      display: none; }
+    #rules .rulegroup.off canvas {
+      display: none; }
+    #rules .rulegroup.off .block i,
+    #rules .rulegroup.off .toggle i,
+    #rules .rulegroup.off .graph,
+    #rules .rulegroup.off .pipe span,
+    #rules .rulegroup.off .pipe span:before,
+    #rules .rulegroup.off .pipe span:after {
+      background-color: #132240;
+      -webkit-transition: background-color linear 0.1s;
+      transition: background-color linear 0.1s; }
+    #rules .rulegroup.off .toggle i:hover:before, #rules .rulegroup.off .toggle i:hover:after {
+      border-left-color: #FFF; }
+    #rules .rulegroup.off i:after, #rules .rulegroup.off i .name {
+      color: #8991a0; }
+    #rules .rulegroup.off i .name {
+      display: none; }
+    #rules .rulegroup.off .block .inspector,
+    #rules .rulegroup.off .empty .name,
+    #rules .rulegroup.off .none .name {
+      display: none; }
 
 @media (max-width: 860px) {
   .palette .close {

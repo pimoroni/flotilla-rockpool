@@ -318,7 +318,9 @@ rockpool.initialize = function(){
                 var dom_container = $('<div class="confirm palette"><i class="close"></i><header><h1>are you sure?</h1></header><div class="choices"><p>this will delete all your rules!</p></div>');
     
                 $('<i class="cancel"></i>').appendTo(dom_container.find('.choices'));
-                $('<i class="confirm"></i>').appendTo(dom_container.find('.choices'));
+                $('<i class="confirm"></i>').appendTo(dom_container.find('.choices')).on('click',function(){
+                    rockpool.clear();
+                });
 
                 rockpool.prompt(dom_container);
                 //rockpool.clear();
