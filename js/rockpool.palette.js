@@ -54,7 +54,7 @@ rockpool.refreshConnectedModules = function(obj, type){
         }
     }
 
-    $('.active-' + type + 's li').removeClass('on');
+    //$('.active-' + type + 's li').removeClass('on');
 
     for(channel_index = 0; channel_index<8; channel_index++){
         var module = rockpool.getActiveModule(dock_id, channel_index);
@@ -86,8 +86,7 @@ rockpool.refreshConnectedModules = function(obj, type){
                 dom_module
                     .attr('class','color-' + module.color + ' active');
                     
-                $('.active-' + type + 's').find(' li:eq(' + channel_index + ')').addClass('on');
-
+                //$('.active-' + type + 's').find(' li:eq(' + channel_index + ')').addClass('on');
             }
         }
     }

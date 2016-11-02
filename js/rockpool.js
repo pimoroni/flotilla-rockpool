@@ -279,12 +279,17 @@ rockpool.initialize = function(){
     $(window).trigger('resize');
 
     $('.controls')
-        .on('click','.add-input',function(e){
+        .on('click','.add-rule',function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            rockpool.add('input')
+        });
+        /*.on('click','.add-input',function(e){
             e.preventDefault();
             e.stopPropagation();
             rockpool.add('input')
         })
-            .on('click','.add-output',function(e){
+        .on('click','.add-output',function(e){
             e.preventDefault();
             e.stopPropagation();
             rockpool.add('output')
@@ -293,7 +298,7 @@ rockpool.initialize = function(){
             e.preventDefault();
             e.stopPropagation();
             rockpool.add('converter')
-        });
+        });*/
 
 
     $('.options,.mainnav').on('click','.active',function(e){

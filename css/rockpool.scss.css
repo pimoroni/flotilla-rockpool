@@ -887,28 +887,52 @@ canvas {
 /*
 ############################################ IO Indicators ############################################
 */
-.active-inputs, .active-outputs {
-  width: 76px;
-  display: block;
-  position: relative;
-  left: 50%;
-  margin-top: 10px;
-  margin-left: -38px; }
-  .active-inputs ul, .active-inputs li, .active-outputs ul, .active-outputs li {
-    list-style: none;
-    margin: 0;
-    padding: 0; }
-  .active-inputs li, .active-outputs li {
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: #091224;
-    margin-right: 4px;
-    margin-bottom: 4px; }
-    .active-inputs li.on, .active-outputs li.on {
-      background: #787980; }
+.controls {
+  padding-top: 10px; }
+  .controls .add-rule {
+    height: 72px;
+    border-radius: 36px;
+    width: 200px;
+    background: #02B186;
+    font-size: 25px;
+    line-height: 72px;
+    text-align: center;
+    margin: 0 auto;
+    color: #FFF;
+    cursor: pointer; }
+    .controls .add-rule:hover {
+      background: #02ca99; }
 
+/*
+.active-inputs, .active-outputs {
+    width:76px;
+    display:block;
+    position:relative;
+    left:50%;
+    margin-top:10px;
+    margin-left:-38px;
+
+    ul, li {
+        list-style:none;
+        margin:0;
+        padding:0;
+    }
+
+    li {
+        display:inline-block;
+        width:15px;
+        height:15px;
+        border-radius:50%;
+        background:#091224;
+        margin-right:4px;
+        margin-bottom:4px;
+
+        &.on {
+            background:#787980;
+        }
+    }
+}
+*/
 /*
 ############################################ Pop-up Menus ############################################
 */

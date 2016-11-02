@@ -1041,6 +1041,27 @@ canvas {
 ############################################ IO Indicators ############################################
 */
 
+.controls {
+    padding-top:10px;
+
+    .add-rule {
+        height:72px;
+        border-radius:36px;
+        width:200px;
+        background:$color-green;
+        font-size:25px;
+        line-height:72px;
+        text-align:center;
+        margin:0 auto;
+        color:#FFF;
+        cursor:pointer;
+
+        &:hover {
+            background:lighten($color-green,5%);
+        }
+    }
+}
+/*
 .active-inputs, .active-outputs {
     width:76px;
     display:block;
@@ -1069,6 +1090,7 @@ canvas {
         }
     }
 }
+*/
 
 /*
 ############################################ Pop-up Menus ############################################
