@@ -215,6 +215,7 @@ rockpool.startDiscovery = function(){
 
 rockpool.stopDiscovery = function(){
     rockpool._discover = false;
+    clearTimeout(rockpool._discover_timeout);
 }
 
 rockpool.discoverHosts = function(){
@@ -421,7 +422,7 @@ rockpool.findHosts = function(){
 
         if(progress == 0 && rockpool._discover && rockpool._discover_retries < 4){
             rockpool._discover_retries += 1;
-            setTimeout(rockpool.discoverHosts,rockpool._discover_retry_time);
+            rockpool._discover_timeout = setTimeout(rockpool.discoverHosts,rockpool._discover_retry_time);
         }
     }
 }
@@ -467,6 +468,7 @@ rockpool.disconnect = function(){
 
 rockpool.connect = function(host, port, details){
 
+    rockpool.stopDiscovery();
     rockpool.disconnect(host);
 
     if(rockpool.debug_enabled) console.log('Connected', details);
