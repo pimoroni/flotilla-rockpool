@@ -38,7 +38,7 @@ rockpool.converters = {
     noop: function () {
         this.name = "Empty"
         this.category = rockpool.category.empty
-        this.color = 'navy'
+        this.color = 'grey'
         this.icon = "add"
         this.convert = function (value) { return value }        
     },

@@ -24,7 +24,8 @@ rockpool.inputs = {
     state: function() {
         this.name = "Value"
         this.icon = "value"
-        
+        this.color = "navy"
+
         this.options = [
                 //{name:'Off',     value: 0.0, icon: "off" },
                 {name:'Percentage', value: 0.5, ui: 'slider' },

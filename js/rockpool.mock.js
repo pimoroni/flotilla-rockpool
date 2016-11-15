@@ -1,5 +1,5 @@
 rockpool.mock = function(){
-	if(window.location.href != "file:///Users/gadgetoid/Development/pimoroni/flotilla/flotilla-rockpool/index.html") return;
+	if(window.location.href != "file:///C:/Users/phil/Documents/Development/flotilla-rockpool/index.html") return;
 
     $(window).on('beforeunload',function(){
         rockpool.saveCurrentState('_autosave');

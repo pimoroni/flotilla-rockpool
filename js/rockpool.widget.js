@@ -74,9 +74,9 @@ rockpool.widget =  function( type, rule, key ) {
 
             var color = this.getOption('color');
 
-            if(!this.handler.active){
+            /*if(!this.isComparator() && !this.handler.active){
                 color = 'grey';
-            }
+            }*/
 
             if(this.isComparator()){
                 rule.updateDom();

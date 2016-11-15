@@ -1,15 +1,27 @@
 
-$color-navy: #4566AD;
-$color-yellow: #F1C304;
+$color-navy: #008ca5; //#4566AD;
+$color-yellow: #f8d604;
 $color-orange: #DB9800;
-$color-blue: #00B0B2;
-$color-green: #02B186;
-$color-red: #ED1558;
+$color-blue: #00b0d2;
+$color-green: #00ac9c;
+$color-red: #ea094b;
 $color-purple: #9879D3;
-$color-grey: #787980;
+$color-grey: #ebeaea; //#787980;
+$color-grey-fg: #d3d1d2;
 
 $color-darkest-navy: #132240;
 $color-dark-navy: #182B54;
+
+$color-button: #008ca5;
+
+$icon-size: 72px;
+$rule-button-size: 30px;
+
+$color-background: #47b1c4;
+$color-flow-background: #0da0b2;
+$color-flow-disabled: mix($color-background, $color-flow-background, 50%);
+$color-flow-disabled-fg: $color-background;
+
 
 @font-face {
     font-family: 'flotilla-regular';
@@ -36,19 +48,18 @@ h1, h2, h3, h4, .name {
 }
 
 h2 {
-    font-size: 18pt;
-    font-weight: 700;
-    color:#787980;
+    font-size: 14pt;
+    font-weight: 300;
+    color:#ffffff;
     margin:0;
     padding:0;
 }
 
 body {
-    background-color:$color-darkest-navy;
+    background-color:$color-background;
 }
 
 .container > header {
-    background-color:$color-dark-navy;
     overflow:hidden;
 }
 
@@ -56,6 +67,7 @@ body {
     margin-bottom: -15px;
     padding-top: 20px;
 }
+
 .mainnav {
 
     i:after {
@@ -108,53 +120,6 @@ body {
     margin: 12px 0px;
     height:72px;
 }
-
-.rulegroup {
-    position:relative;
-    display:block;
-}
-
-.rule {
-    margin: 10px 0;
-
-    .toggle, .delete {
-        position:absolute;
-        top:10px;
-        left:-16px;
-    }
-    .toggle {
-        span {
-            font-style: normal;
-            font-size: 30px;
-            letter-spacing: normal;
-            line-height: 72px;
-            display: block;
-            text-indent: 6px;
-
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none; 
-            -moz-user-select: none; 
-            -ms-user-select: none;
-            user-select: none;   
-        }
-        i {
-            background-color:#F1C304;
-            border-top-left-radius:0;
-            border-bottom-left-radius:0;
-        }
-    }
-    .delete {
-        left:auto;
-        right:-72px;
-        i {
-            background-color:#ED1457;
-            border-top-right-radius:0;
-            border-bottom-right-radius:0;
-        }
-    }
-}
-
 //i img {max-width:100%;width:100%;height:auto;margin:0 auto;}
 
 .palette.converter hr {
@@ -168,7 +133,7 @@ body {
     border-top:2px solid rgba(255,255,255,0.5);
 }
 
-.block i, .toggle i, .delete i, .icon-palette i, .palette i, .add-manual i, i.toggle {
+.block i, .icon-palette i, .palette i, .add-manual i {
     position: relative;
     display: block;
     width: 72px;
@@ -314,61 +279,9 @@ i .name, .icon-palette span {
 
 .inspector {
     display:none;
-    position: absolute;
-    line-height: 16px;
-
-    font-style: normal;
-    font-weight: bold;
-    font-size: 14px;
-    text-align: right;
-
-    top: 50px;
-    left: 60px;
-    text-align: left;
-    background: #FFF;
-    color: #000;
-    padding: 0 10px;
-    border-radius: 8px;
-    height: 16px;
-    width: auto;
-
-    white-space:pre;
-
-    -webkit-touch-callout: initial;
-    -webkit-user-select: initial;
-    -khtml-user-select: initial; 
-    -moz-user-select: initial; 
-    -ms-user-select: initial;
-    user-select: initial;
-
-    &.detail small {display:inline;}
-
-    small {
-        display:none;
-        font-size:14px;
-        margin-left:5px;
-        margin-right:-10px;
-        padding-right:10px;
-        background:#F0F0F0;
-        border-left:1px solid #CCC;
-        padding-left:5px;
-        border-radius:8px;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-    }
-}
-
-.input .inspector {
-    display: inline-block;
-}
-.output .inspector {
-    display:inline-block;
-    left: auto;
-    right:60px;
 }
 
 footer {
-    background-color:$color-darkest-navy;
     padding-bottom:60px;
 }
 
@@ -474,39 +387,37 @@ footer {
     }
 }
 
-.palette .close:before,
-.palette .close:after,
-i.confirm:before,
-i.confirm:after,
-i.delete:before,
-i.delete:after,
-i.cancel:before,
-i.cancel:after,
-.delete i:before,
-.delete i:after {
-    width:40px;
-    height:10px;
-    background:#FFFFFF;
-    content:'';
-    display:block;
-    position:absolute;
-    top:25px;
-    left:10px;
-    transform-origin:20px 5px;
-    -webkit-transform-origin:20px 5px;
-    transform:rotate(46deg);
-    -webkit-transform:rotate(45deg);
+.palette .close,
+i.confirm,
+i.delete,
+i.cancel {
+    &:before, &:after {
+        width:40px;
+        height:10px;
+        background:#FFFFFF;
+        content:'';
+        display:block;
+        position:absolute;
+        top:25px;
+        left:10px;
+        transform-origin:20px 5px;
+        -webkit-transform-origin:20px 5px;
+        transform:rotate(46deg);
+        -webkit-transform:rotate(45deg);
+        top:32px;
+    }
 }
 
-i.confirm:before,
-i.confirm:after,
+.palette .close:before,
 i.delete:before,
-i.delete:after,
-i.cancel:before,
-i.cancel:after,
-.delete i:before,
-.delete i:after {
-    top:32px;
+i.confirm:before,
+i.cancel:before {
+    transform:rotate(46deg);
+    -webkit-transform:rotate(-45deg);
+}
+
+.palette .close {
+    top:auto;
 }
 
 i.confirm {
@@ -528,15 +439,6 @@ i.confirm {
         right:-15px;
         top:12px;
     }
-}
-
-.palette .close:before,
-i.delete:before,
-i.confirm:before,
-.delete i:before,
-i.cancel:before {
-    transform:rotate(46deg);
-    -webkit-transform:rotate(-45deg);
 }
 
 
@@ -939,15 +841,6 @@ i.cancel:before {
 .fancybox-close {display:none;}
 .fancybox-opened .fancybox-skin {background: transparent;-webkit-box-shadow:none;box-shadow:none;}
 
-canvas {
-    border-top-color:    rgba(255,255,255,0.9); /* strokeStyle */
-    border-bottom-color: rgba(255,255,255,0.1); /*  fillStyle  */
-
-    display:block;
-    width:100%;
-    height:72px;
-}
-
 .block .add-input, .block .add-output {
     background:#091224;
 }
@@ -976,53 +869,66 @@ canvas {
 ############################################ Rules ############################################
 */
 
+
+$pipe-size: $icon-size*0.65;
+
 .graph {
-    background:$color-darkest-navy;
-    height: 72px;
+    background:$color-flow-background;
+    height: $pipe-size;
     width: 100%;
     position: absolute;
     left: 50%;
-    top:0;
+    top:($icon-size - $pipe-size)/2;
+}
+
+canvas {
+    border-top-color:    rgba(255,255,255,0.9); /* strokeStyle */
+    border-bottom-color: rgba(255,255,255,0.1); /*  fillStyle  */
+
+    display:block;
+    width:100%;
+    height:$pipe-size;
 }
 
 .pipe {
     border-radius:0;
-    padding:72px 0;
+    padding:$pipe-size 0;
     box-sizing:border-box;
 
-    width: 72px;
+    width: $pipe-size;
     position: absolute;
     left: 50%;
-    margin-left:-36px;
-    border-bottom-right-radius: 36px;
-    border-top-right-radius: 36px;
+    margin-left:-($pipe-size/2);
+    border-bottom-right-radius: $pipe-size/2;
+    border-top-right-radius: $pipe-size/2;
 
     span {
         width:100%;
         height:100%;
         display:block;
         position: relative;
-        background:$color-darkest-navy;
+        background:$color-flow-background;
+        z-index:-1;
 
         &:before, &:after {
             content: '';
-            width:36px;
-            height:72px;;
+            width:$pipe-size/2;
+            height:$pipe-size;
             position: absolute;
             right:0px;
-            background:$color-darkest-navy;
+            background:$color-flow-background;
         }
 
         &:before {
-            top:-72px;
+            top:-($pipe-size) + (($icon-size - $pipe-size)/2);
             bottom:auto;
-            border-top-right-radius: 36px;
+            border-top-right-radius: $pipe-size/2;
         }
 
         &:after {
-            bottom:-72px;
+            bottom:-($pipe-size) + (($icon-size - $pipe-size)/2);
             top:auto;
-            border-bottom-right-radius: 36px;
+            border-bottom-right-radius: $pipe-size/2;
         }
     }
 }
@@ -1045,9 +951,9 @@ canvas {
 
     .add-rule {
         height: 44px;
-        border-radius: 22px;
+        border-radius: 11px;
         display: inline-block;
-        background: #02B186;
+        background: $color-button;
         font-size: 25px;
         line-height: 44px;
         margin: 0 auto;
@@ -1055,68 +961,17 @@ canvas {
         cursor: pointer;
         padding: 0 15px;
 
+        font-weight:700;
+
         &:hover {
             background:lighten($color-green,5%);
         }
     }
 }
-/*
-.active-inputs, .active-outputs {
-    width:76px;
-    display:block;
-    position:relative;
-    left:50%;
-    margin-top:10px;
-    margin-left:-38px;
-
-    ul, li {
-        list-style:none;
-        margin:0;
-        padding:0;
-    }
-
-    li {
-        display:inline-block;
-        width:15px;
-        height:15px;
-        border-radius:50%;
-        background:#091224;
-        margin-right:4px;
-        margin-bottom:4px;
-
-        &.on {
-            background:#787980;
-        }
-    }
-}
-*/
 
 /*
 ############################################ Pop-up Menus ############################################
 */
-
-.popup {
-    border-top:5px solid #333333;
-    z-index:10;
-    margin-top:25px;
-    position:absolute;
-    top:72px;
-
-    ul, li {
-        list-style:none;
-        margin:0;
-        padding:0;
-    }
-}
-
-.above .popup {
-    border-top:0;
-    border-bottom:5px solid #333333;
-    z-index:10;
-    margin-top:0px;
-    margin-bottom:25px;
-    top:-78px;
-}
 
 .active.selected {
     i:before {
@@ -1146,13 +1001,26 @@ canvas {
 }
 
 .popup {
+    z-index:10;
+    margin-top:25px;
+    position:absolute;
+    top:72px;
+
+    ul, li {
+        list-style:none;
+        margin:0;
+        padding:0;
+    }
+
     ul {
         white-space: pre;
     }
+
     li {
         display:inline-block;
         background:#224280;
         color:#FFFFFF;
+        height:40px;
         line-height: 40px;
         margin-left: 5px;
         margin-top: 5px;
@@ -1162,32 +1030,41 @@ canvas {
         font-weight:300;
         text-transform: lowercase;
         font-size:16px;
-        padding: 0 20px;
+        padding: 0 30px;
+        position:relative;
+
+        border-radius:23px;
+        border-top-left-radius:0;
+        border-bottom-left-radius:0;
+        border:3px solid #FFF;
+
+        margin-right:-23px;
 
         &.button {
-            border-radius:10px;
-            position:relative;
+            font-weight:bold;
+            font-size:18px;
+        }
 
-            &:before {
-                width: 100%;
-                height: 100%;
-                content: '';
-                display: block;
-                background: #FFF;
-                position: absolute;
-                left: 0;
-                top: 0;
-                border-radius: 10px;
-                margin: 0;
+        &:nth-child(1){z-index:9;}
+        &:nth-child(2){z-index:8;}
+        &:nth-child(3){z-index:7;}
+        &:nth-child(4){z-index:6;}
+        &:nth-child(5){z-index:5;}
+        &:nth-child(6){z-index:4;}
+        &:nth-child(7){z-index:3;}
+        &:nth-child(8){z-index:2;}
+        &:nth-child(9){z-index:1;}
 
-                /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+13,ffffff+100&0+1,1+13,0+100 */
-                background: -moz-linear-gradient(top,  rgba(255,255,255,0) 1%, rgba(255,255,255,0.5) 13%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
-                background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 1%,rgba(255,255,255,0.5) 13%,rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
-                background: linear-gradient(to bottom,  rgba(255,255,255,0) 1%,rgba(255,255,255,0.5) 13%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
-            }
+        &:last-child {
+            margin-right:0;
+        }
+
+        &:first-child {
+            border-top-left-radius:23px;
+            border-bottom-left-radius:23px;
         }
     }
+
     .slider {
         padding:0;
         position: relative;
@@ -1221,9 +1098,17 @@ canvas {
     }
 }
 
-.above .popup li {
-    margin-top:0;
-    margin-bottom:5px;
+.above .popup {
+    border-top:0;
+    z-index:10;
+    margin-top:0px;
+    margin-bottom:25px;
+    top:-78px;
+
+    li {
+        margin-top:0;
+        margin-bottom:5px;
+    }
 }
 
 .popup li:nth-child(1){
@@ -1233,20 +1118,40 @@ canvas {
 .block {
     .popup {
         left:50%;
-        top:15px;
-        margin-left:60px;
+        top:12px;
+        margin-left:40px;
         margin-top:0;
         border-top:0;
         padding:0 5px;
 
-        li {margin-top:0;}
-        &:before {
+        li {
+            margin-top:0;
+
+            &:last-child {
+                margin-right:-23px;
+            }
+        }
+        &:before, &:after {
             content:'';
-            border:20px solid transparent;
-            border-right-color:#333333;
             position:absolute;
-            top:0px;
-            left:-40px;
+            z-index:10;
+        }
+        &:before {
+            top:3px;
+            left:-12px;
+
+            background:$color-grey;
+            width:40px;
+            height:40px;
+            border-radius:20px;
+        }
+        &:after {
+            top:13px;
+            left:-12px;
+
+            border:10px solid transparent;
+            border-right-color:$color-grey-fg;
+            border-right-width:15px;
         }
     }
     &.output .popup {
@@ -1270,7 +1175,7 @@ canvas {
     display:block;
     width:100%;
     height:100%;
-    background: rgba(0,0,0,0.8);
+    background: rgba(mix(#000,$color-background,70%), 0.95);
     left:0;
     top:0;
     position:fixed;
@@ -1430,6 +1335,7 @@ canvas {
         width:50%;
         background:#02B186;
     }
+
     span.status {
         width:100%;
         position:absolute;
@@ -1469,82 +1375,22 @@ canvas {
 }
 
 /*
-############################################ Options ############################################
-*/
-
-/*
-.options {
-    position:fixed;
-    top:auto;
-    left:0;
-    width:100%;
-    bottom:0px;
-    height:72px;
-    overflow:hidden;
-    z-index:10;
-    pointer-events:none;
-
-    &.toggle, & {
-        transition:top 0.2s ease-in,height 0.2s ease-in;
-    }
-
-    .container {
-        background:#00B0D1;
-        margin:0 20px;
-        border-top-left-radius: 20px;
-        border-top-right-radius: 20px;
-        margin:0 auto;
-        max-width:760px;
-        height:153px;
-        margin-top:72px;
-        padding-top:30px;
-    }
-
-    .toggle {
-        width:72px;
-        height:72px;
-        border-radius:36px;
-        border-bottom-left-radius:0px;
-        border-bottom-right-radius:0px;
-        background:#00B0D1;
-        left:50%;
-        margin-left:-36px;
-        top:0px;
-        position:absolute;
-    }
-
-    .toggle, .active {
-        pointer-events:auto;
-    }
-
-    .toggle img {
-        max-width: 36px;
-        margin: 16px auto;
-        display: block;
-    }
-
-    &.open .toggle {
-        top:36px;
-        cursor:pointer;
-    }
-
-    &.open {
-        height:225px;
-    }
-}
-*/
-
-/*
 ############################################ Colours ############################################
 */
 
-@mixin colour-setting($name, $color) {
+@mixin colour-setting($name, $color, $color-fg) {
     .color-#{$name} {
         i, li {
             background-color:$color;
         }
+        .popup li {
+            border-color:darken($color,15%);
+        }
         li:hover {
             background-color:lighten($color,10%);
+        }
+        i:after {
+            color:$color-fg;
         }
     }
 
@@ -1560,12 +1406,10 @@ canvas {
     }
 
     .color-#{$name}.active.selected i:before,
-    .color-#{$name}.above .popup {
-        border-bottom-color:$color;
-    }
+
 
     .color-#{$name}.above.active.selected i:before,
-    .color-#{$name} canvas, .color-#{$name} .popup {
+    .color-#{$name} canvas {
         border-top-color:$color;
     }
 
@@ -1573,16 +1417,6 @@ canvas {
         border-bottom-color:transparent;
     }
 }
-
-@include colour-setting("navy", $color-navy);
-@include colour-setting("yellow", $color-yellow);
-@include colour-setting("orange", $color-orange);
-@include colour-setting("blue", $color-blue);
-@include colour-setting("green", $color-green);
-@include colour-setting("red", $color-red);
-@include colour-setting("purple", $color-purple);
-@include colour-setting("grey", $color-grey);
-
 
 /* Hack to set line and fill colours of graphs in CSS */
 .generators canvas {
@@ -1595,26 +1429,62 @@ canvas {
     border-top-color:    rgba(229, 0, 81, 0.9); /* strokeStyle */
 }
 
+@include colour-setting("navy",   $color-navy, #FFFFFF);
+@include colour-setting("yellow", $color-yellow, #FFFFFF);
+@include colour-setting("orange", $color-orange, #FFFFFF);
+@include colour-setting("blue",   $color-blue, #FFFFFF);
+@include colour-setting("green",  $color-green, #FFFFFF);
+@include colour-setting("red",    $color-red, #FFFFFF);
+@include colour-setting("purple", $color-purple, #FFFFFF);
+@include colour-setting("grey",   $color-grey, $color-grey-fg);
+
+
 /*
 ############################################ Disabled Rules ############################################
 */
 
 #rules {
-
     padding-bottom: 30px;
     overflow: hidden;
-
-    background-color:$color-dark-navy;
-
-    background-image: url(images/tiny-waves.png);
-    background-position: bottom center;
-    background-repeat: repeat-x;
-    background-size: 48.5px 10px;
 
     .block.output .popup:before {border-right-color:transparent;}
     .block.input .popup:before, .block.converter .popup:before {border-left-color:transparent;}
 
     .rulegroup {
+        position:relative;
+        display:block;
+
+        .rule {
+            margin: 10px 0;
+
+            .toggle, .delete {
+                position:absolute;
+                top:10px + ($icon-size/2) - ($rule-button-size/2);
+
+                i {
+                    position:relative;
+                    display:block;
+                    width:$rule-button-size;
+                    height:$rule-button-size;
+                    background:$color-grey;
+                    color:$color-grey-fg;
+                    text-align:center;
+                    line-height:$rule-button-size;
+                    border-radius:$rule-button-size/2;
+                    cursor:pointer;
+                    z-index:1;
+                }
+            }
+
+            .toggle {
+                left:10px;
+            }
+
+            .delete {
+                right:10px;
+            }
+        }
+
         .block i,
         .toggle i,
         .graph,
@@ -1634,49 +1504,52 @@ canvas {
         .toggle i .on,
         .toggle i .off {display:none;}
 
-        .delete {
-            -webkit-transition: right linear 0.1s;
-        }
-
         // Pause button
-        .toggle i {
+        .toggle i, .delete i {
             position:relative;
             &:before, &:after {
                 content:'';
                 display:block;
-                width:10px;
-                height:30px;
-                background:#FFF;
+                width:($rule-button-size/23)*4;
+                height:$rule-button-size/2;
+                background:$color-grey-fg;
                 display:block;
                 position:absolute;
-                left: 24px;
-                top: 21px;
+                left: (($rule-button-size/23) * 8) - (($rule-button-size/23)*2);
+                top: $rule-button-size/4;
+                border-radius:2.5px;
            }
            &:after {
-                left: 44px;
+                left: auto;
+                right: (($rule-button-size/23) * 8) - (($rule-button-size/23)*2);
            }
         }
 
-        &.off {
-            /*.toggle i .off {
-                display:block;
-            }*/
-
-            .delete {
-                right:-16px;
-                -webkit-transition: right linear 0.1s;
+        .delete i {
+            &:before, &:after {
+                transform-origin:($rule-button-size/23)*2, $rule-button-size/4;
+                transform:rotate(45deg);
+                left:($rule-button-size/23)*10;
+                top:$rule-button-size/4;
+                right:auto;
             }
+            &:after
+            {
+                transform:rotate(-45deg);
+            }
+        }
 
+        &.off {
             // Play Button
             .toggle i {
                 &:before, &:after {
                     width:0;
                     height:0;
-                    border:15px solid transparent;
-                    border-left-color: mix($color-darkest-navy,#FFF,50%);
+                    border:($rule-button-size/4) solid transparent;
+                    border-left-color: $color-flow-disabled-fg;
                     background: transparent;
-                    left: 30px;
-                    border-left-width: 24px;
+                    left: $rule-button-size/3;
+                    border-left-width: $rule-button-size/3;
                }
                &:after {display:none;}
             }
@@ -1688,18 +1561,19 @@ canvas {
             .pipe span,
             .pipe span:before,
             .pipe span:after {
-                background-color:$color-darkest-navy;
+                background-color:$color-flow-disabled;
                 -webkit-transition: background-color linear 0.1s;
                 transition: background-color linear 0.1s;
             }
 
             .toggle i:hover {
+                background:$color-grey;
                 &:before, &:after {
-                    border-left-color: #FFF;
+                    border-left-color: $color-grey-fg;
                 }
             }
 
-            i:after, i .name {color:mix($color-darkest-navy,#FFFFFF,50%);}
+            i:after, i .name {color:$color-flow-disabled-fg;}
 
             i .name {display:none;}
 

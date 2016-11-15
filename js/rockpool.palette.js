@@ -485,8 +485,6 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
         rule.setHandler(type,key,idx);
         rockpool.closePrompt();
         popup_close();
-
-
     });
 
     if(target.hasClass('block')){
@@ -496,7 +494,8 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
             popup_close();
         });
 
-        $('<li>').text('change').addClass('change button').appendTo(dom_menu);
+        $('<li>').text('change').addClass('change button').prependTo(dom_menu);
+
         dom_popup.on('click','.change',function(e){
             e.stopPropagation();
             popup_close();
