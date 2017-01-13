@@ -204,9 +204,18 @@ rockpool.generatePalette = function(type){
 
 rockpool.add = function(type, rule, index){
     var dom_palette = $('.palette.' + type);
+    var callback = null;
+
     if(!dom_palette.length) return;
 
     dom_palette.find('.popup').hide();
+
+    if(!(rule instanceof rockpool.rule)){
+        if(typeof rule === "function"){
+            callback = rule;
+            rule = null;
+        }
+    }
 
 
     // Type is "input" or "output"
@@ -221,6 +230,7 @@ rockpool.add = function(type, rule, index){
         rule.start();
         rule.setHandler(index,key);
         rockpool.closePrompt();
+            if(typeof callback === "function") callback(rule);
 
 
     })
@@ -241,7 +251,7 @@ rockpool.add = function(type, rule, index){
         if(module.options
          && module.options.length > 0){
             // Needs configuration
-            rockpool.virtualConfigureMenu($(this), type, rule, key, module);
+            rockpool.virtualConfigureMenu($(this), type, rule, key, module, callback);
         }
         else
         {
@@ -249,6 +259,7 @@ rockpool.add = function(type, rule, index){
             rule.start();
             rule.setHandler(type,key);
             rockpool.closePrompt();
+            if(typeof callback === "function") callback(rule);
         }
 
     })
@@ -264,7 +275,7 @@ rockpool.add = function(type, rule, index){
 
         if(module.needsConfiguration(type))
         {
-            rockpool.moduleConfigureMenu($(this), type, rule, null, module);
+            rockpool.moduleConfigureMenu($(this), type, rule, null, module, callback);
         }
         else
         {
@@ -274,6 +285,7 @@ rockpool.add = function(type, rule, index){
 
             rule.setHandler(type,[module.key,io_key].join('_'));
             rockpool.closePrompt();
+            if(typeof callback === "function") callback(rule);
         }
     });
 
@@ -324,7 +336,7 @@ rockpool.converterConfigureMenu = function(target, rule, widget_index){
   
 }
 
-rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
+rockpool.virtualConfigureMenu = function(target, type, rule, key, module, callback){
 
     var dom_popup = target.find('.popup.' + key);
     if(dom_popup.length == 0){
@@ -431,6 +443,8 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
                 $('body').off('click');
             });
         }
+        
+        if(typeof callback === "function") callback(rule);
     }
 
     $('.popup').hide();
@@ -545,7 +559,7 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module){
 
 }
 
-rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
+rockpool.moduleConfigureMenu = function(target, type, rule, index, module, callback){
 
     var options = module.getOptions(type);
     var dom_popup = target.find('.popup.' + module.key);
@@ -561,6 +575,8 @@ rockpool.moduleConfigureMenu = function(target, type, rule, index, module){
                 $('body').off('click');
             });
         }
+        
+        if(typeof callback === "function") callback(rule);
     }
 
     if(dom_popup.length == 0){

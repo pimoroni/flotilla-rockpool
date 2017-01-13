@@ -282,7 +282,9 @@ rockpool.initialize = function(){
         .on('click','.add-rule',function(e){
             e.preventDefault();
             e.stopPropagation();
-            new rockpool.rule().start();
+            rockpool.add('input',function(rule){
+                rockpool.add('output',rule);
+            });
         });
         /*.on('click','.add-input',function(e){
             e.preventDefault();

@@ -21,6 +21,12 @@ rockpool.pressed={
 };
 
 rockpool.inputs = {
+    none: function () {
+        this.name = "None"
+        this.icon = "add"
+        this.category = rockpool.category.general
+        this.get = function ( options ) { return 0 }
+    },
     state: function() {
         this.name = "Value"
         this.icon = "value"

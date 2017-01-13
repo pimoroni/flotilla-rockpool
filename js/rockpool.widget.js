@@ -172,7 +172,7 @@ rockpool.widget =  function( type, rule, key ) {
     }
 
     this.setLabel = function( label ){
-        if( (this.isConverter() && this.handler.name == 'Empty') || (this.isOutput() && this.handler.name == 'None') ){
+        if( (this.isConverter() && this.handler.name == 'Empty') || (this.handler.name == 'None') ){
             //this.dom.find('.name').hide();
             this.dom.find('.name').html('');
             return;

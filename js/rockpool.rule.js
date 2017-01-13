@@ -254,7 +254,7 @@ rockpool.rule = function (parent, widget_index) {
         this.converters.push( new rockpool.widget( 'converter', this, key ) )
     }
 
-    this.render = function () {
+    this.render = function (fn_callback) {
         if( this.deleted ) return false;
         if( !this.dom )
         {
@@ -328,6 +328,10 @@ rockpool.rule = function (parent, widget_index) {
         }
 
         this.updateLabels();
+
+        if(typeof fn_callback === "function"){
+            fn_callback();
+        }
     }
 
     this.redrawChart = function () {
@@ -349,6 +353,7 @@ rockpool.rule = function (parent, widget_index) {
         if( this.deleted ) return false;
         if( !this.enabled ) { return false; }
         if( !this.getInput() || !this.getOutput() ) { return false; }
+        if( this.getInput().handler.name == "None" ) { return false; }
 
         var value = this.getInput().get();
         this.converters.forEach( function(converter, idx){
@@ -384,8 +389,8 @@ rockpool.rule = function (parent, widget_index) {
         }
     }
 
-    this.start = function(){
-        this.render();
+    this.start = function(fn_callback){
+        this.render(fn_callback);
     }
 
     this.enabled = true;

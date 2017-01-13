@@ -817,23 +817,36 @@ canvas {
 /*
 ############################################ Pop-up Menus ############################################
 */
-.active.selected i:before {
+.active.selected i:before, .block .popup:before {
   content: '';
-  border: 20px solid transparent;
-  border-bottom-color: #333333;
+  display: block;
   position: absolute;
-  top: 57px;
-  margin-left: -20px;
-  left: 50%; }
-.active.selected.above i:before {
-  border-bottom-color: transparent;
-  border-top-color: #333333;
-  position: absolute;
-  top: -28px; }
-.active.selected.above span {
-  display: block; }
-.active.selected span {
-  display: none; }
+  background: #FFF;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 24px;
+  line-height: 30px;
+  color: #ebeaea;
+  text-align: center; }
+
+.active.selected {
+  /*
+      The little arrow that relates the pop-up menu back to its originating widget
+      Needs to be a white circle with a gey webfont up/down/left/right arrow in it
+  */ }
+  .active.selected i:before {
+    top: 65px;
+    left: 50%;
+    margin-left: -15px;
+    content: '\25B2'; }
+  .active.selected.above i:before {
+    content: '\25BC';
+    top: -28px; }
+  .active.selected.above span {
+    display: block; }
+  .active.selected span {
+    display: none; }
 
 .popup {
   z-index: 10;
@@ -935,45 +948,47 @@ canvas {
 
 .block .popup {
   left: 50%;
-  top: 12px;
+  top: 13px;
   margin-left: 40px;
   margin-top: 0;
   border-top: 0;
-  padding: 0 5px; }
+  padding: 0 5px;
+        /*
+        &:before {
+            top:3px;
+            left:-12px;
+
+            background:$color-grey;
+            width:40px;
+            height:40px;
+            border-radius:20px;
+        }
+        &:after {
+            top:13px;
+            left:-12px;
+
+            border:10px solid transparent;
+            border-right-color:$color-grey-fg;
+            border-right-width:15px;
+        }*/ }
   .block .popup li {
     margin-top: 0; }
     .block .popup li:last-child {
       margin-right: -23px; }
-  .block .popup:before, .block .popup:after {
-    content: '';
-    position: absolute;
-    z-index: 10; }
   .block .popup:before {
-    top: 3px;
-    left: -12px;
-    background: #ebeaea;
-    width: 40px;
-    height: 40px;
-    border-radius: 20px; }
-  .block .popup:after {
-    top: 13px;
-    left: -12px;
-    border: 10px solid transparent;
-    border-right-color: #d3d1d2;
-    border-right-width: 15px; }
+    content: '\25C0';
+    top: 7px;
+    left: 0px;
+    z-index: 10; }
 .block.output .popup {
   left: auto;
   right: 50%;
   margin-left: 0;
   margin-right: 60px; }
   .block.output .popup:before {
-    content: '';
-    border: 20px solid transparent;
-    border-left-color: #333333;
-    position: absolute;
-    top: 0px;
+    content: '\25B6';
     left: auto;
-    right: -40px; }
+    right: -30px; }
 
 .blackout {
   display: block;

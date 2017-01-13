@@ -973,22 +973,35 @@ canvas {
 ############################################ Pop-up Menus ############################################
 */
 
-.active.selected {
-    i:before {
+.active.selected i:before, .block .popup:before {
         content:'';
-        border:20px solid transparent;
-        border-bottom-color:#333333;
+        display:block;
         position:absolute;
-        top:57px;
-        margin-left:-20px;
+        background:#FFF;
+        width:30px;
+        height:30px;
+        border-radius:50%;
+        font-size:24px;
+        line-height:30px;
+        color:$color-grey;
+        text-align:center;
+}
+
+.active.selected {
+    /*
+        The little arrow that relates the pop-up menu back to its originating widget
+        Needs to be a white circle with a gey webfont up/down/left/right arrow in it
+    */
+    i:before {
+        top: 65px;
         left:50%;
+        margin-left:-15px;
+        content:'\25B2';
     }
 
     &.above {
         i:before {
-            border-bottom-color:transparent;
-            border-top-color:#333333;
-            position:absolute;
+            content:'\25BC';
             top:-28px;
         }
         span {
@@ -1118,7 +1131,7 @@ canvas {
 .block {
     .popup {
         left:50%;
-        top:12px;
+        top:13px;
         margin-left:40px;
         margin-top:0;
         border-top:0;
@@ -1131,11 +1144,13 @@ canvas {
                 margin-right:-23px;
             }
         }
-        &:before, &:after {
-            content:'';
-            position:absolute;
+        &:before {
+            content:'\25C0';
+            top:7px;
+            left:0px;
             z-index:10;
         }
+        /*
         &:before {
             top:3px;
             left:-12px;
@@ -1152,7 +1167,7 @@ canvas {
             border:10px solid transparent;
             border-right-color:$color-grey-fg;
             border-right-width:15px;
-        }
+        }*/
     }
     &.output .popup {
         left:auto;
@@ -1160,13 +1175,9 @@ canvas {
         margin-left:0;
         margin-right:60px;
         &:before {
-            content:'';
-            border:20px solid transparent;
-            border-left-color:#333333;
-            position:absolute;
-            top:0px;
+            content:'\25B6';
             left:auto;
-            right:-40px;
+            right:-30px;
         }
     }
 }
