@@ -270,7 +270,7 @@ rockpool.rule = function (parent, widget_index) {
 
             this.dom_enabled = $('<div class="toggle"></div>').appendTo(this.dom);
 
-            this.input = this.input ? this.input : new rockpool.widget( 'input', this, 'state' );
+            this.input = this.input ? this.input : new rockpool.widget( 'input', this, 'none' );
 
             var i = this.converter_count
             while(i--){

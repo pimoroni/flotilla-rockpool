@@ -84,7 +84,7 @@ rockpool.module_handlers['rainbow'] = {
                 {name: "Red",       channel: 'r', color: 'red'},
                 {name: "Green",     channel: 'g', color: 'green'},
                 {name: "Blue",      channel: 'b', color: 'blue'},
-                {name: "Brightness",channel: 'brightness'},
+                //{name: "Brightness",channel: 'brightness'},
                 {name: "Colour",    channel: 'hue', color: 'purple'}
             ]
 
@@ -544,7 +544,7 @@ rockpool.module_handlers['matrix'] = {
                 }},
                 {name:'Number', fn: function(value,t){ t.data.image = matrix_font[Math.ceil(value * 9).toString().charCodeAt(0)]; } },
                 {name:'Letter', fn: function(value,t){ t.data.image = matrix_font[ 97 + Math.ceil(value * 25) ]; } },
-                {name:'Brightness', fn: function(value,t){ t.data.brightness = Math.round(value*t.max_brightness); }}
+                //{name:'Brightness', fn: function(value,t){ t.data.brightness = Math.round(value*t.max_brightness); }}
             ]
 
             this.set = function (value, id, options){
@@ -688,13 +688,13 @@ rockpool.module_handlers['number'] = {
                     var hours = t.data.number.slice(0,2).toString();
                     t.data.number = hours + t.pad( Math.ceil(value * 59).toString(), 2);
                 }},
-                {name: 'Second', fn: function(value,t){
+                /*{name: 'Second', fn: function(value,t){
                     t.data.period = [0,0,0,0];
                     var seconds = Math.ceil(value * 59);
                     //var minutes = t.data.number.slice(0,2).toString();
                     //t.data.number = minutes + t.pad( seconds.toString(), 2 );
                     t.data.colon = (seconds % 2);
-                }}
+                }}*/
             ]
 
 			this.pad = function (str, max) {
@@ -799,7 +799,7 @@ rockpool.module_handlers['motor'] = {
             this.data = {speed:{}}
 
             this.options = [
-                {name: "Speed",     fn: function(value){return (value*126)-63;}},
+                //{name: "Speed",     fn: function(value){return (value*126)-63;}},
                 {name: "Forwards",  fn: function(value){return value == 0 ? null : (value*63);}},
                 {name: "Backwards", fn: function(value){return value == 0 ? null : -(value*63);}}
             ]

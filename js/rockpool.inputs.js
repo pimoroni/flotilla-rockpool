@@ -24,6 +24,8 @@ rockpool.inputs = {
     none: function () {
         this.name = "None"
         this.icon = "add"
+        this.color = "red"
+
         this.category = rockpool.category.general
         this.get = function ( options ) { return 0 }
     },

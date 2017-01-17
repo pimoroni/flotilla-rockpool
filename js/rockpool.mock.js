@@ -1,4 +1,5 @@
 rockpool.mock = function(){
+    return;
 	if(window.location.href != "file:///C:/Users/phil/Documents/Development/flotilla-rockpool/index.html") return;
 
     $(window).on('beforeunload',function(){
@@ -10,6 +11,7 @@ rockpool.mock = function(){
         rockpool.fakeCommand('c 1/dial');
         rockpool.fakeCommand('c 2/slider');
         rockpool.fakeCommand('c 3/motor');
+        rockpool.fakeCommand('c 4/joystick');
         rockpool.loadState('_autosave');
     },200);
 }

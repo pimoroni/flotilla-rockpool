@@ -545,8 +545,6 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module, callba
             $('.fancybox-overlay').off('click');
         })*/
 
-
-
         $('body').off('click').on('click',function(e){
             e.preventDefault();
             e.stopPropagation();
