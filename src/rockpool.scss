@@ -18,6 +18,7 @@ $icon-size: 72px;
 $rule-button-size: 30px;
 
 $color-background: #47b1c4;
+$color-nav-background: #e9b426;
 $color-flow-background: #0da0b2;
 $color-flow-disabled: mix($color-background, $color-flow-background, 50%);
 $color-flow-disabled-fg: $color-background;
@@ -57,7 +58,7 @@ h2 {
 }
 
 body {
-    background-color:$color-background;
+    background:$color-background url('images/blue-blue-waves.png') repeat-x bottom center;
 }
 
 .container > header {
@@ -71,7 +72,7 @@ body {
 
 .mainnav {
 
-    background:#e9b426 url('images/blue-yellow-waves.png') repeat-x bottom center;
+    background:$color-nav-background url('images/blue-yellow-waves.png') repeat-x bottom center;
     padding-bottom:12px;
 
     i:after {
@@ -93,11 +94,13 @@ body {
     }
     li {
         margin:5px 5px 5px 0px;
-        font-size:14px;
-        padding:14px;
+        font-size:20px;
+        padding:10px;
         color:#FFF;
         cursor:pointer;
-        border-radius:5px;
+        border-radius:10px;
+        font-weight:700;
+        font-family:Raleway, Serif;
 
         &:hover i, i {background:transparent;}
 
@@ -386,10 +389,7 @@ i.confirm {
         }
     }
 
-    &.host-picker, 
-    &.save-load,
-    &.personalise,
-    &.confirm {
+    &.host-picker {
         border-radius:20px;
         background:#00B0D2;
     }
@@ -398,7 +398,7 @@ i.confirm {
     &.personalise,
     &.confirm {
         border-radius:20px;
-        background:#224280;
+        background:$color-palette-background;
         margin-bottom:36px;
     }
 
@@ -410,7 +410,7 @@ i.confirm {
         li {
             position:relative;
             &:nth-child(odd) {
-                background: #195E95;
+                background: darken($color-palette-background,5%);
             }
         }
         .delete {
@@ -774,11 +774,11 @@ i.confirm {
 
     .file-drop-zone {
         border-radius: 10px;
-        border: 10px dotted #195E95;
+        border: 10px dotted darken($color-palette-background,15%);
         margin: 0px 10px 10px 10px;
         padding: 15px;
-        background: rgba(25, 94, 149, 0.3);
-        color: #195E95;
+        background: darken($color-palette-background,10%);
+        color: darken($color-palette-background,15%);
         text-align: center;
         text-transform: lowercase;
         font-size: 30px;
@@ -837,7 +837,7 @@ i.confirm {
     }
 
     p {
-        color:#00B0D2;
+        color:#FFFFFF;
         text-align:center;
         margin-top:0;
         padding-top:0;
@@ -960,6 +960,7 @@ canvas {
     text-align: center;
 
     .add-rule {
+        position: relative;
         height: 44px;
         border-radius: 11px;
         display: inline-block;
@@ -973,8 +974,22 @@ canvas {
 
         font-weight:700;
 
+        margin-top:138px;
+
         &:hover {
             background:lighten($color-green,5%);
+        }
+
+        &:before {
+            content:' ';
+            display:block;
+            width:175px;
+            height:138px;
+            background:url('images/add-rule.png');
+            position: absolute;
+            bottom:44px;
+            margin-left:-88px;
+            left:50%;
         }
     }
 }

@@ -21,7 +21,7 @@ h2 {
   padding: 0; }
 
 body {
-  background-color: #47b1c4; }
+  background: #47b1c4 url("images/blue-blue-waves.png") repeat-x bottom center; }
 
 .container > header {
   overflow: hidden; }
@@ -49,11 +49,13 @@ body {
     font-size: 0; }
   .mainnav li {
     margin: 5px 5px 5px 0px;
-    font-size: 14px;
-    padding: 14px;
+    font-size: 20px;
+    padding: 10px;
     color: #FFF;
     cursor: pointer;
-    border-radius: 5px; }
+    border-radius: 10px;
+    font-weight: 700;
+    font-family: Raleway, Serif; }
     .mainnav li:hover i, .mainnav li i {
       background: transparent; }
     .mainnav li.pull-right {
@@ -371,19 +373,19 @@ i.confirm {
     z-index: 2; }
   .palette.input .connected-modules, .palette.output .connected-modules {
     padding-top: 140px; }
-  .palette.host-picker, .palette.save-load, .palette.personalise, .palette.confirm {
+  .palette.host-picker {
     border-radius: 20px;
     background: #00B0D2; }
   .palette.save-load, .palette.personalise, .palette.confirm {
     border-radius: 20px;
-    background: #224280;
+    background: #68bccc;
     margin-bottom: 36px; }
   .palette.personalise {
     padding-bottom: 30px; }
   .palette.save-load li {
     position: relative; }
     .palette.save-load li:nth-child(odd) {
-      background: #195E95; }
+      background: #55b4c6; }
   .palette.save-load .delete {
     background-color: #ED1457; }
   .palette.save-load .download {
@@ -653,11 +655,11 @@ i.confirm {
   overflow: hidden; }
   .saves .file-drop-zone {
     border-radius: 10px;
-    border: 10px dotted #195E95;
+    border: 10px dotted #3a9bad;
     margin: 0px 10px 10px 10px;
     padding: 15px;
-    background: rgba(25, 94, 149, 0.3);
-    color: #195E95;
+    background: #42abbf;
+    color: #3a9bad;
     text-align: center;
     text-transform: lowercase;
     font-size: 30px;
@@ -704,7 +706,7 @@ i.confirm {
   display: block;
   margin-bottom: 30px; }
 .save-load p, .personalise p, .confirm p {
-  color: #00B0D2;
+  color: #FFFFFF;
   text-align: center;
   margin-top: 0;
   padding-top: 0; }
@@ -806,6 +808,7 @@ canvas {
   padding-top: 20px;
   text-align: center; }
   .controls .add-rule {
+    position: relative;
     height: 44px;
     border-radius: 11px;
     display: inline-block;
@@ -816,9 +819,20 @@ canvas {
     color: #FFF;
     cursor: pointer;
     padding: 0 15px;
-    font-weight: 700; }
+    font-weight: 700;
+    margin-top: 138px; }
     .controls .add-rule:hover {
       background: #00c6b3; }
+    .controls .add-rule:before {
+      content: ' ';
+      display: block;
+      width: 175px;
+      height: 138px;
+      background: url("images/add-rule.png");
+      position: absolute;
+      bottom: 44px;
+      margin-left: -88px;
+      left: 50%; }
 
 /*
 ############################################ Pop-up Menus ############################################
