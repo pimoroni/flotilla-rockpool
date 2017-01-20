@@ -30,37 +30,40 @@ body {
   margin-bottom: -15px;
   padding-top: 20px; }
 
-.mainnav i:after {
-  font-family: flotilla-regular;
-  font-style: normal;
-  position: relative;
-  font-size: 30px;
-  top: 3px;
-  line-height: 0; }
-.mainnav ul, .mainnav li {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: inline-block; }
-.mainnav ul {
-  font-size: 0; }
-.mainnav li {
-  margin: 5px 5px 5px 0px;
-  font-size: 14px;
-  padding: 14px;
-  color: #FFF;
-  cursor: pointer;
-  border-radius: 5px; }
-  .mainnav li:hover i, .mainnav li i {
-    background: transparent; }
-  .mainnav li.pull-right {
-    float: right; }
-  .mainnav li.logo {
-    margin-left: 5px;
-    padding: 0; }
-    .mainnav li.logo i:after {
-      font-size: 50px;
-      top: 7px; }
+.mainnav {
+  background: #e9b426 url("images/blue-yellow-waves.png") repeat-x bottom center;
+  padding-bottom: 12px; }
+  .mainnav i:after {
+    font-family: flotilla-regular;
+    font-style: normal;
+    position: relative;
+    font-size: 30px;
+    top: 3px;
+    line-height: 0; }
+  .mainnav ul, .mainnav li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block; }
+  .mainnav ul {
+    font-size: 0; }
+  .mainnav li {
+    margin: 5px 5px 5px 0px;
+    font-size: 14px;
+    padding: 14px;
+    color: #FFF;
+    cursor: pointer;
+    border-radius: 5px; }
+    .mainnav li:hover i, .mainnav li i {
+      background: transparent; }
+    .mainnav li.pull-right {
+      float: right; }
+    .mainnav li.logo {
+      margin-left: 5px;
+      padding: 0; }
+      .mainnav li.logo i:after {
+        font-size: 50px;
+        top: 7px; }
 
 .center {
   text-align: center; }
@@ -284,13 +287,60 @@ i .name, .icon-palette span {
   font-weight: 300;
   font-size: 16px;
   line-height: 22px;
-  text-shadow: 0px 2px rgba(0, 0, 0, 0.4); }
+  /*text-shadow:0px 2px rgba(0,0,0,0.4);*/ }
 
 .inspector {
   display: none; }
 
 footer {
   padding-bottom: 60px; }
+
+.palette .close:before, .palette .close:after,
+i.confirm:before,
+i.confirm:after,
+i.delete:before,
+i.delete:after,
+i.cancel:before,
+i.cancel:after {
+  width: 40px;
+  height: 10px;
+  background: #d3d1d2;
+  content: '';
+  display: block;
+  position: absolute;
+  top: 25px;
+  left: 10px;
+  transform-origin: 20px 5px;
+  -webkit-transform-origin: 20px 5px;
+  transform: rotate(46deg);
+  -webkit-transform: rotate(45deg);
+  top: 32px;
+  border-radius: 3px; }
+
+.palette .close:before,
+i.delete:before,
+i.confirm:before,
+i.cancel:before {
+  transform: rotate(46deg);
+  -webkit-transform: rotate(-45deg); }
+
+.palette .close {
+  top: auto; }
+
+i.confirm {
+  -webkit-transition: background-color 0.1s ease-in;
+  transition: background-color 0.1s ease-in; }
+  i.confirm:after {
+    width: 15px;
+    top: 48px;
+    left: 5px; }
+
+.save-load i.delete, .save-load i.confirm {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  position: absolute;
+  right: -15px;
+  top: 12px; }
 
 .palette {
   z-index: 9000;
@@ -355,56 +405,12 @@ footer {
     position: absolute;
     right: -30px;
     top: -30px;
-    background: #787980;
+    background: #FFFFFF;
     width: 60px;
     height: 60px;
     border-radius: 30px; }
-
-.palette .close:before, .palette .close:after,
-i.confirm:before,
-i.confirm:after,
-i.delete:before,
-i.delete:after,
-i.cancel:before,
-i.cancel:after {
-  width: 40px;
-  height: 10px;
-  background: #FFFFFF;
-  content: '';
-  display: block;
-  position: absolute;
-  top: 25px;
-  left: 10px;
-  transform-origin: 20px 5px;
-  -webkit-transform-origin: 20px 5px;
-  transform: rotate(46deg);
-  -webkit-transform: rotate(45deg);
-  top: 32px; }
-
-.palette .close:before,
-i.delete:before,
-i.confirm:before,
-i.cancel:before {
-  transform: rotate(46deg);
-  -webkit-transform: rotate(-45deg); }
-
-.palette .close {
-  top: auto; }
-
-i.confirm {
-  -webkit-transition: background-color 0.1s ease-in;
-  transition: background-color 0.1s ease-in; }
-  i.confirm:after {
-    width: 15px;
-    top: 48px;
-    left: 5px; }
-
-.save-load i.delete, .save-load i.confirm {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  position: absolute;
-  right: -15px;
-  top: 12px; }
+    .palette .close:before, .palette .close:after {
+      top: 25px; }
 
 /*
 ############################################ Host Picker ############################################
@@ -910,7 +916,8 @@ canvas {
     padding: 0;
     position: relative;
     width: 400px;
-    height: 40px; }
+    height: 40px;
+    overflow: hidden; }
     .popup .slider span {
       position: absolute;
       display: block;
@@ -1013,20 +1020,21 @@ canvas {
 /* Config Slider */
 .connected-modules, .virtual-modules, .modifiers {
   display: block;
-  background: #404040;
+  background: #68bccc;
   border-radius: 20px;
   padding: 30px;
-  position: relative; }
-  .connected-modules:before, .virtual-modules:before, .modifiers:before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 50px;
-    border-radius: 20px;
-    bottom: -10px;
-    background-color: #262626;
-    left: 0px;
-    z-index: -1; }
+  position: relative;
+  /*&:before {
+      content:'';
+      position:absolute;
+      width:100%;
+      height:50px;
+      border-radius:20px;
+      bottom:-10px;
+      background-color:#262626;
+      left:0px;
+      z-index:-1;
+  }*/ }
 
 .modifiers {
   padding-bottom: 10px; }
@@ -1034,7 +1042,7 @@ canvas {
     margin-bottom: 20px; }
 
 .virtual-modules {
-  background: #132240;
+  background-color: #0d2328;
   margin-top: 20px; }
   .virtual-modules:before {
     background: #0B1526; }
@@ -1081,8 +1089,8 @@ canvas {
 
 .channels .color-grey.disabled i {
   position: relative;
-  background-color: #1C1C1C;
-  border: 2px solid #1C1C1C;
+  background-color: #55b4c6;
+  /*border:2px solid darken($color-palette-background, 5%);*/
   overflow: hidden;
   box-sizing: border-box; }
   .channels .color-grey.disabled i :after {
@@ -1095,10 +1103,13 @@ canvas {
     left: -2px;
     top: 8px; }
 .channels .color-grey i {
-  color: #404040;
-  background-color: #555555; }
+  color: #55b4c6;
+  background-color: #55b4c6;
+  cursor: default; }
+  .channels .color-grey i:after {
+    color: #68bccc; }
 .channels .color-grey span {
-  color: #555555; }
+  color: #55b4c6; }
 
 .config-slider {
   background: #333;

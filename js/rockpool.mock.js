@@ -1,5 +1,5 @@
 rockpool.mock = function(){
-    return;
+    //return;
 	if(window.location.href != "file:///C:/Users/phil/Documents/Development/flotilla-rockpool/index.html") return;
 
     $(window).on('beforeunload',function(){

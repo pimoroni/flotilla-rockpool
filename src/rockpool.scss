@@ -22,6 +22,7 @@ $color-flow-background: #0da0b2;
 $color-flow-disabled: mix($color-background, $color-flow-background, 50%);
 $color-flow-disabled-fg: $color-background;
 
+$color-palette-background: #68bccc;
 
 @font-face {
     font-family: 'flotilla-regular';
@@ -69,6 +70,9 @@ body {
 }
 
 .mainnav {
+
+    background:#e9b426 url('images/blue-yellow-waves.png') repeat-x bottom center;
+    padding-bottom:12px;
 
     i:after {
         font-family: flotilla-regular;
@@ -274,7 +278,7 @@ i .name, .icon-palette span {
     font-weight: 300;
     font-size: 16px;
     line-height:22px;
-    text-shadow:0px 2px rgba(0,0,0,0.4);
+    /*text-shadow:0px 2px rgba(0,0,0,0.4);*/
 }
 
 .inspector {
@@ -285,6 +289,62 @@ footer {
     padding-bottom:60px;
 }
 
+
+
+.palette .close,
+i.confirm,
+i.delete,
+i.cancel {
+    &:before, &:after {
+        width:40px;
+        height:10px;
+        background:#d3d1d2;
+        content:'';
+        display:block;
+        position:absolute;
+        top:25px;
+        left:10px;
+        transform-origin:20px 5px;
+        -webkit-transform-origin:20px 5px;
+        transform:rotate(46deg);
+        -webkit-transform:rotate(45deg);
+        top:32px;
+        border-radius:3px;
+    }
+}
+
+.palette .close:before,
+i.delete:before,
+i.confirm:before,
+i.cancel:before {
+    transform:rotate(46deg);
+    -webkit-transform:rotate(-45deg);
+}
+
+.palette .close {
+    top:auto;
+}
+
+i.confirm {
+    -webkit-transition:background-color 0.1s ease-in;
+    transition:background-color 0.1s ease-in;
+
+    &:after {
+        width: 15px;
+        top: 48px;
+        left: 5px;
+    }
+}
+
+.save-load {
+    i.delete, i.confirm {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        position:absolute;
+        right:-15px;
+        top:12px;
+    }
+}
 
 .palette {
     z-index: 9000;
@@ -380,64 +440,14 @@ footer {
         position:absolute;
         right:-30px;
         top:-30px;
-        background:#787980;
+        background:#FFFFFF;
         width:60px;
         height:60px;
         border-radius: 30px;
-    }
-}
 
-.palette .close,
-i.confirm,
-i.delete,
-i.cancel {
-    &:before, &:after {
-        width:40px;
-        height:10px;
-        background:#FFFFFF;
-        content:'';
-        display:block;
-        position:absolute;
-        top:25px;
-        left:10px;
-        transform-origin:20px 5px;
-        -webkit-transform-origin:20px 5px;
-        transform:rotate(46deg);
-        -webkit-transform:rotate(45deg);
-        top:32px;
-    }
-}
-
-.palette .close:before,
-i.delete:before,
-i.confirm:before,
-i.cancel:before {
-    transform:rotate(46deg);
-    -webkit-transform:rotate(-45deg);
-}
-
-.palette .close {
-    top:auto;
-}
-
-i.confirm {
-    -webkit-transition:background-color 0.1s ease-in;
-    transition:background-color 0.1s ease-in;
-
-    &:after {
-        width: 15px;
-        top: 48px;
-        left: 5px;
-    }
-}
-
-.save-load {
-    i.delete, i.confirm {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        position:absolute;
-        right:-15px;
-        top:12px;
+        &:before, &:after {
+            top:25px;
+        }
     }
 }
 
@@ -1208,12 +1218,12 @@ canvas {
 
 .connected-modules, .virtual-modules, .modifiers {
     display:block;
-    background:#404040;
+    background:$color-palette-background;
     border-radius:20px;
     padding:30px;
     position: relative;
 
-    &:before {
+    /*&:before {
         content:'';
         position:absolute;
         width:100%;
@@ -1223,7 +1233,7 @@ canvas {
         background-color:#262626;
         left:0px;
         z-index:-1;
-    }
+    }*/
 }
 
 .modifiers {
@@ -1235,7 +1245,8 @@ canvas {
 }
 
 .virtual-modules {
-    background:$color-darkest-navy;
+    //background:$color-darkest-navy;
+    background-color:darken($color-palette-background, 50%);
     margin-top:20px;
 
     &:before {
@@ -1306,8 +1317,8 @@ canvas {
 .channels .color-grey {
     &.disabled i {
         position:relative;
-        background-color:#1C1C1C;
-        border:2px solid #1C1C1C;
+        background-color:darken($color-palette-background, 5%);
+        /*border:2px solid darken($color-palette-background, 5%);*/
         overflow:hidden;
         box-sizing:border-box;
 
@@ -1324,12 +1335,17 @@ canvas {
     }
 
     i {
-        color:#404040;
-        background-color:#555555;
+        color:darken($color-palette-background, 5%);
+        background-color:darken($color-palette-background, 5%);
+
+        &:after {
+            color:$color-palette-background;
+        }
+        cursor:default;
     }
 
     span {
-        color:#555555;
+        color:darken($color-palette-background, 5%);
     }
 }
 
