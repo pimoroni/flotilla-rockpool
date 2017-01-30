@@ -46,6 +46,12 @@ rockpool.setupMock = function(){
         rockpool.fakeUpdate(6, 'touch', [Math.round(Math.random(0,1)),Math.round(Math.random(0,1)),Math.round(Math.random(0,1)),Math.round(Math.random(0,1))]);
 
     },1000);
+
+    var weather = setInterval(function(){
+
+        rockpool.fakeTemperature(7, Math.sin(rockpool.getTime()/7000) * 40);
+
+    },100);
 }
 
 rockpool.fakeTemperature = function(channel, temperature){
