@@ -1,17 +1,20 @@
 rockpool.mock = function(){
     //return;
-	if(window.location.href != "file:///C:/Users/dxdec/Documents/Development/Pimoroni/flotilla-rockpool/index.html") return;
+	if(!window.location.href.startsWith("file:///")) return;
 
     $(window).on('beforeunload',function(){
         rockpool.saveCurrentState('_autosave');
     });
     setTimeout(function(){
         rockpool.setupMock();
-        rockpool.fakeCommand('c 0/rainbow');
-        rockpool.fakeCommand('c 1/dial');
-        rockpool.fakeCommand('c 2/slider');
-        rockpool.fakeCommand('c 3/motor');
-        rockpool.fakeCommand('c 4/joystick');
+        rockpool.fakeAdd(0, 'rainbow');
+        rockpool.fakeAdd(1, 'dial');
+        rockpool.fakeAdd(2, 'slider');
+        rockpool.fakeAdd(3, 'motor');
+        rockpool.fakeAdd(4, 'joystick');
+        rockpool.fakeAdd(5, 'number');
+        rockpool.fakeAdd(6, 'touch');
+        rockpool.fakeAdd(7, 'weather');
         rockpool.loadState('_autosave');
     },200);
 }
@@ -37,6 +40,24 @@ rockpool.setupMock = function(){
     }
 
     rockpool.run();
+
+    var touch = setInterval(function(){
+
+        rockpool.fakeUpdate(6, 'touch', [Math.round(Math.random(0,1)),Math.round(Math.random(0,1)),Math.round(Math.random(0,1)),Math.round(Math.random(0,1))]);
+
+    },1000);
+}
+
+rockpool.fakeTemperature = function(channel, temperature){
+    rockpool.fakeUpdate(channel, 'weather', [temperature * 100, 10000]);
+}
+
+rockpool.fakeAdd = function(channel, module){
+    rockpool.fakeCommand('c ' + channel.toString() + '/' + module);
+}
+
+rockpool.fakeUpdate = function(channel, module, args){
+    rockpool.fakeCommand('u ' + channel.toString() + '/' + module + ' ' + args.join(','));
 }
 
 rockpool.fakeCommand = function(command){

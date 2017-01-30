@@ -425,6 +425,9 @@ rockpool.module_handlers['weather'] = {
             this.data = {temperature:0}
             this.options = [
                 {name: "Temperature",  highest: 50,  lowest: -50},
+                {name: "Warm",  highest: 40,  lowest: 20},
+                {name: "Cool",  highest: 0,   lowest: 20},
+                {name: "Cold",  highest: -20, lowest: 0}
             ]
             this.raw = function(option, value){
                 var v = Math.round((value - 0.5) * 1000) / 10
@@ -432,14 +435,27 @@ rockpool.module_handlers['weather'] = {
             }
             this.get = function(options){
 
+                var invert = false;
                 var highest = options ? options.highest : 40.00;
                 var lowest = options ? options.lowest : -40.00;
+
+                if(lowest > highest){
+                    invert = true;
+                    var t = lowest;
+                    lowest = highest;
+                    highest = t;
+                }
+
                 var temp = this.data.temperature / 100.00;
 
                 temp = Math.min(temp, highest);
                 temp = Math.max(temp, lowest);
 
                 var output_temp = (temp - lowest) / (highest-lowest);
+
+                if(invert){
+                    output_temp = 1.0 - output_temp;
+                }
 
                 return output_temp;
             }
