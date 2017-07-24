@@ -240,7 +240,7 @@ if(window.DeviceMotionEvent) {
             rockpool.inputs.tilt = function() {
                 this.name = "Tilt"
                 this.icon = "motion"
-                this.bgColor = rockpool.palette.blue
+                this.color = "navy"
                 this.category = 'Orientation'
 
                 this.options = [
@@ -283,14 +283,14 @@ if(window.DeviceMotionEvent) {
         this.name = "Keyboard"
         this.keys = []
         this.icon = "keyboard"
-        this.bgColor = rockpool.palette.blue
+        this.color = "navy"
         this.category = 'Keys'
 
         this.options = [
-                {category: 'Keyboard Key', name:"Up",     keys:[87, 38], icon: "keyboard-up"},
-                {category: 'Keyboard Key', name:"Down",   keys:[83, 40], icon: "keyboard-down"},
-                {category: 'Keyboard Key', name:"Left",   keys:[65, 37], icon: "keyboard-left"},
-                {category: 'Keyboard Key', name:"Right",  keys:[68, 39], icon: "keyboard-right"}/*,
+                {category: 'Keyboard Key', name:"Up",     keys:[87, 38], icon: "keyboard"},
+                {category: 'Keyboard Key', name:"Down",   keys:[83, 40], icon: "keyboard"},
+                {category: 'Keyboard Key', name:"Left",   keys:[65, 37], icon: "keyboard"},
+                {category: 'Keyboard Key', name:"Right",  keys:[68, 39], icon: "keyboard"}/*,
                 {category: 'Keyboard Key', name:"0",      keys:[48], icon: "keyboard-number"},
                 {category: 'Keyboard Key', name:"1",      keys:[49], icon: "keyboard-number"},
                 {category: 'Keyboard Key', name:"2",      keys:[50], icon: "keyboard-number"},

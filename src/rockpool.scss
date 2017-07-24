@@ -413,6 +413,15 @@ i.confirm {
 
     &.personalise {
         padding-bottom:30px;
+
+        .confirm {
+            &:before {
+                left:18px;
+            }
+            &:after {
+                left:13px;
+            }
+        }
     }
 
     &.save-load {
@@ -617,6 +626,8 @@ i.confirm {
         }
     }
 }
+
+
 
 
 /*
@@ -1526,6 +1537,17 @@ canvas {
                     cursor:pointer;
                     z-index:1;
                 }
+
+                span {
+                    position:absolute;
+                    display:block;
+                    left:$rule-button-size + 5;
+                    top:0;
+                    line-height:$rule-button-size;
+                    letter-spacing:normal;
+                    white-space:pre;
+                    color:#ffffff;
+                }
             }
 
             .toggle {
@@ -1534,6 +1556,10 @@ canvas {
 
             .delete {
                 right:10px;
+                span {
+                    left:auto;
+                    right:$rule-button-size + 5;
+                }
             }
         }
 
@@ -1593,8 +1619,8 @@ canvas {
 
         &.off {
             // Play Button
-            .toggle i {
-                &:before, &:after {
+            .toggle {
+                i:before, i:after {
                     width:0;
                     height:0;
                     border:($rule-button-size/4) solid transparent;
@@ -1603,7 +1629,11 @@ canvas {
                     left: $rule-button-size/3;
                     border-left-width: $rule-button-size/3;
                }
-               &:after {display:none;}
+               i:after {display:none;}
+
+               span {
+                   color: $color-flow-disabled;
+               }
             }
 
             canvas {display:none;}
@@ -1618,10 +1648,15 @@ canvas {
                 transition: background-color linear 0.1s;
             }
 
-            .toggle i:hover {
-                background:$color-grey;
-                &:before, &:after {
-                    border-left-color: $color-grey-fg;
+            .toggle:hover {
+                 i {
+                    background:$color-grey;
+                    &:before, &:after {
+                        border-left-color: $color-grey-fg;
+                    }
+                }
+                span {
+                    color:$color-grey-fg;
                 }
             }
 

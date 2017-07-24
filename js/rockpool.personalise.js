@@ -12,7 +12,9 @@ rockpool.personalise = function(host){
 	var dom_name_label = $("<p>").text("Dock name:").appendTo(dom_ui);
 	var dom_name = $("<input>").attr({maxlength:8}).addClass("dockName").val(rockpool.dock_name).appendTo(dom_ui);
 
-	var submit = $("<i>").addClass("dockSubmit").appendTo(dom_ui);
+	var close = $("<i>").addClass("close").appendTo(dom_ui);
+
+	var submit = $("<i>").addClass("dockSubmit confirm").appendTo(dom_ui);
 
 	submit.on('click',function(){
 		var dock_name = dom_name.val();

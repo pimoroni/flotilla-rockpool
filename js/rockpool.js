@@ -330,7 +330,7 @@ rockpool.initialize = function(){
             case 'load':
                 rockpool.loadDialog();
                 break;
-            case 'dock':
+            case 'name':
                 rockpool.personalise(rockpool.subscribed_to);
                 //rockpool.manageDock();
                 //rockpool.startDiscovery();

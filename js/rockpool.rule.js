@@ -8,9 +8,6 @@ rockpool.rule = function (parent, widget_index) {
             source = JSON.parse(source);
         }
 
-        //console.log("Setting input handler", source.input.key, source.input.option);
-
-
         if( !rockpool.inputs[source.input.key] ){
             rockpool.newInactiveModuleFromKey(source.input.key);
         }
@@ -268,8 +265,6 @@ rockpool.rule = function (parent, widget_index) {
 
             this.dom.data('obj',this);
 
-            this.dom_enabled = $('<div class="toggle"></div>').appendTo(this.dom);
-
             this.input = this.input ? this.input : new rockpool.widget( 'input', this, 'none' );
 
             var i = this.converter_count
@@ -279,9 +274,14 @@ rockpool.rule = function (parent, widget_index) {
             this.output = this.output ? this.output : new rockpool.widget( 'output', this, 'none' )
 
             if( !this.isChild() ){
-                this.dom_delete =  $('<div class="delete"></div>').appendTo(this.dom)
-                $('<i></i>').appendTo(this.dom_enabled);
-                $('<i></i>').appendTo(this.dom_delete);
+                this.dom_delete =  $('<div class="delete"><span></span><i></i></div>').appendTo(this.dom);
+                this.dom_enabled = $('<div class="toggle"><span></span><i></i></div>').appendTo(this.dom);
+
+                this.dom_delete.find("span").text(rockpool.languify("delete"));
+                this.dom_enabled.find("span").text(rockpool.languify("turn off")).data({
+                    "text-off": rockpool.languify("turn on"),
+                    "text-on": rockpool.languify("turn off")
+                });
             }
 
             if( this.isChild() ){
@@ -377,14 +377,18 @@ rockpool.rule = function (parent, widget_index) {
             }
         });
 
+        var dom_toggle = this.dom.find(".toggle span");
+
         if( this.enabled ){
             this.group.removeClass('off');
             this.respond();
             this.lastValue = null;
+            dom_toggle.text(dom_toggle.data("text-on"));
         }
         else
         {
             this.group.addClass('off');
+            dom_toggle.text(dom_toggle.data("text-off"));
             this.getOutput().stop(this.guid);
         }
     }

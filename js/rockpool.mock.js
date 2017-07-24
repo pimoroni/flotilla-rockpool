@@ -8,7 +8,7 @@ rockpool.mock = function(){
     setTimeout(function(){
         rockpool.setupMock();
         rockpool.fakeAdd(0, 'rainbow');
-        rockpool.fakeAdd(1, 'dial');
+        rockpool.fakeAdd(1, 'colour');
         rockpool.fakeAdd(2, 'slider');
         rockpool.fakeAdd(3, 'motor');
         rockpool.fakeAdd(4, 'joystick');

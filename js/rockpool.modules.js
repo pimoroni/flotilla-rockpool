@@ -81,11 +81,11 @@ rockpool.module_handlers['rainbow'] = {
             this.bgColor = rockpool.palette.green;
 
             this.options = [
-                {name: "Red",       channel: 'r', color: 'red'},
-                {name: "Green",     channel: 'g', color: 'green'},
-                {name: "Blue",      channel: 'b', color: 'blue'},
-                //{name: "Brightness",channel: 'brightness'},
-                {name: "Colour",    channel: 'hue', color: 'purple'}
+                {name: "Red",       channel: 'r', color: 'yellow'},
+                {name: "Green",     channel: 'g', color: 'yellow'},
+                {name: "Blue",      channel: 'b', color: 'yellow'},
+                {name: "Brightness",channel: 'brightness', color: 'yellow'},
+                {name: "Colour",    channel: 'hue', color: 'yellow'}
             ]
 
             this.set = function(value, id, options){
@@ -330,11 +330,9 @@ rockpool.module_handlers['colour'] = {
     'inputs': {
         'colour': function() {
             this.name = "Colour"
-            this.bgColor = rockpool.palette.blue
+            this.colour = "purple"
             this.data = {r:0,g:0,b:0,brightness:0}
             this.raw = function(option){
-                console.log(option);
-
                 if(!option) return 0;
 
                 if(option.channel == 'hue'){
@@ -368,11 +366,11 @@ rockpool.module_handlers['colour'] = {
 
             }
             this.options = [
-                {name:'Red', channel:'r', color: 'red'},
-                {name:'Green', channel:'g', color: 'green'},
-                {name:'Blue', channel:'b', color: 'blue'},
+                {name:'Red', channel:'r', color: 'purple'},
+                {name:'Green', channel:'g', color: 'purple'},
+                {name:'Blue', channel:'b', color: 'purple'},
                 {name:'Colour', channel:'hue', color: 'purple'},
-                {name:'Brightness', channel:'brightness', color: 'yellow'}
+                {name:'Brightness', channel:'brightness', color: 'purple'}
             ]
             this.get = function(option){
 
