@@ -490,7 +490,7 @@ rockpool.widget =  function( type, rule, key ) {
     .on('click','i',function(e){
         e.preventDefault();
 
-        var dom_index = widget.dom.index() - 2;
+        var dom_index = widget.dom.index() - 1;
 
         if(type == 'converter'){
 

@@ -905,7 +905,7 @@ $pipe-size: $icon-size*0.65;
 .graph {
     background:$color-flow-background;
     height: $pipe-size;
-    width: 100%;
+    width: 101%;
     position: absolute;
     left: 50%;
     top:($icon-size - $pipe-size)/2;
