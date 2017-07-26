@@ -9,7 +9,7 @@ rockpool.connection_timeout = 500; // seems stable at (250 * number of ranges to
 
 rockpool.valid_hosts = [];
 rockpool.attempt_list = [];
-rockpool.minimum_dock_version = 1.14;
+rockpool.minimum_dock_version = 1.13;
 rockpool.current_dock_version = 1.14;
 rockpool.dock_update_url = "http://learn.flotil.la/getting-started";
 

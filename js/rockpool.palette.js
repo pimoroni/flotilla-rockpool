@@ -508,7 +508,7 @@ rockpool.virtualConfigureMenu = function(target, type, rule, key, module, callba
             popup_close();
         });
 
-        $('<li>').text('change').addClass('change button').prependTo(dom_menu);
+        $('<li>').text('change').addClass('change button').appendTo(dom_menu);
 
         dom_popup.on('click','.change',function(e){
             e.stopPropagation();
@@ -624,7 +624,8 @@ rockpool.moduleConfigureMenu = function(target, type, rule, index, module, callb
         });
 
         $('<li>').text('change').addClass('change button').appendTo(dom_menu);
-            dom_popup.on('click','.change',function(e){
+
+        dom_popup.on('click','.change',function(e){
             e.stopPropagation();
             popup_close();
             rockpool.add(type,rule,target.index() - 2);

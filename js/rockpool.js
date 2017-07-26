@@ -367,10 +367,15 @@ rockpool.initialize = function(){
     if(window.navigator.standalone){
         document.documentElement.requestFullscreen();
     }
-
-    window.onbeforeunload = function(){
+    
+    $(window).on('beforeunload',function(){
+        rockpool.saveCurrentState('_autosave');
         rockpool.disconnect();
-    }
+    });
+
+    /*window.onbeforeunload = function(){
+        rockpool.disconnect();
+    }*/
 
     FastClick.attach(document.body);
 
@@ -404,6 +409,7 @@ rockpool.initialize = function(){
     rockpool.startDiscovery();
 
     rockpool.on_connect = function(){
+        rockpool.loadState('_autosave');
         if(rockpool.rules.length == 0){
             new rockpool.rule().start();
         }

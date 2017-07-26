@@ -2,9 +2,9 @@ rockpool.mock = function(){
     //return;
 	if(!window.location.href.startsWith("file:///")) return;
 
-    $(window).on('beforeunload',function(){
+    /*$(window).on('beforeunload',function(){
         rockpool.saveCurrentState('_autosave');
-    });
+    });*/
     setTimeout(function(){
         rockpool.setupMock();
         rockpool.fakeAdd(0, 'rainbow');
@@ -15,7 +15,7 @@ rockpool.mock = function(){
         rockpool.fakeAdd(5, 'number');
         rockpool.fakeAdd(6, 'touch');
         rockpool.fakeAdd(7, 'weather');
-        rockpool.loadState('_autosave');
+        //rockpool.loadState('_autosave');
     },200);
 }
 

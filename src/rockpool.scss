@@ -79,7 +79,7 @@ body {
         font-family: flotilla-regular;
         font-style: normal;
         position: relative;
-        font-size: 30px;
+        font-size: 44px;
         top: 3px;
         line-height: 0;
     }
@@ -161,7 +161,7 @@ body {
     line-height:72px;
     text-align:center;
     cursor:pointer;
-    z-index:1;
+    z-index:20;
 
     &:after {
         width:72px;
@@ -1028,7 +1028,7 @@ canvas {
         border-radius:50%;
         font-size:24px;
         line-height:30px;
-        color:$color-grey;
+        color:$color-grey-fg;
         text-align:center;
 }
 
@@ -1041,13 +1041,15 @@ canvas {
         top: 65px;
         left:50%;
         margin-left:-15px;
+        line-height:27px;
         content:'\25B2';
     }
 
     &.above {
         i:before {
             content:'\25BC';
-            top:-28px;
+            top:-24px;
+            line-height:33px;
         }
         span {
             display:block;
@@ -1060,7 +1062,7 @@ canvas {
 
 .popup {
     z-index:10;
-    margin-top:25px;
+    margin-top:10px;
     position:absolute;
     top:72px;
 
@@ -1096,7 +1098,7 @@ canvas {
         border-bottom-left-radius:0;
         border:3px solid #FFF;
 
-        margin-right:-23px;
+        margin-right:-25px;
 
         &.button {
             font-weight:bold;
@@ -1162,7 +1164,7 @@ canvas {
     z-index:10;
     margin-top:0px;
     margin-bottom:25px;
-    top:-78px;
+    top:-64px;
 
     li {
         margin-top:0;
@@ -1193,8 +1195,12 @@ canvas {
         &:before {
             content:'\25C0';
             top:7px;
-            left:0px;
+            left:-10px;
             z-index:10;
+                    
+            line-height: 31px;
+            text-align: center;
+            text-indent: -4px;
         }
         /*
         &:before {
@@ -1224,6 +1230,7 @@ canvas {
             content:'\25B6';
             left:auto;
             right:-30px;
+            text-indent: 3px;
         }
     }
 }
@@ -1465,7 +1472,7 @@ canvas {
     }
 
     .color-#{$name}.block .popup:before {
-        border-right-color:$color;border-left-color:$color;
+
     }
 
     .color-#{$name}.active.selected i:before,
@@ -1614,6 +1621,12 @@ canvas {
             &:after
             {
                 transform:rotate(-45deg);
+            }
+        }
+
+        .disconnected {
+            i {
+                background-color: $color-flow-disabled;
             }
         }
 
